@@ -44,14 +44,14 @@ main>section { box-shadow: 0 1px 2px rgba(0,43,73,.06), 0 8px 24px rgba(0,43,73,
 main>section:first-child { border-top-color: #C5A059; }
 main>section>h3 { font-weight: 800; letter-spacing: -.01em; }
 main>section>h3::before { content: ''; display: inline-block; width: 4px; height: 1em; background: #C5A059; margin-right: .55rem; vertical-align: -.12em; border-radius: 2px; }
-select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px solid #005A9C; outline-offset: 2px; }
+select:focus, button:focus-visible, input[type="text"]:focus, input[type="number"]:focus { outline: 2px solid #005A9C; outline-offset: 2px; }
 .drop-zone { border: 2px dashed #C5A059; border-radius: 12px; background: #FFFDF9; transition: all 0.2s ease; cursor: pointer; }
 .drop-zone:hover { background: #FFF8EE; border-color: #002B49; }
 </style>
 </head>
 <body class="min-h-screen pb-12">
 
-<!-- 메인 헤더 (텍스트 'ACE BED'로 변경 및 '침대는 과학이다'와 폰트/크기 동기화) -->
+<!-- 메인 헤더 -->
 <header class="sticky top-0 z-50 shadow-lg" style="background:linear-gradient(135deg,#001F35,#002B49 55%,#005A9C)">
   <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center gap-3.5 min-w-0">
@@ -94,6 +94,27 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
       </div>
     </section>
 
+    <!-- 고객 기본 정보 입력 섹션 (성함, 연령대) -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">고객 기본 정보 입력</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">고객 성함</label>
+          <input type="text" id="customerName" placeholder="성함을 입력하세요" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">연령대</label>
+          <select id="customerAgeGroup" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" onchange="runMatching()">
+            <option value="">연령대 선택</option>
+            <option value="20대 이하">20대 이하</option>
+            <option value="20대 후반~30대 초반">20대 후반~30대 초반</option>
+            <option value="30대 중후반~40대">30대 중후반~40대</option>
+            <option value="50대 이상">50대 이상</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
     <!-- 1. 매장 진열 상품 및 사이즈 선택 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <div class="flex justify-between items-center border-b pb-3 mb-4">
@@ -117,7 +138,7 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
     <!-- 2. 기존에 사용하고 있는 브랜드 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">2. 기존에 사용하고 있는 브랜드 <span class="text-xs font-normal text-slate-500 ml-1">중복 또는 수기 입력 가능</span></h3>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-2.5">
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="checkbox" name="prevBrand" value="에이스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 에이스
         </label>
@@ -133,6 +154,9 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="checkbox" name="prevBrand" value="지누스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 지누스
         </label>
+        <label class="flex items-center p-3 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer text-xs md:text-sm font-bold text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="checkbox" name="prevBrand" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
+        </label>
         <div class="col-span-2 md:col-span-3 lg:col-span-1 flex items-center p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-700">
           <span class="shrink-0 mr-1.5 font-bold">이 외 (</span>
           <input type="text" id="prevBrandEtc" placeholder="직접 입력" class="w-full bg-white border border-slate-300 rounded px-1.5 py-1 text-xs text-slate-800 focus:outline-none" oninput="runMatching()">
@@ -144,7 +168,7 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
     <!-- 3. 기존에 사용하고 있는 매트리스 타입 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">3. 기존에 사용하고 있는 매트리스 타입 <span class="text-xs font-normal text-slate-500 ml-1">선택</span></h3>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="prevMatType" value="스프링 매트리스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 스프링 매트리스
         </label>
@@ -157,13 +181,16 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="prevMatType" value="토퍼 매트리스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 토퍼 매트리스
         </label>
+        <label class="flex items-center p-3 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer text-xs md:text-sm font-bold text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="radio" name="prevMatType" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
+        </label>
       </div>
     </section>
 
     <!-- 4. 구매하고 싶은 매트리스 타입 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">4. 구매하고 싶은 매트리스 타입 <span class="text-xs font-normal text-slate-500 ml-1">단일 선택</span></h3>
-      <div class="grid grid-cols-3 gap-3">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="wantType" value="HARD" class="mr-2 accent-aceBlue" onchange="runMatching()"> HARD
         </label>
@@ -173,18 +200,24 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="wantType" value="SOFT" class="mr-2 accent-aceBlue" onchange="runMatching()"> SOFT
         </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer font-bold text-xs md:text-sm text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="radio" name="wantType" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음
+        </label>
       </div>
     </section>
 
     <!-- 5. 매트리스 필로우탑 적용여부 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">5. 매트리스 필로우탑 적용여부 <span class="text-xs font-normal text-slate-500 ml-1">단일 선택</span></h3>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-3 gap-3">
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="pillowTop" value="예" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 예
         </label>
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="pillowTop" value="아니오" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 아니오
+        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer font-bold text-xs md:text-sm text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="radio" name="pillowTop" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
         </label>
       </div>
     </section>
@@ -192,7 +225,7 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
     <!-- 6. 수면 습관 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">6. 수면 습관 <span class="text-xs font-normal text-slate-500 ml-1">중복 선택 가능</span></h3>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="checkbox" name="sleepHabit" value="바르게 누워" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 바르게 누워
         </label>
@@ -204,6 +237,9 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
         </label>
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="checkbox" name="sleepHabit" value="자주 뒤척임" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 자주 뒤척임
+        </label>
+        <label class="flex items-center p-3 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer text-xs md:text-sm font-bold text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="checkbox" name="sleepHabit" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
         </label>
       </div>
     </section>
@@ -233,27 +269,46 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
       </div>
     </section>
 
-    <!-- 8. 구매 예산 -->
+    <!-- 8. 구매 목적 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">8. 구매 예산 <span class="text-xs font-normal text-slate-500 ml-1">선택</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">8. 구매 목적 <span class="text-xs font-normal text-slate-500 ml-1">단일 선택</span></h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="radio" name="purpose" value="개인용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 개인용
+        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="radio" name="purpose" value="이사용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 이사용
+        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="radio" name="purpose" value="혼수용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 혼수용
+        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+          <input type="radio" name="purpose" value="자녀용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 자녀용
+        </label>
+      </div>
+    </section>
+
+    <!-- 9. 구매 예산 -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">9. 구매 예산 <span class="text-xs font-normal text-slate-500 ml-1">선택</span></h3>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="100만원대" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 100만원대
+          <input type="radio" name="budget" value="50만원~100만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 50만원~100만원
         </label>
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="200만원대" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 200만원대
+          <input type="radio" name="budget" value="100만원~300만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 100만원~300만원
         </label>
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="300만원대" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 300만원대
+          <input type="radio" name="budget" value="300만원~500만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 300만원~500만원
         </label>
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="400만원대" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 400만원대
+          <input type="radio" name="budget" value="500만원~700만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 500만원~700만원
         </label>
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="500만원대" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 500만원대
+          <input type="radio" name="budget" value="700만원~900만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 700만원~900만원
         </label>
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="500만원 이상" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 500만원 이상
+          <input type="radio" name="budget" value="900만원 이상" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 900만원 이상
         </label>
       </div>
     </section>
@@ -268,7 +323,7 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
       </div>
       <div id="recommendationResult" class="grid md:grid-cols-2 gap-4">
         <div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">
-          상담 항목(타입, 필로우탑 여부, 습관, 우선순위, 예산 등)을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.
+          고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.
         </div>
       </div>
     </section>
@@ -451,23 +506,23 @@ select:focus, button:focus-visible, input[type="text"]:focus { outline: 2px soli
 <!-- JavaScript -->
 <script>
 const MATTRESS_DB = {
-  "HR-B":  { type: "REGULAR", pillowTop: true,  prices: { SS: 14559000, DD: 17800000, LQ: 19744000, K: 22077000, LK1800: 23635000, LK2000: 26245000 } },
-  "HR-DP": { type: "REGULAR", pillowTop: true,  prices: { SS: 13002000, DD: 15939000, LQ: 17674000, K: 19807000, LK1800: 21143000, LK2000: 23524000 } },
-  "HR-D":  { type: "REGULAR", pillowTop: true,  prices: { SS: 10987000, DD: 13363000, LQ: 14810000, K: 16527000, LK1800: 17711000, LK2000: 19742000 } },
-  "HR-PP": { type: "REGULAR", pillowTop: true,  prices: { SS: 7883000,  DD: 9744000,  LQ: 10999000, K: 12336000, LK1800: 13136000, LK2000: 14721000 } },
-  "HR-P":  { type: "REGULAR", pillowTop: true,  prices: { SS: 5865000,  DD: 7199000,  LQ: 7999000,  K: 8930000,  LK1800: 9722000,  LK2000: 10993000 } },
-  "RA100": { type: "REGULAR", pillowTop: true,  prices: { SS: 4730000,  DD: 5731000,  LQ: 6451000,  K: 8031000,  LK1800: 9156000,  LK2000: 9960000 } },
-  "RA90H": { type: "REGULAR", pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
-  "RA90S": { type: "SOFT",    pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
-  "RA80H": { type: "REGULAR", pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
-  "RA80S": { type: "SOFT",    pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
-  "RA60L": { type: "SOFT",    pillowTop: true,  prices: { SS: 3101000,  LQ: 3987000,  K: 4978000,  LK1800: 5927000 } },
-  "AV":    { type: "HARD",    pillowTop: false, prices: { SS: 2245000,  DD: 2684000,  LQ: 2938000,  K: 3682000,  LK1800: 4421000,  LK2000: 4912000 } },
-  "HT-R":  { type: "SOFT",    pillowTop: true,  prices: { SS: 2159000,  DD: 2581000,  LQ: 2838000,  K: 3546000,  LK1800: 4253000,  LK2000: 4712000 } },
-  "HT-B":  { type: "SOFT",    pillowTop: true,  prices: { SS: 1777000,  DD: 2115000,  LQ: 2371000,  K: 2953000,  LK1800: 3534000,  LK2000: 3913000 } },
-  "MT":    { type: "HARD",    pillowTop: false, prices: { SS: 1442000,  DD: 1683000,  LQ: 1969000,  K: 2382000 } },
-  "HT-W":  { type: "HARD",    pillowTop: false, prices: { SS: 1259000,  DD: 1490000,  LQ: 1700000,  K: 2023000 } },
-  "AT":    { type: "REGULAR", pillowTop: false, prices: { DS: 759000,   SS: 817000,   DD: 987000,   LQ: 1136000 } }
+  "HR-B":  { type: "REGULAR", pillowTop: true,  prices: { DS: 13320000, SS: 14559000, DD: 17800000, LQ: 19744000, K: 22077000, LK1800: 23635000, LK2000: 26245000 } },
+  "HR-DP": { type: "REGULAR", pillowTop: true,  prices: { DS: 11900000, SS: 13002000, DD: 15939000, LQ: 17674000, K: 19807000, LK1800: 21143000, LK2000: 23524000 } },
+  "HR-D":  { type: "REGULAR", pillowTop: true,  prices: { DS: 10050000, SS: 10987000, DD: 13363000, LQ: 14810000, K: 16527000, LK1800: 17711000, LK2000: 19742000 } },
+  "HR-PP": { type: "REGULAR", pillowTop: true,  prices: { DS: 7215000,  SS: 7883000,  DD: 9744000,  LQ: 10999000, K: 12336000, LK1800: 13136000, LK2000: 14721000 } },
+  "HR-P":  { type: "REGULAR", pillowTop: true,  prices: { DS: 5368000,  SS: 5865000,  DD: 7199000,  LQ: 7999000,  K: 8930000,  LK1800: 9722000,  LK2000: 10993000 } },
+  "RA100": { type: "REGULAR", pillowTop: true,  prices: { DS: 4330000,  SS: 4730000,  DD: 5731000,  LQ: 6451000,  K: 8031000,  LK1800: 9156000,  LK2000: 9960000 } },
+  "RA90H": { type: "REGULAR", pillowTop: true,  prices: { DS: 3973000,  SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
+  "RA90S": { type: "SOFT",    pillowTop: true,  prices: { DS: 3973000,  SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
+  "RA80H": { type: "REGULAR", pillowTop: true,  prices: { DS: 3352000,  SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
+  "RA80S": { type: "SOFT",    pillowTop: true,  prices: { DS: 3352000,  SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
+  "RA60L": { type: "SOFT",    pillowTop: true,  prices: { DS: 2839000,  SS: 3101000,  DD: 3650000,  LQ: 3987000,  K: 4978000,  LK1800: 5927000,  LK2000: 6450000 } },
+  "AV":    { type: "HARD",    pillowTop: false, prices: { DS: 2055000,  SS: 2245000,  DD: 2684000,  LQ: 2938000,  K: 3682000,  LK1800: 4421000,  LK2000: 4912000 } },
+  "HT-R":  { type: "SOFT",    pillowTop: true,  prices: { DS: 1976000,  SS: 2159000,  DD: 2581000,  LQ: 2838000,  K: 3546000,  LK1800: 4253000,  LK2000: 4712000 } },
+  "HT-B":  { type: "SOFT",    pillowTop: true,  prices: { DS: 1626000,  SS: 1777000,  DD: 2115000,  LQ: 2371000,  K: 2953000,  LK1800: 3534000,  LK2000: 3913000 } },
+  "MT":    { type: "HARD",    pillowTop: false, prices: { DS: 1320000,  SS: 1442000,  DD: 1683000,  LQ: 1969000,  K: 2382000,  LK1800: 2750000,  LK2000: 3000000 } },
+  "HT-W":  { type: "HARD",    pillowTop: false, prices: { DS: 1152000,  SS: 1259000,  DD: 1490000,  LQ: 1700000,  K: 2023000,  LK1800: 2350000,  LK2000: 2580000 } },
+  "AT":    { type: "REGULAR", pillowTop: false, prices: { DS: 759000,   SS: 817000,   DD: 987000,   LQ: 1136000,  K: 1350000,  LK1800: 1550000,  LK2000: 1700000 } }
 };
 
 const MATTRESS_ATTRIBUTES = {
@@ -549,6 +604,8 @@ if(sizeContainer) {
 function runMatching() {
   syncUrlState();
 
+  const customerName = document.getElementById('customerName')?.value || '';
+  const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '';
   const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
   const selectedSize = document.querySelector('input[name="mattressSize"]:checked')?.value || 'LQ';
   const selectedType = document.querySelector('input[name="wantType"]:checked')?.value;
@@ -560,10 +617,12 @@ function runMatching() {
   const resultContainer = document.getElementById('recommendationResult');
   const countContainer = document.getElementById('matchCount');
 
-  if (!selectedType && !selectedPillow && selectedHabits.length === 0 && selectedPriorities.length === 0 && !selectedBudget) {
+  const hasAnyInput = customerName || customerAgeGroup || selectedType || selectedPillow || selectedHabits.length > 0 || selectedPriorities.length > 0 || selectedBudget || document.querySelector('input[name="purpose"]:checked');
+
+  if (!hasAnyInput) {
     resultContainer.innerHTML = `
       <div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">
-        상담 항목(타입, 필로우탑 여부, 습관, 우선순위, 예산 등)을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.
+        고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.
       </div>`;
     countContainer.textContent = '';
     return;
@@ -577,19 +636,19 @@ function runMatching() {
     const attrItem = MATTRESS_ATTRIBUTES[model];
     const price = dbItem.prices[selectedSize] || dbItem.prices['LQ'] || 0;
 
-    if (selectedType) {
+    if (selectedType && selectedType !== "잘 모르겠음") {
       if (dbItem.type === selectedType) score += 30;
       else score -= 15;
     }
 
-    if (selectedPillow) {
+    if (selectedPillow && selectedPillow !== "잘 모르겠음") {
       const wantPillow = (selectedPillow === "예");
       if (dbItem.pillowTop === wantPillow) score += 25;
       else score -= 20;
     }
 
     selectedHabits.forEach(habit => {
-      if (attrItem.habits.includes(habit)) score += 15;
+      if (habit !== "잘 모르겠음" && attrItem.habits.includes(habit)) score += 15;
     });
 
     selectedPriorities.forEach(prio => {
@@ -598,18 +657,17 @@ function runMatching() {
 
     if (selectedBudget) {
       let matchesBudget = false;
-      if (selectedBudget === "100만원대") matchesBudget = (price < 2000000);
-      else if (selectedBudget === "200만원대") matchesBudget = (price >= 2000000 && price < 3000000);
-      else if (selectedBudget === "300만원대") matchesBudget = (price >= 3000000 && price < 4000000);
-      else if (selectedBudget === "400만원대") matchesBudget = (price >= 4000000 && price < 5000000);
-      else if (selectedBudget === "500만원대") matchesBudget = (price >= 5000000 && price < 6000000);
-      else if (selectedBudget === "500만원 이상") matchesBudget = (price >= 5000000);
+      if (selectedBudget === "50만원~100만원") matchesBudget = (price >= 500000 && price < 1000000);
+      else if (selectedBudget === "100만원~300만원") matchesBudget = (price >= 1000000 && price < 3000000);
+      else if (selectedBudget === "300만원~500만원") matchesBudget = (price >= 3000000 && price < 5000000);
+      else if (selectedBudget === "500만원~700만원") matchesBudget = (price >= 5000000 && price < 7000000);
+      else if (selectedBudget === "700만원~900만원") matchesBudget = (price >= 7000000 && price < 9000000);
+      else if (selectedBudget === "900만원 이상") matchesBudget = (price >= 9000000);
 
       if (matchesBudget) score += 35;
       else score -= 25;
     }
 
-    // 점수 구간에 따른 매칭 적합도 (上, 中, 下) 판정
     let grade = "下";
     let gradeStyle = "bg-slate-200 text-slate-700";
     if (score >= 70) {
@@ -635,7 +693,17 @@ function runMatching() {
     return;
   }
 
-  resultContainer.innerHTML = matched.map((item, idx) => `
+  let customerHeaderHtml = '';
+  if(customerName || customerAgeGroup) {
+    customerHeaderHtml = `
+      <div class="col-span-full bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-3">
+        <span>👤 고객명: <strong class="text-aceNavy">${customerName || '미입력'}</strong></span>
+        <span>•</span>
+        <span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup || '미선택'}</strong></span>
+      </div>`;
+  }
+
+  resultContainer.innerHTML = customerHeaderHtml + matched.map((item, idx) => `
     <div class="p-5 rounded-2xl border ${idx === 0 ? 'border-aceGold bg-amber-50/30 ring-2 ring-aceGold/20' : 'border-slate-200 bg-slate-50/50'} relative">
       ${idx === 0 ? '<span class="absolute top-4 right-4 bg-aceGold text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">⭐ 최적 추천</span>' : ''}
       <div class="text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
@@ -763,6 +831,12 @@ function calculateEstimate() {
 function syncUrlState() {
   const params = new URLSearchParams();
   params.set('tab', document.getElementById('sheet2').classList.contains('hidden') ? '1' : '2');
+  
+  const cName = document.getElementById('customerName')?.value?.trim();
+  if(cName) params.set('cname', cName);
+  const cAge = document.getElementById('customerAgeGroup')?.value;
+  if(cAge) params.set('cage', cAge);
+
   const disp = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
   if(disp.length) params.set('disp', disp.join(','));
   const sz = document.querySelector('input[name="mattressSize"]:checked');
@@ -784,6 +858,8 @@ function syncUrlState() {
   if(hb.length) params.set('habit', hb.join(','));
   const pr = [...document.querySelectorAll('input[name="priority"]:checked')].map(el => el.value);
   if(pr.length) params.set('prio', pr.join(','));
+  const pur = document.querySelector('input[name="purpose"]:checked');
+  if(pur) params.set('purpose', pur.value);
   const bg = document.querySelector('input[name="budget"]:checked');
   if(bg) params.set('budget', bg.value);
 
@@ -804,6 +880,16 @@ function copyShareUrl() {
 function restoreFromUrl() {
   const params = new URLSearchParams(window.location.search);
   if(params.get('tab') === '2') switchSheet('sheet2');
+  
+  if(params.has('cname')) {
+    const el = document.getElementById('customerName');
+    if(el) el.value = params.get('cname');
+  }
+  if(params.has('cage')) {
+    const el = document.getElementById('customerAgeGroup');
+    if(el) el.value = params.get('cage');
+  }
+
   if(params.has('disp')) {
     const list = params.get('disp').split(',');
     document.querySelectorAll('input[name="displayProduct"]').forEach(el => { if(list.includes(el.value)) el.checked = true; });
@@ -839,6 +925,10 @@ function restoreFromUrl() {
   if(params.has('prio')) {
     const list = params.get('prio').split(',');
     document.querySelectorAll('input[name="priority"]').forEach(el => { if(list.includes(el.value)) el.checked = true; });
+  }
+  if(params.has('purpose')) {
+    const el = document.querySelector(`input[name="purpose"][value="${params.get('purpose')}"]`);
+    if(el) el.checked = true;
   }
   if(params.has('budget')) {
     const el = document.querySelector(`input[name="budget"][value="${params.get('budget')}"]`);
