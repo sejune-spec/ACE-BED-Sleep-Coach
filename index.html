@@ -286,7 +286,10 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-3 mb-4 gap-3">
         <h3 class="text-lg font-bold text-aceNavy m-0">🏆 맞춤 추천 매트리스 결과 <span id="matchCount" class="text-xs font-normal text-aceBlue ml-1"></span></h3>
-        <button onclick="toggleQRModal(true)" class="bg-aceGold hover:bg-amber-600 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm">📱 QR코드로 가져가기</button>
+        <div class="flex items-center gap-2">
+          <button onclick="exportMatchingToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5">📊 엑셀로 내보내기</button>
+          <button onclick="toggleQRModal(true)" class="bg-aceGold hover:bg-amber-600 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm">📱 QR코드로 가져가기</button>
+        </div>
       </div>
       <div id="customerSummaryBar" class="hidden mb-4 bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex flex-wrap items-center gap-3"></div>
       <div id="recommendationResult" class="grid md:grid-cols-2 gap-4"></div>
@@ -911,6 +914,8 @@ function checkBudgetRange(price, budgetVal) {
   return true;
 }
 
+let lastMatchedResults = [];
+
 function runMatching() {
   syncCustomerInfo();
   const customerName = document.getElementById('customerName')?.value.trim() || '미입력';
@@ -979,7 +984,7 @@ function runMatching() {
       badgeClass = 'bg-blue-100 text-blue-800 border border-blue-300';
     }
 
-    return { model, dbItem, price, score, grade, badgeClass, budgetMatch };
+    return { model, dbItem, price, score, grade, badgeClass, budgetMatch, selectedSize };
   });
 
   scoredList.sort((a, b) => {
@@ -996,6 +1001,7 @@ function runMatching() {
     }
   }
 
+  lastMatchedResults = filteredList;
   countContainer.textContent = `(총 ${filteredList.length}개 모델 매칭됨)`;
   
   resultContainer.innerHTML = filteredList.map((item, idx) => {
@@ -1020,6 +1026,29 @@ function runMatching() {
       <div class="text-sm font-medium text-slate-700">📏 선택 사이즈 (${selectedSize}) 판매가: <strong class="${price ? 'text-aceBlue' : 'text-red-500'} font-bold">${priceText}</strong></div>
     </div>`;
   }).join('');
+}
+
+function exportMatchingToExcel() {
+  if (!lastMatchedResults || lastMatchedResults.length === 0) {
+    alert("내보낼 매칭 결과가 없습니다.");
+    return;
+  }
+  const customerName = document.getElementById('customerName')?.value.trim() || '고객';
+  const rows = lastMatchedResults.map((item, idx) => ({
+    "순위": idx + 1,
+    "모델명": item.model,
+    "매칭 적합도": item.grade,
+    "타입": item.dbItem.type,
+    "필로우탑": item.dbItem.pillowTop ? "적용" : "미적용",
+    "경도": `${item.dbItem.hardness} / 10`,
+    "선택 사이즈": item.selectedSize,
+    "판매가(원)": item.price !== null ? item.price : 0
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(rows);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "수면매칭결과");
+  XLSX.writeFile(workbook, `에이스침대_수면매칭결과_${customerName}.xlsx`);
 }
 
 // 2번 스마트 견적 로직
