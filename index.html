@@ -43,7 +43,7 @@ main>section { box-shadow: 0 1px 2px rgba(0,43,73,.06), 0 8px 24px rgba(0,43,73,
 main>section:first-child { border-top-color: #C5A059; }
 main>section>h3 { font-weight: 800; letter-spacing: -.01em; }
 main>section>h3::before { content: ''; display: inline-block; width: 4px; height: 1em; background: #C5A059; margin-right: .55rem; vertical-align: -.12em; border-radius: 2px; }
-select:focus, button:focus-visible, input[type="text"]:focus, input[type="number"]:focus { outline: 2px solid #005A9C; outline-offset: 2px; }
+select:focus, button:focus-visible, input[type="text"]:focus, input[type="number"]:focus, input[type="tel"]:focus { outline: 2px solid #005A9C; outline-offset: 2px; }
 .drop-zone { border: 2px dashed #C5A059; border-radius: 12px; background: #FFFDF9; transition: all 0.2s ease; cursor: pointer; }
 .drop-zone:hover { background: #FFF8EE; border-color: #002B49; }
 </style>
@@ -93,18 +93,24 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 고객 기본 정보 입력 섹션 (개선 반영) -->
-    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-3 mb-4 gap-1">
+    <!-- 고객 기본 정보 입력 섹션 (요청 반영 완료) -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-3 gap-1">
         <h3 class="text-lg font-bold text-aceNavy m-0">고객 기본 정보 입력</h3>
         <span class="text-[11px] text-slate-500 font-medium">💡 고객 개인정보는 고객 동의하에 이루어지며, 고객이 동의하지 않는 정보는 자체 폐기처리 됩니다</span>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- 고객 성함 -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">고객 성함</label>
-          <input type="text" id="customerName" placeholder="성함을 입력하세요" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
+          <input type="text" id="customerName" placeholder="성함 입력" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
+        </div>
+
+        <!-- 핸드폰 번호 -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">핸드폰 번호</label>
+          <input type="tel" id="customerPhone" placeholder="010-0000-0000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
         </div>
         
         <!-- 성별 -->
@@ -120,7 +126,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
           </div>
         </div>
 
-        <!-- 연령대 (세분화 요청 반영) -->
+        <!-- 연령대 (세분화 반영) -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">연령대</label>
           <select id="customerAgeGroup" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" onchange="runMatching()">
@@ -133,10 +139,25 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
           </select>
         </div>
 
-        <!-- 거주지 (시, 도, 구 수기 입력) -->
+        <!-- 거주지 (시·도·구) -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">거주지 (시·도·구)</label>
           <input type="text" id="customerAddress" placeholder="예: 서울시 강남구" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
+        </div>
+      </div>
+
+      <!-- 고객 마케팅 동의 안내 및 체크박스 (신설 요청 반영) -->
+      <div class="pt-3 border-t border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+        <div class="text-[11px] font-semibold text-slate-700 leading-snug">
+          🔒 개인정보는 마케팅 목적으로 이루어지며, 혜택 및 안내 수집 목적 이외 사용되지 않습니다.
+        </div>
+        <div class="flex items-center gap-4 shrink-0">
+          <label class="flex items-center gap-1.5 text-xs font-bold text-slate-800 cursor-pointer">
+            <input type="radio" name="privacyConsent" value="동의함" class="accent-aceBlue w-4 h-4" checked onchange="runMatching()"> 동의함
+          </label>
+          <label class="flex items-center gap-1.5 text-xs font-bold text-slate-600 cursor-pointer">
+            <input type="radio" name="privacyConsent" value="동의하지 않음" class="accent-aceBlue w-4 h-4" onchange="runMatching()"> 동의하지 않음
+          </label>
         </div>
       </div>
     </section>
@@ -406,7 +427,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 우리집 침대 배치 링크 박스 (신설 요청 반영) -->
+    <!-- 우리집 침대 배치 링크 박스 -->
     <section class="rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row justify-between items-center gap-4 transition-all hover:shadow-lg" style="background:linear-gradient(135deg,#001F35,#002B49 60%,#005A9C)">
       <div class="space-y-1 text-center md:text-left">
         <div class="text-xs font-bold text-aceGold tracking-widest uppercase">3D INTERIOR SIMULATION</div>
@@ -706,9 +727,11 @@ if(sizeContainer) {
 function runMatching() {
   syncUrlState();
   const customerName = document.getElementById('customerName')?.value || '';
+  const customerPhone = document.getElementById('customerPhone')?.value || '';
   const customerGender = document.querySelector('input[name="customerGender"]:checked')?.value || '';
   const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '';
   const customerAddress = document.getElementById('customerAddress')?.value || '';
+  const privacyConsent = document.querySelector('input[name="privacyConsent"]:checked')?.value || '동의함';
   
   const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
   const selectedSize = document.querySelector('input[name="mattressSize"]:checked')?.value || 'LQ';
@@ -723,7 +746,7 @@ function runMatching() {
 
   const resultContainer = document.getElementById('recommendationResult');
   const countContainer = document.getElementById('matchCount');
-  const hasAnyInput = customerName || customerGender || customerAgeGroup || customerAddress || selectedType || selectedPillow || selectedHabits.length > 0 || selectedPains.length > 0 || selectedPriorities.length > 0 || selectedPurpose || selectedSubPurpose || selectedBudget;
+  const hasAnyInput = customerName || customerPhone || customerGender || customerAgeGroup || customerAddress || selectedType || selectedPillow || selectedHabits.length > 0 || selectedPains.length > 0 || selectedPriorities.length > 0 || selectedPurpose || selectedSubPurpose || selectedBudget;
 
   if (!hasAnyInput) {
     resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.</div>`;
@@ -733,7 +756,7 @@ function runMatching() {
 
   let candidatePool = checkedProducts.length > 0 ? checkedProducts : products;
   let scoredList = candidatePool.map(model => {
-    let score = 10;
+    let score = 20;
     const dbItem = MATTRESS_DB[model];
     const attrItem = MATTRESS_ATTRIBUTES[model];
     let priceKey = selectedSize;
@@ -742,28 +765,40 @@ function runMatching() {
     else if(selectedSize === 'LK1800' || selectedSize === 'LK2000') priceKey = 'K';
 
     const price = dbItem.prices[priceKey] || dbItem.prices['LQ'] || 0;
+    
+    // 예산 매칭 가중치 대폭 강화 (예산을 크게 벗어나는 고가 제품 엄격 페널티)
     if (selectedBudget) {
-      let matchesBudget = false;
-      if (selectedBudget === "50만원~100만원") matchesBudget = (price >= 500000 && price < 1000000);
-      else if (selectedBudget === "100만원~300만원") matchesBudget = (price >= 1000000 && price < 3000000);
-      else if (selectedBudget === "300만원~500만원") matchesBudget = (price >= 3000000 && price < 5000000);
-      else if (selectedBudget === "500만원~700만원") matchesBudget = (price >= 5000000 && price < 7000000);
-      else if (selectedBudget === "700만원~900만원") matchesBudget = (price >= 7000000 && price < 9000000);
-      else if (selectedBudget === "900만원 이상") matchesBudget = (price >= 9000000);
-      if (matchesBudget) score += 50; else score -= 30;
+      let minB = 0, maxB = Infinity;
+      if (selectedBudget === "50만원~100만원") { minB = 500000; maxB = 1000000; }
+      else if (selectedBudget === "100만원~300만원") { minB = 1000000; maxB = 3000000; }
+      else if (selectedBudget === "300만원~500만원") { minB = 3000000; maxB = 5000000; }
+      else if (selectedBudget === "500만원~700만원") { minB = 5000000; maxB = 7000000; }
+      else if (selectedBudget === "700만원~900만원") { minB = 7000000; maxB = 9000000; }
+      else if (selectedBudget === "900만원 이상") { minB = 9000000; maxB = Infinity; }
+
+      if (price >= minB && price <= maxB) {
+        score += 150; // 예산 범위 내 완벽 부합 시 엄청난 가점
+      } else if (price < minB) {
+        score += 40;  // 예산보다 저렴한 경우 양호
+      } else {
+        // 예산 초과 시 가격 차이에 비례하여 대폭 감점 (고가 프리미엄 라인 차단)
+        let overRatio = (price - maxB) / maxB;
+        score -= Math.min(250, Math.round(overRatio * 150) + 80);
+      }
     }
+
     if (selectedType && selectedType !== "잘 모르겠음") {
-      if (dbItem.type === selectedType) score += 25; else score -= 15;
+      if (dbItem.type === selectedType) score += 30; else score -= 20;
     }
     if (selectedPillow && selectedPillow !== "잘 모르겠음") {
       const wantPillow = (selectedPillow === "예");
-      if (dbItem.pillowTop === wantPillow) score += 20; else score -= 15;
+      if (dbItem.pillowTop === wantPillow) score += 25; else score -= 20;
     }
-    selectedHabits.forEach(habit => { if (habit !== "잘 모르겠음" && attrItem.habits.includes(habit)) score += 10; });
-    selectedPriorities.forEach(prio => { if (attrItem.priorities.includes(prio)) score += 15; });
+    selectedHabits.forEach(habit => { if (habit !== "잘 모르겠음" && attrItem.habits.includes(habit)) score += 15; });
+    selectedPriorities.forEach(prio => { if (attrItem.priorities.includes(prio)) score += 20; });
 
     let grade = "下", gradeStyle = "bg-slate-200 text-slate-700";
-    if (score >= 70) { grade = "上"; gradeStyle = "bg-aceBlue text-white"; }
+    if (score >= 80) { grade = "上"; gradeStyle = "bg-aceBlue text-white"; }
     else if (score >= 40) { grade = "中"; gradeStyle = "bg-amber-500 text-white"; }
     return { model, type: dbItem.type, hardness: dbItem.hardness, pillowTop: dbItem.pillowTop, price, score, grade, gradeStyle };
   });
@@ -772,19 +807,23 @@ function runMatching() {
   countContainer.textContent = matched.length > 0 ? `(총 ${matched.length}개 모델 매칭됨)` : '';
 
   if (matched.length === 0) {
-    resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500 text-sm border border-dashed border-slate-300 rounded-xl bg-slate-50 font-medium">선택하신 조건과 일치하는 매트리스가 없습니다.</div>`;
+    resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500 text-sm border border-dashed border-slate-300 rounded-xl bg-slate-50 font-medium">선택하신 조건 및 예산과 일치하는 매트리스가 없습니다. 예산 범위를 넓혀보세요.</div>`;
     return;
   }
 
-  let customerHeaderHtml = (customerName || customerGender || customerAgeGroup || customerAddress) ? `
+  let customerHeaderHtml = (customerName || customerPhone || customerGender || customerAgeGroup || customerAddress) ? `
     <div class="col-span-full bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex flex-wrap items-center gap-3">
       <span>👤 고객명: <strong class="text-aceNavy">${customerName || '미입력'}</strong></span>
+      <span>•</span>
+      <span>📞 연락처: <strong class="text-aceNavy">${customerPhone || '미입력'}</strong></span>
       <span>•</span>
       <span>⚧ 성별: <strong class="text-aceNavy">${customerGender || '미선택'}</strong></span>
       <span>•</span>
       <span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup || '미선택'}</strong></span>
       <span>•</span>
       <span>📍 거주지: <strong class="text-aceNavy">${customerAddress || '미입력'}</strong></span>
+      <span>•</span>
+      <span>✍️ 마케팅동의: <strong class="text-aceNavy">${privacyConsent}</strong></span>
     </div>` : '';
 
   resultContainer.innerHTML = customerHeaderHtml + matched.map((item, idx) => {
@@ -825,9 +864,11 @@ function runMatching() {
 
 function exportConsultationExcel() {
   const customerName = document.getElementById('customerName')?.value || '미입력';
+  const customerPhone = document.getElementById('customerPhone')?.value || '미입력';
   const customerGender = document.querySelector('input[name="customerGender"]:checked')?.value || '미선택';
   const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '미선택';
   const customerAddress = document.getElementById('customerAddress')?.value || '미입력';
+  const privacyConsent = document.querySelector('input[name="privacyConsent"]:checked')?.value || '동의함';
   
   const selectedSize = document.querySelector('input[name="mattressSize"]:checked')?.value || 'LQ';
   const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value).join(', ') || '전체';
@@ -849,9 +890,11 @@ function exportConsultationExcel() {
   const exportData = [
     { "항목": "상담 분류", "고객 응답 내용": "에이스침대 굿 슬립 컨설팅 상담 리포트" },
     { "항목": "고객 성함", "고객 응답 내용": customerName },
+    { "항목": "핸드폰 번호", "고객 응답 내용": customerPhone },
     { "항목": "성별", "고객 응답 내용": customerGender },
     { "항목": "연령대", "고객 응답 내용": customerAgeGroup },
     { "항목": "거주지", "고객 응답 내용": customerAddress },
+    { "항목": "마케팅 정보 수집 동의", "고객 응답 내용": privacyConsent },
     { "항목": "매장 진열 상품", "고객 응답 내용": checkedProducts },
     { "항목": "매트리스 사이즈", "고객 응답 내용": selectedSize },
     { "항목": "기존 사용 브랜드", "고객 응답 내용": prevBrands + (prevBrandEtc ? ` (기타: ${prevBrandEtc})` : '') },
