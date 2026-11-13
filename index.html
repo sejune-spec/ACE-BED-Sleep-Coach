@@ -7,7 +7,6 @@
 <title>에이스침대 통합 수면 매칭 & 스마트 견적 매니저</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
-<!-- QR코드 및 엑셀(SheetJS) 파서 라이브러리 추가 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
@@ -94,7 +93,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 고객 기본 정보 입력 섹션 (성함, 연령대) -->
+    <!-- 고객 기본 정보 입력 섹션 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">고객 기본 정보 입력</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -165,9 +164,9 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 3. 기존에 사용하고 있는 매트리스 타입 -->
+    <!-- 3. 기존 매트리스 타입 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">3. 기존에 사용하고 있는 매트리스 타입 <span class="text-xs font-normal text-slate-500 ml-1">선택</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">3. 기존에 사용하고 있는 매트리스 타입</h3>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="prevMatType" value="스프링 매트리스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 스프링 매트리스
@@ -187,7 +186,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 4. 평소 침대 사용시 불편했던 부분 -->
+    <!-- 4. 불편했던 부분 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">4. 평소 침대 사용시 불편했던 부분 <span class="text-xs font-normal text-slate-500 ml-1">중복 선택 가능</span></h3>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -209,9 +208,9 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 5. 구매하고 싶은 매트리스 타입 -->
+    <!-- 5. 구매하고 싶은 타입 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">5. 구매하고 싶은 매트리스 타입 <span class="text-xs font-normal text-slate-500 ml-1">단일 선택</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">5. 구매하고 싶은 매트리스 타입</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="wantType" value="HARD" class="mr-2 accent-aceBlue" onchange="runMatching()"> HARD
@@ -228,9 +227,9 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 6. 매트리스 필로우탑 적용여부 -->
+    <!-- 6. 필로우탑 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">6. 매트리스 필로우탑 적용여부 <span class="text-xs font-normal text-slate-500 ml-1">단일 선택</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">6. 매트리스 필로우탑 적용여부</h3>
       <div class="grid grid-cols-3 gap-3">
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="pillowTop" value="예" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 예
@@ -266,9 +265,9 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 8. 매트리스 선택 시 우선 순위 -->
+    <!-- 8. 우선 순위 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">8. 매트리스 선택 시 우선 순위 <span class="text-xs font-normal text-slate-500 ml-1">중복 선택 가능</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">8. 매트리스 선택 시 우선 순위</h3>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="checkbox" name="priority" value="안락함" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 안락함
@@ -294,15 +293,12 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
         <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="checkbox" name="priority" value="매트리스 내구성" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 매트리스 내구성
         </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all col-span-2 md:col-span-1">
-          <input type="checkbox" name="priority" value="매트리스 디자인" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 매트리스 디자인
-        </label>
       </div>
     </section>
 
     <!-- 9-1. 구매목적 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">9-1. 구매목적 <span class="text-xs font-normal text-slate-500 ml-1">단일 선택</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">9-1. 구매목적</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="purpose" value="개인용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 개인용
@@ -319,9 +315,9 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 9-2. 구매목적 -->
+    <!-- 9-2. 구매목적 상세 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">9-2. 구매목적 <span class="text-xs font-normal text-slate-500 ml-1">단일 선택</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">9-2. 구매목적 상세</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
           <input type="radio" name="subPurpose" value="기존 침대의 불편함" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 기존 침대의 불편함
@@ -338,7 +334,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 10. 구매 예산 (최우선 순위 반영) -->
+    <!-- 10. 구매 예산 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">10. 구매 예산 <span class="text-xs font-normal text-aceGold ml-1">⭐ 선택시 최우선 반영</span></h3>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -363,7 +359,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 추천 매트리스 결과 출력 영역 -->
+    <!-- 추천 결과 및 확인 버튼 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-3 mb-4 gap-3">
         <h3 class="text-lg font-bold text-aceNavy m-0">🏆 맞춤 추천 매트리스 결과 <span id="matchCount" class="text-xs font-normal text-aceBlue ml-1"></span></h3>
@@ -392,7 +388,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       <div class="text-xs text-slate-400 font-bold mb-1">Made by Park Se June</div>
       <h2 class="text-2xl font-black text-aceNavy text-center mb-6">에이스침대 스마트 견적 매니저</h2>
 
-      <!-- 엑셀 파일 업로드 드롭존 및 파일 input 연결 -->
+      <!-- 엑셀 파일 업로드 드롭존 -->
       <div class="drop-zone p-8 text-center mb-6 relative" onclick="document.getElementById('excelFileInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleFileDrop(event)">
         <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileSelect(event)">
         <div class="text-slate-600 font-bold text-sm md:text-base flex items-center justify-center gap-2 pointer-events-none">
@@ -401,84 +397,93 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
         <div class="text-xs text-aceBlue mt-2 font-bold" id="uploadStatusText">파일 대기 중...</div>
       </div>
 
+      <!-- 상단 카테고리 탭 버튼 -->
       <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-6">
-        <button class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200">프레임 세트</button>
-        <button class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200">매트리스</button>
-        <button class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200">기타(협탁,사이즈판넬)</button>
-        <button class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200">연계품목</button>
-        <button class="py-2.5 px-3 rounded-lg bg-aceNavy text-white font-bold text-xs md:text-sm flex items-center justify-center gap-1 shadow-sm">📊 스마트 다중 견적기</button>
+        <button type="button" onclick="switchEstimateCategory('frame')" id="catBtn-frame" class="py-2.5 px-3 rounded-lg bg-aceNavy text-white font-bold text-xs md:text-sm shadow-md transition-all">프레임 세트</button>
+        <button type="button" onclick="switchEstimateCategory('mattress')" id="catBtn-mattress" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all">매트리스</button>
+        <button type="button" onclick="switchEstimateCategory('etc')" id="catBtn-etc" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all">기타(협탁,사이즈판넬)</button>
+        <button type="button" onclick="switchEstimateCategory('linked')" id="catBtn-linked" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all">연계품목</button>
+        <button type="button" class="py-2.5 px-3 rounded-lg bg-slate-900 text-aceGold font-bold text-xs md:text-sm flex items-center justify-center gap-1 shadow-sm col-span-2 md:col-span-1">📊 스마트 다중 견적기</button>
       </div>
 
+      <!-- 4가지 섹션 그리드 영역 -->
       <div class="grid md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200">
-          <h4 class="font-bold text-sm text-aceNavy mb-3">① 프레임 선택 (다중 등록)</h4>
+        
+        <!-- ① 프레임 세트 -->
+        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200" id="section-frame">
+          <h4 class="font-bold text-sm text-aceNavy mb-3">① 프레임 세트 선택 (다중 등록)</h4>
           <div class="relative mb-2">
-            <input type="text" placeholder="빠른 프레임 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8">
+            <input type="text" id="search-frame" placeholder="빠른 프레임 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8" oninput="filterItems('frame')">
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectFrame" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option>-- 품목 선택 --</option></select>
-            <button class="bg-aceNavy text-white text-xs font-bold px-3 py-2 rounded-lg shrink-0">+ 추가</button>
+            <select id="selectFrame" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
+            <button type="button" onclick="addItem('frame')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div class="bg-white border border-dashed border-slate-300 rounded-lg p-8 text-center text-slate-400 text-xs min-h-[100px] flex items-center justify-center">선택된 프레임이 없습니다.</div>
+          <div id="list-frame" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 프레임이 없습니다.</div>
           <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">프레임 총 정가: <b class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">프레임 할인가 합산: 0원</div>
+            <div class="text-slate-600">프레임 총 정가: <b id="sumList-frame-reg" class="text-slate-900">0원</b></div>
+            <div class="text-red-600 font-bold">프레임 할인가 합산: <span id="sumList-frame-dis">0원</span></div>
           </div>
         </div>
 
-        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200">
+        <!-- ② 매트리스 -->
+        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200" id="section-mattress">
           <h4 class="font-bold text-sm text-aceNavy mb-3">② 매트리스 선택 (다중 등록)</h4>
           <div class="relative mb-2">
-            <input type="text" placeholder="빠른 매트리스 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8">
+            <input type="text" id="search-mattress" placeholder="빠른 매트리스 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8" oninput="filterItems('mattress')">
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectMattress" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option>-- 품목 선택 --</option></select>
-            <button class="bg-aceNavy text-white text-xs font-bold px-3 py-2 rounded-lg shrink-0">+ 추가</button>
+            <select id="selectMattress" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
+            <button type="button" onclick="addItem('mattress')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div class="bg-white border border-dashed border-slate-300 rounded-lg p-8 text-center text-slate-400 text-xs min-h-[100px] flex items-center justify-center">선택된 매트리스가 없습니다.</div>
+          <div id="list-mattress" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 매트리스가 없습니다.</div>
           <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">매트리스 총 정가: <b class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">매트리스 할인가 합산: 0원</div>
+            <div class="text-slate-600">매트리스 총 정가: <b id="sumList-mattress-reg" class="text-slate-900">0원</b></div>
+            <div class="text-red-600 font-bold">매트리스 할인가 합산: <span id="sumList-mattress-dis">0원</span></div>
           </div>
         </div>
 
-        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200">
+        <!-- ③ 기타 품목 -->
+        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200" id="section-etc">
           <h4 class="font-bold text-sm text-aceNavy mb-3">③ 기타(협탁, 사이즈판넬 등) 선택 (다중 등록)</h4>
           <div class="relative mb-2">
-            <input type="text" placeholder="빠른 기타 품목 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8">
+            <input type="text" id="search-etc" placeholder="빠른 기타 품목 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8" oninput="filterItems('etc')">
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectEtc" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option>-- 품목 선택 --</option></select>
-            <button class="bg-aceNavy text-white text-xs font-bold px-3 py-2 rounded-lg shrink-0">+ 추가</button>
+            <select id="selectEtc" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
+            <button type="button" onclick="addItem('etc')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div class="bg-white border border-dashed border-slate-300 rounded-lg p-8 text-center text-slate-400 text-xs min-h-[100px] flex items-center justify-center">선택된 기타 품목이 없습니다.</div>
+          <div id="list-etc" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 기타 품목이 없습니다.</div>
           <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">기타 총 정가: <b class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">기타 할인가 합산: 0원</div>
+            <div class="text-slate-600">기타 총 정가: <b id="sumList-etc-reg" class="text-slate-900">0원</b></div>
+            <div class="text-red-600 font-bold">기타 할인가 합산: <span id="sumList-etc-dis">0원</span></div>
           </div>
         </div>
 
-        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200">
+        <!-- ④ 연계품목 -->
+        <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200" id="section-linked">
           <h4 class="font-bold text-sm text-aceNavy mb-3">④ 연계품목 선택 (다중 등록)</h4>
           <div class="relative mb-2">
-            <input type="text" placeholder="빠른 연계품목 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8">
+            <input type="text" id="search-linked" placeholder="빠른 연계품목 검색..." class="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 text-xs pr-8" oninput="filterItems('linked')">
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectLinked" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option>-- 품목 선택 --</option></select>
-            <button class="bg-aceNavy text-white text-xs font-bold px-3 py-2 rounded-lg shrink-0">+ 추가</button>
+            <select id="selectLinked" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
+            <button type="button" onclick="addItem('linked')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div class="bg-white border border-dashed border-slate-300 rounded-lg p-8 text-center text-slate-400 text-xs min-h-[100px] flex items-center justify-center">선택된 연계품목이 없습니다.</div>
+          <div id="list-linked" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 연계품목이 없습니다.</div>
           <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">연계품목 총 정가: <b class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">연계품목 할인가 합산: 0원</div>
+            <div class="text-slate-600">연계품목 총 정가: <b id="sumList-linked-reg" class="text-slate-900">0원</b></div>
+            <div class="text-red-600 font-bold">연계품목 할인가 합산: <span id="sumList-linked-dis">0원</span></div>
           </div>
         </div>
+
       </div>
 
+      <!-- 할인 및 최종 정산 영역 -->
       <div class="space-y-4">
         <div class="bg-slate-100 border border-slate-200 rounded-xl p-3 text-center text-sm font-bold text-slate-800">
           ① + ② + ③ + ④ 브랜드 할인가 총합 : <span id="brandSum" class="text-aceNavy text-base font-black">0원</span>
@@ -537,7 +542,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
 
 </main>
 
-<!-- 📱 QR코드 결과 공유 모달창 -->
+<!-- QR코드 모달창 -->
 <div id="qrModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
   <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 text-center space-y-4">
     <div class="flex justify-between items-center border-b pb-3">
@@ -655,10 +660,8 @@ if(sizeContainer) {
   `).join('');
 }
 
-// 🏆 실시간 매칭 추천 로직 산출 엔진 (구매 예산 최우선 반영)
 function runMatching() {
   syncUrlState();
-
   const customerName = document.getElementById('customerName')?.value || '';
   const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '';
   const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
@@ -674,33 +677,25 @@ function runMatching() {
 
   const resultContainer = document.getElementById('recommendationResult');
   const countContainer = document.getElementById('matchCount');
-
   const hasAnyInput = customerName || customerAgeGroup || selectedType || selectedPillow || selectedHabits.length > 0 || selectedPains.length > 0 || selectedPriorities.length > 0 || selectedPurpose || selectedSubPurpose || selectedBudget;
 
   if (!hasAnyInput) {
-    resultContainer.innerHTML = `
-      <div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">
-        고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.
-      </div>`;
+    resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.</div>`;
     countContainer.textContent = '';
     return;
   }
 
   let candidatePool = checkedProducts.length > 0 ? checkedProducts : products;
-
   let scoredList = candidatePool.map(model => {
     let score = 10;
     const dbItem = MATTRESS_DB[model];
     const attrItem = MATTRESS_ATTRIBUTES[model];
-    // 사이즈 매핑 규칙 적용: DS->SS, DD->LQ, LK1800/LK2000->K
     let priceKey = selectedSize;
     if(selectedSize === 'DS') priceKey = 'SS';
     else if(selectedSize === 'DD') priceKey = 'LQ';
     else if(selectedSize === 'LK1800' || selectedSize === 'LK2000') priceKey = 'K';
 
     const price = dbItem.prices[priceKey] || dbItem.prices['LQ'] || 0;
-
-    // 🌟 구매 예산 구간 매칭 (가장 강력한 최우선 가중치 부여: ±50점)
     if (selectedBudget) {
       let matchesBudget = false;
       if (selectedBudget === "50만원~100만원") matchesBudget = (price >= 500000 && price < 1000000);
@@ -709,67 +704,35 @@ function runMatching() {
       else if (selectedBudget === "500만원~700만원") matchesBudget = (price >= 5000000 && price < 7000000);
       else if (selectedBudget === "700만원~900만원") matchesBudget = (price >= 7000000 && price < 9000000);
       else if (selectedBudget === "900만원 이상") matchesBudget = (price >= 9000000);
-
-      if (matchesBudget) score += 50;
-      else score -= 30;
+      if (matchesBudget) score += 50; else score -= 30;
     }
-
     if (selectedType && selectedType !== "잘 모르겠음") {
-      if (dbItem.type === selectedType) score += 25;
-      else score -= 15;
+      if (dbItem.type === selectedType) score += 25; else score -= 15;
     }
-
     if (selectedPillow && selectedPillow !== "잘 모르겠음") {
       const wantPillow = (selectedPillow === "예");
-      if (dbItem.pillowTop === wantPillow) score += 20;
-      else score -= 15;
+      if (dbItem.pillowTop === wantPillow) score += 20; else score -= 15;
     }
+    selectedHabits.forEach(habit => { if (habit !== "잘 모르겠음" && attrItem.habits.includes(habit)) score += 10; });
+    selectedPriorities.forEach(prio => { if (attrItem.priorities.includes(prio)) score += 15; });
 
-    selectedHabits.forEach(habit => {
-      if (habit !== "잘 모르겠음" && attrItem.habits.includes(habit)) score += 10;
-    });
-
-    selectedPriorities.forEach(prio => {
-      if (attrItem.priorities.includes(prio)) score += 15;
-    });
-
-    let grade = "下";
-    let gradeStyle = "bg-slate-200 text-slate-700";
-    if (score >= 70) {
-      grade = "上";
-      gradeStyle = "bg-aceBlue text-white";
-    } else if (score >= 40) {
-      grade = "中";
-      gradeStyle = "bg-amber-500 text-white";
-    }
-
+    let grade = "下", gradeStyle = "bg-slate-200 text-slate-700";
+    if (score >= 70) { grade = "上"; gradeStyle = "bg-aceBlue text-white"; }
+    else if (score >= 40) { grade = "中"; gradeStyle = "bg-amber-500 text-white"; }
     return { model, type: dbItem.type, hardness: dbItem.hardness, pillowTop: dbItem.pillowTop, price, score, grade, gradeStyle };
   });
 
   const matched = scoredList.filter(item => item.score > 0).sort((a, b) => b.score - a.score);
-
   countContainer.textContent = matched.length > 0 ? `(총 ${matched.length}개 모델 매칭됨)` : '';
 
   if (matched.length === 0) {
-    resultContainer.innerHTML = `
-      <div class="col-span-full p-8 text-center text-slate-500 text-sm border border-dashed border-slate-300 rounded-xl bg-slate-50 font-medium">
-        선택하신 조건과 일치하는 매트리스가 없습니다. 조건을 조금 더 넓혀보세요!
-      </div>`;
+    resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500 text-sm border border-dashed border-slate-300 rounded-xl bg-slate-50 font-medium">선택하신 조건과 일치하는 매트리스가 없습니다.</div>`;
     return;
   }
 
-  let customerHeaderHtml = '';
-  if(customerName || customerAgeGroup) {
-    customerHeaderHtml = `
-      <div class="col-span-full bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-3">
-        <span>👤 고객명: <strong class="text-aceNavy">${customerName || '미입력'}</strong></span>
-        <span>•</span>
-        <span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup || '미선택'}</strong></span>
-      </div>`;
-  }
+  let customerHeaderHtml = (customerName || customerAgeGroup) ? `<div class="col-span-full bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-3"><span>👤 고객명: <strong class="text-aceNavy">${customerName || '미입력'}</strong></span><span>•</span><span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup || '미선택'}</strong></span></div>` : '';
 
   resultContainer.innerHTML = customerHeaderHtml + matched.map((item, idx) => {
-    // 경도 1~10 바 계산 (너비 백분율)
     const hardnessPercent = (item.hardness / 10) * 100;
     return `
     <div class="p-5 rounded-2xl border ${idx === 0 ? 'border-aceGold bg-amber-50/30 ring-2 ring-aceGold/20' : 'border-slate-200 bg-slate-50/50'} relative">
@@ -780,7 +743,6 @@ function runMatching() {
       </div>
       <h4 class="text-xl font-black text-aceNavy mb-2">${item.model} <span class="text-xs font-normal text-slate-500 ml-1">타입: ${item.type} · ${item.pillowTop ? '필로우탑 적용' : '필로우탑 미적용'}</span></h4>
       
-      <!-- 매트리스 경도값 1-10 바 형태 시각화 -->
       <div class="mb-3 bg-white p-3 rounded-xl border border-slate-200 space-y-1.5">
         <div class="flex justify-between items-center text-xs font-bold text-slate-700">
           <span>매트리스 경도 (Hardness)</span>
@@ -802,12 +764,10 @@ function runMatching() {
       <div class="text-xs text-slate-500 bg-white p-3 rounded-xl border border-slate-200">
         ✔ 주요 특징: ${MATTRESS_ATTRIBUTES[item.model].priorities.join(', ')} / 적합 수면습관 지원
       </div>
-    </div>
-  `;
+    </div>`;
   }).join('');
 }
 
-// 📊 상담 내용 및 추천 결과 엑셀 저장 함수 ('확인' 버튼 연동)
 function exportConsultationExcel() {
   const customerName = document.getElementById('customerName')?.value || '미입력';
   const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '미선택';
@@ -825,11 +785,8 @@ function exportConsultationExcel() {
   const subPurpose = document.querySelector('input[name="subPurpose"]:checked')?.value || '미선택';
   const budget = document.querySelector('input[name="budget"]:checked')?.value || '미선택';
 
-  // 현재 화면에 렌더링된 추천 모델들 추출
   let recommendedModels = [];
-  document.querySelectorAll('#recommendationResult h4').forEach(el => {
-    if(el && el.textContent) recommendedModels.push(el.textContent.trim());
-  });
+  document.querySelectorAll('#recommendationResult h4').forEach(el => { if(el && el.textContent) recommendedModels.push(el.textContent.trim()); });
 
   const exportData = [
     { "항목": "상담 분류", "고객 응답 내용": "에이스침대 굿 슬립 컨설팅 상담 리포트" },
@@ -839,13 +796,13 @@ function exportConsultationExcel() {
     { "항목": "매트리스 사이즈", "고객 응답 내용": selectedSize },
     { "항목": "기존 사용 브랜드", "고객 응답 내용": prevBrands + (prevBrandEtc ? ` (기타: ${prevBrandEtc})` : '') },
     { "항목": "기존 매트리스 타입", "고객 응답 내용": prevMatType },
-    { "항목": "평소 침대 사용시 불편했던 부분", "고객 응답 내용": painAreas },
+    { "항목": "불편했던 부분", "고객 응답 내용": painAreas },
     { "항목": "구매 희망 매트리스 타입", "고객 응답 내용": wantType },
     { "항목": "필로우탑 적용 여부", "고객 응답 내용": pillowTop },
     { "항목": "수면 습관", "고객 응답 내용": sleepHabits },
-    { "항목": "매트리스 선택 우선 순위", "고객 응답 내용": priorities },
-    { "항목": "구매목적 (8-1)", "고객 응답 내용": purpose },
-    { "항목": "구매목적 (8-2)", "고객 응답 내용": subPurpose },
+    { "항목": "우선 순위", "고객 응답 내용": priorities },
+    { "항목": "구매목적", "고객 응답 내용": purpose },
+    { "항목": "구매목적 상세", "고객 응답 내용": subPurpose },
     { "항목": "구매 예산", "고객 응답 내용": budget },
     { "항목": "실시간 추천 매트리스 순위", "고객 응답 내용": recommendedModels.join(' / ') || '조건 미입력' },
     { "항목": "상담 일시", "고객 응답 내용": new Date().toLocaleString('ko-KR') }
@@ -854,50 +811,24 @@ function exportConsultationExcel() {
   const worksheet = XLSX.utils.json_to_sheet(exportData);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "수면상담결과");
-
-  // 열 너비 자동 조절
   worksheet['!cols'] = [{ wch: 30 }, { wch: 60 }];
-
-  const filename = `에이스침대_수면상담결과_${customerName}_${new Date().toISOString().slice(0,10)}.xlsx`;
-  XLSX.writeFile(workbook, filename);
+  XLSX.writeFile(workbook, `에이스침대_수면상담결과_${customerName}_${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
-let qrInstance = null;
-function toggleQRModal(show) {
-  const modal = document.getElementById('qrModal');
-  if (show) {
-    syncUrlState();
-    const currentUrl = window.location.href;
-    document.getElementById('qrUrlText').textContent = currentUrl;
-    
-    const qrContainer = document.getElementById('qrcode');
-    qrContainer.innerHTML = '';
-    qrInstance = new QRCode(qrContainer, {
-      text: currentUrl,
-      width: 180,
-      height: 180,
-      colorDark: "#002B49",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.M
-    });
-    modal.classList.remove('hidden');
-  } else {
-    modal.classList.add('hidden');
-  }
-}
+// ==========================================
+// 📊 스마트 견적 매니저 (전체 시트 탐색 & 풀네임 조합 & 정확한 카테고리 분류)
+// ==========================================
+let parsedItems = { frame: [], mattress: [], etc: [], linked: [] };
+let selectedCart = { frame: [], mattress: [], etc: [], linked: [] };
 
 function handleDragOver(e) { e.preventDefault(); e.stopPropagation(); }
 function handleDragLeave(e) { e.preventDefault(); e.stopPropagation(); }
 function handleFileDrop(e) {
   e.preventDefault(); e.stopPropagation();
-  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-    processExcelFile(e.dataTransfer.files[0]);
-  }
+  if (e.dataTransfer.files && e.dataTransfer.files[0]) processExcelFile(e.dataTransfer.files[0]);
 }
 function handleFileSelect(e) {
-  if (e.target.files && e.target.files[0]) {
-    processExcelFile(e.target.files[0]);
-  }
+  if (e.target.files && e.target.files[0]) processExcelFile(e.target.files[0]);
 }
 
 function processExcelFile(file) {
@@ -907,29 +838,68 @@ function processExcelFile(file) {
     try {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-      const jsonRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-      const frameSelect = document.getElementById('selectFrame');
-      const mattressSelect = document.getElementById('selectMattress');
-      
-      frameSelect.innerHTML = '<option>-- 엑셀 품목 선택완료 --</option>';
-      mattressSelect.innerHTML = '<option>-- 엑셀 품목 선택완료 --</option>';
+      parsedItems = { frame: [], mattress: [], etc: [], linked: [] };
+      let uniqueIdCounter = 1;
 
-      let count = 0;
-      jsonRows.forEach((row, idx) => {
-        if(idx > 0 && row.length > 0 && row[0]) {
-          const opt = document.createElement('option');
-          opt.value = row[0];
-          opt.textContent = row.join(' / ');
-          frameSelect.appendChild(opt.cloneNode(true));
-          mattressSelect.appendChild(opt);
-          count++;
-        }
+      // 엑셀 내 모든 시트를 순회하면서 데이터 파싱
+      workbook.SheetNames.forEach(sheetName => {
+        const worksheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        rows.forEach((row, idx) => {
+          if(idx === 0 || !row || row.length < 3) return;
+
+          // 열 구조 파악: 0열(순번), 1열(코드), 2열(구분/카테고리), 3열(제품명), 이후(정가/할인가)
+          const code = String(row[1] || '').trim();
+          const categoryText = String(row[2] || '').trim();
+          const productName = String(row[3] || '').trim();
+
+          if(!code && !productName) return;
+
+          // 금액 파싱 (숫자형 데이터 추출)
+          let regularPrice = 0;
+          let discountPrice = 0;
+          for(let i = 3; i < row.length; i++) {
+            let cleanNum = Number(String(row[i]).replace(/[^0-9.-]+/g, ''));
+            if(!isNaN(cleanNum) && cleanNum >= 1000) {
+              if(regularPrice === 0) regularPrice = cleanNum;
+              else if(discountPrice === 0) discountPrice = cleanNum;
+            }
+          }
+          if(discountPrice === 0) discountPrice = regularPrice;
+
+          // 풀네임 구성: [코드] 제품명
+          const fullName = code ? `[${code}] ${productName}` : productName;
+          const displayText = `${fullName} (${discountPrice.toLocaleString('ko-KR')}원)`;
+          const searchString = `${sheetName} ${code} ${categoryText} ${productName}`.toLowerCase();
+
+          const itemObj = {
+            id: uniqueIdCounter++,
+            name: fullName,
+            text: displayText,
+            searchString: searchString,
+            regularPrice: regularPrice,
+            discountPrice: discountPrice
+          };
+
+          // 시트명 또는 품목구분(categoryText) 기준 정확한 분류
+          const combinedCat = `${sheetName} ${categoryText} ${productName}`.toLowerCase();
+          if (combinedCat.includes('매트리스') || combinedCat.includes('mat') || code.startsWith('A35')) {
+            parsedItems.mattress.push(itemObj);
+          } else if (combinedCat.includes('협탁') || combinedCat.includes('판넬') || combinedCat.includes('패널') || combinedCat.includes('기타') || code.startsWith('AXU')) {
+            parsedItems.etc.push(itemObj);
+          } else if (combinedCat.includes('연계') || combinedCat.includes('케어') || combinedCat.includes('방수') || combinedCat.includes('사은품') || combinedCat.includes('바디필로우')) {
+            parsedItems.linked.push(itemObj);
+          } else {
+            parsedItems.frame.push(itemObj);
+          }
+        });
       });
 
-      document.getElementById('uploadStatusText').textContent = `✅ 성공: ${count}개 품목 데이터 연동 완료!`;
+      ['frame', 'mattress', 'etc', 'linked'].forEach(cat => populateSelectOptions(cat));
+      let totalCount = parsedItems.frame.length + parsedItems.mattress.length + parsedItems.etc.length + parsedItems.linked.length;
+      document.getElementById('uploadStatusText').textContent = `✅ 성공: 프레임(${parsedItems.frame.length}), 매트리스(${parsedItems.mattress.length}), 기타(${parsedItems.etc.length}), 연계(${parsedItems.linked.length}) - 총 ${totalCount}개 연동 완료!`;
     } catch(err) {
       console.error(err);
       document.getElementById('uploadStatusText').textContent = '❌ 파일 파싱 오류 발생. 엑셀 형식을 확인하세요.';
@@ -938,12 +908,117 @@ function processExcelFile(file) {
   reader.readAsArrayBuffer(file);
 }
 
+function switchEstimateCategory(category) {
+  ['frame', 'mattress', 'etc', 'linked'].forEach(cat => {
+    const btn = document.getElementById(`catBtn-${cat}`);
+    const sec = document.getElementById(`section-${cat}`);
+    if(cat === category) {
+      if(btn) btn.className = "py-2.5 px-3 rounded-lg bg-aceNavy text-white font-bold text-xs md:text-sm shadow-md transition-all";
+      if(sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      if(btn) btn.className = "py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all";
+    }
+  });
+}
+
+function populateSelectOptions(category, filterKeyword = '') {
+  const selectEl = document.getElementById(category === 'frame' ? 'selectFrame' : category === 'mattress' ? 'selectMattress' : category === 'etc' ? 'selectEtc' : 'selectLinked');
+  if(!selectEl) return;
+
+  const list = parsedItems[category] || [];
+  const keyword = filterKeyword.trim().toLowerCase();
+  const filtered = keyword ? list.filter(item => item.searchString.includes(keyword)) : list;
+
+  selectEl.innerHTML = `<option value="">-- 품목 선택 (${filtered.length}개 검색됨) --</option>` + filtered.map(item => `
+    <option value="${item.id}">${item.text}</option>
+  `).join('');
+}
+
+function filterItems(category) {
+  const keyword = document.getElementById(`search-${category}`).value;
+  populateSelectOptions(category, keyword);
+}
+
+function addItem(category) {
+  const selectId = category === 'frame' ? 'selectFrame' : category === 'mattress' ? 'selectMattress' : category === 'etc' ? 'selectEtc' : 'selectLinked';
+  const selectEl = document.getElementById(selectId);
+  const itemId = Number(selectEl.value);
+  if(!itemId) return;
+
+  const item = parsedItems[category].find(i => i.id === itemId);
+  if(item) {
+    selectedCart[category].push({ ...item, quantity: 1, discountRate: 0, cartId: Date.now() + Math.random() });
+    renderCart(category);
+    calculateEstimate();
+  }
+}
+
+function updateCartItem(category, cartId, field, value) {
+  const item = selectedCart[category].find(i => i.cartId === cartId);
+  if(item) {
+    if(field === 'quantity') item.quantity = Math.max(1, parseInt(value) || 1);
+    if(field === 'discountRate') item.discountRate = Math.max(0, Math.min(100, parseFloat(value) || 0));
+    renderCart(category);
+    calculateEstimate();
+  }
+}
+
+function removeItem(category, cartId) {
+  selectedCart[category] = selectedCart[category].filter(i => i.cartId !== cartId);
+  renderCart(category);
+  calculateEstimate();
+}
+
+function renderCart(category) {
+  const container = document.getElementById(`list-${category}`);
+  const items = selectedCart[category];
+
+  if(items.length === 0) {
+    container.innerHTML = `선택된 ${category === 'frame' ? '프레임' : category === 'mattress' ? '매트리스' : category === 'etc' ? '기타 품목' : '연계품목'}이 없습니다.`;
+    document.getElementById(`sumList-${category}-reg`).textContent = '0원';
+    document.getElementById(`sumList-${category}-dis`).textContent = '0원';
+    return;
+  }
+
+  let totalReg = 0;
+  let totalDis = 0;
+
+  container.innerHTML = items.map(item => {
+    let regSub = item.regularPrice * item.quantity;
+    let disUnitPrice = item.discountPrice * (1 - (item.discountRate / 100));
+    let disSub = disUnitPrice * item.quantity;
+
+    totalReg += regSub;
+    totalDis += disSub;
+
+    return `
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs gap-2">
+        <span class="font-bold text-slate-800 truncate max-w-[220px]" title="${item.name}">${item.name}</span>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <input type="number" value="${item.quantity}" min="1" class="w-12 bg-white border border-slate-300 rounded text-center py-1 font-bold" oninput="updateCartItem('${category}', ${item.cartId}, 'quantity', this.value)"> 개
+          <input type="number" value="${item.discountRate}" min="0" max="100" class="w-12 bg-white border border-slate-300 rounded text-center py-1 font-bold text-red-600" oninput="updateCartItem('${category}', ${item.cartId}, 'discountRate', this.value)"> %
+          <span class="font-black text-red-600 ml-1">${Math.round(disSub).toLocaleString('ko-KR')}원</span>
+          <button type="button" onclick="removeItem('${category}', ${item.cartId})" class="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded ml-1">삭제</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById(`sumList-${category}-reg`).textContent = Math.round(totalReg).toLocaleString('ko-KR') + '원';
+  document.getElementById(`sumList-${category}-dis`).textContent = Math.round(totalDis).toLocaleString('ko-KR') + '원';
+}
+
 function calculateEstimate() {
-  let brandSum = 0; 
-  let brandTotal = brandSum;
+  let brandTotal = 0;
+  ['frame', 'mattress', 'etc', 'linked'].forEach(cat => {
+    selectedCart[cat].forEach(item => {
+      let disUnitPrice = item.discountPrice * (1 - (item.discountRate / 100));
+      brandTotal += disUnitPrice * item.quantity;
+    });
+  });
+
   let extraRate = parseFloat(document.getElementById('extraDiscountRate').value) || 0;
   let extraAmount = parseFloat(document.getElementById('extraDiscountAmount').value) || 0;
-  
   let afterStore = brandTotal * (1 - extraRate / 100) - extraAmount;
   if(afterStore < 0) afterStore = 0;
   document.getElementById('afterStoreDiscount').textContent = Math.round(afterStore).toLocaleString('ko-KR') + '원';
@@ -954,11 +1029,8 @@ function calculateEstimate() {
   let cardVal = parseFloat(document.getElementById('cardDiscountValue').value) || 0;
 
   let finalPay = afterStore * (1 - deptRate / 100) - giftAmount;
-  if(cardType === 'percent') {
-    finalPay = finalPay * (1 - cardVal / 100);
-  } else {
-    finalPay = finalPay - cardVal;
-  }
+  if(cardType === 'percent') finalPay = finalPay * (1 - cardVal / 100);
+  else finalPay = finalPay - cardVal;
   if(finalPay < 0) finalPay = 0;
 
   document.getElementById('brandSum').textContent = Math.round(brandTotal).toLocaleString('ko-KR') + '원';
@@ -968,54 +1040,20 @@ function calculateEstimate() {
   document.getElementById('totalDiscountPercentText').textContent = `(총 할인율: ${totalDiscountPercent.toFixed(1)}%)`;
 }
 
-// URL 동기화 및 복사 기능
+// URL 동기화 및 복사
 function syncUrlState() {
   const params = new URLSearchParams();
   params.set('tab', document.getElementById('sheet2').classList.contains('hidden') ? '1' : '2');
-  
   const cName = document.getElementById('customerName')?.value?.trim();
   if(cName) params.set('cname', cName);
   const cAge = document.getElementById('customerAgeGroup')?.value;
   if(cAge) params.set('cage', cAge);
-
-  const disp = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
-  if(disp.length) params.set('disp', disp.join(','));
-  const sz = document.querySelector('input[name="mattressSize"]:checked');
-  if(sz) params.set('size', sz.value);
-  
-  const pb = [...document.querySelectorAll('input[name="prevBrand"]:checked')].map(el => el.value);
-  if(pb.length) params.set('pbrand', pb.join(','));
-  const pbe = document.getElementById('prevBrandEtc')?.value?.trim();
-  if(pbe) params.set('pbrand_etc', pbe);
-  const pmt = document.querySelector('input[name="prevMatType"]:checked');
-  if(pmt) params.set('pmtype', pmt.value);
-
-  const pains = [...document.querySelectorAll('input[name="painArea"]:checked')].map(el => el.value);
-  if(pains.length) params.set('pains', pains.join(','));
-
-  const wt = document.querySelector('input[name="wantType"]:checked');
-  if(wt) params.set('type', wt.value);
-  const pt = document.querySelector('input[name="pillowTop"]:checked');
-  if(pt) params.set('pillow', pt.value);
-
-  const hb = [...document.querySelectorAll('input[name="sleepHabit"]:checked')].map(el => el.value);
-  if(hb.length) params.set('habit', hb.join(','));
-  const pr = [...document.querySelectorAll('input[name="priority"]:checked')].map(el => el.value);
-  if(pr.length) params.set('prio', pr.join(','));
-  const pur = document.querySelector('input[name="purpose"]:checked');
-  if(pur) params.set('purpose', pur.value);
-  const subPur = document.querySelector('input[name="subPurpose"]:checked');
-  if(subPur) params.set('sub_purpose', subPur.value);
-  const bg = document.querySelector('input[name="budget"]:checked');
-  if(bg) params.set('budget', bg.value);
-
   window.history.replaceState({}, '', window.location.pathname + '?' + params.toString());
 }
 
 function copyShareUrl() {
   syncUrlState();
-  const url = window.location.href;
-  navigator.clipboard.writeText(url).then(() => {
+  navigator.clipboard.writeText(window.location.href).then(() => {
     const btn = document.getElementById('btnCopyShareLink');
     const orig = btn.innerHTML;
     btn.innerHTML = '✅ 링크가 복사되었습니다!';
@@ -1023,71 +1061,27 @@ function copyShareUrl() {
   });
 }
 
+let qrInstance = null;
+function toggleQRModal(show) {
+  const modal = document.getElementById('qrModal');
+  if (show) {
+    syncUrlState();
+    const currentUrl = window.location.href;
+    document.getElementById('qrUrlText').textContent = currentUrl;
+    const qrContainer = document.getElementById('qrcode');
+    qrContainer.innerHTML = '';
+    qrInstance = new QRCode(qrContainer, { text: currentUrl, width: 180, height: 180, colorDark: "#002B49", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+    modal.classList.remove('hidden');
+  } else {
+    modal.classList.add('hidden');
+  }
+}
+
 function restoreFromUrl() {
   const params = new URLSearchParams(window.location.search);
   if(params.get('tab') === '2') switchSheet('sheet2');
-  
-  if(params.has('cname')) {
-    const el = document.getElementById('customerName');
-    if(el) el.value = params.get('cname');
-  }
-  if(params.has('cage')) {
-    const el = document.getElementById('customerAgeGroup');
-    if(el) el.value = params.get('cage');
-  }
-
-  if(params.has('disp')) {
-    const list = params.get('disp').split(',');
-    document.querySelectorAll('input[name="displayProduct"]').forEach(el => { if(list.includes(el.value)) el.checked = true; });
-  }
-  if(params.has('size')) {
-    const el = document.querySelector(`input[name="mattressSize"][value="${params.get('size')}"]`);
-    if(el) el.checked = true;
-  }
-  if(params.has('pbrand')) {
-    const list = params.get('pbrand').split(',');
-    document.querySelectorAll('input[name="prevBrand"]').forEach(el => { if(list.includes(el.value)) el.checked = true; });
-  }
-  if(params.has('pbrand_etc')) {
-    const el = document.getElementById('prevBrandEtc');
-    if(el) el.value = params.get('pbrand_etc');
-  }
-  if(params.has('pmtype')) {
-    const el = document.querySelector(`input[name="prevMatType"][value="${params.get('pmtype')}"]`);
-    if(el) el.checked = true;
-  }
-  if(params.has('pains')) {
-    const list = params.get('pains').split(',');
-    document.querySelectorAll('input[name="painArea"]').forEach(el => { if(list.includes(el.value)) el.checked = true; });
-  }
-  if(params.has('type')) {
-    const el = document.querySelector(`input[name="wantType"][value="${params.get('type')}"]`);
-    if(el) el.checked = true;
-  }
-  if(params.has('pillow')) {
-    const el = document.querySelector(`input[name="pillowTop"][value="${params.get('pillow')}"]`);
-    if(el) el.checked = true;
-  }
-  if(params.has('habit')) {
-    const list = params.get('habit').split(',');
-    document.querySelectorAll('input[name="sleepHabit"]').forEach(el => { if(list.includes(el.value)) el.checked = true; });
-  }
-  if(params.has('prio')) {
-    const list = params.get('prio').split(',');
-    document.querySelectorAll('input[name="priority"]').forEach(el => { if(list.includes(el.value)) el.checked = true; });
-  }
-  if(params.has('purpose')) {
-    const el = document.querySelector(`input[name="purpose"][value="${params.get('purpose')}"]`);
-    if(el) el.checked = true;
-  }
-  if(params.has('sub_purpose')) {
-    const el = document.querySelector(`input[name="subPurpose"][value="${params.get('sub_purpose')}"]`);
-    if(el) el.checked = true;
-  }
-  if(params.has('budget')) {
-    const el = document.querySelector(`input[name="budget"][value="${params.get('budget')}"]`);
-    if(el) el.checked = true;
-  }
+  if(params.has('cname')) document.getElementById('customerName').value = params.get('cname');
+  if(params.has('cage')) document.getElementById('customerAgeGroup').value = params.get('cage');
   runMatching();
   calculateEstimate();
 }
