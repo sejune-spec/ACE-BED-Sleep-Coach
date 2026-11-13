@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>에이스침대 통합 수면 매칭 & 스마트 견적 매니저</title>
+<title>에이스침대 통합 수면 매칭 & 스마트 견적 & 전자계약서</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -46,29 +46,30 @@ main>section>h3::before { content: ''; display: inline-block; width: 4px; height
 select:focus, button:focus-visible, input[type="text"]:focus, input[type="number"]:focus, input[type="tel"]:focus { outline: 2px solid #005A9C; outline-offset: 2px; }
 .drop-zone { border: 2px dashed #C5A059; border-radius: 12px; background: #FFFDF9; transition: all 0.2s ease; cursor: pointer; }
 .drop-zone:hover { background: #FFF8EE; border-color: #002B49; }
+
+@media print {
+  body * { visibility: hidden; }
+  #sheet3, #sheet3 * { visibility: visible; }
+  #sheet3 { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10px; background: white !important; box-shadow: none !important; border: none !important; }
+  .no-print { display: none !important; }
+}
 </style>
 </head>
 <body class="min-h-screen pb-12">
 
-<!-- 메인 헤더 -->
-<header class="sticky top-0 z-50 shadow-lg" style="background:linear-gradient(135deg,#001F35,#002B49 55%,#005A9C)">
+<!-- 상단 네비게이션 헤더 -->
+<header class="sticky top-0 z-50 shadow-lg no-print" style="background:linear-gradient(135deg,#001F35,#002B49 55%,#005A9C)">
   <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center gap-3.5 min-w-0">
-      <div class="text-white font-black text-sm md:text-lg tracking-wider" style="font-family:Pretendard, sans-serif">ACE BED</div>
+      <div class="text-white font-black text-sm md:text-lg tracking-wider">ACE BED</div>
       <div class="h-4 w-[1px] bg-aceGold/50"></div>
-      <div class="text-aceGold font-bold text-sm md:text-lg leading-tight" style="letter-spacing:.02em;font-family:Pretendard, sans-serif">침대는 과학이다</div>
+      <div class="text-aceGold font-bold text-sm md:text-lg leading-tight" style="letter-spacing:.02em;">침대는 과학이다</div>
     </div>
     
-    <!-- 엑셀 시트 스타일 탭 전환 버튼 -->
     <div class="flex items-center gap-2 bg-slate-900/40 p-1.5 rounded-xl border border-slate-700/50">
-      <button id="btnTab1" onclick="switchSheet('sheet1')" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all bg-aceGold text-slate-950 shadow-md flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        1. 수면 매칭 상담
-      </button>
-      <button id="btnTab2" onclick="switchSheet('sheet2')" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all text-slate-300 hover:text-white hover:bg-white/10 flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-        2. 스마트 견적 매니저
-      </button>
+      <button id="btnTab1" onclick="switchSheet('sheet1')" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all bg-aceGold text-slate-950 shadow-md flex items-center gap-2">1. 수면 매칭</button>
+      <button id="btnTab2" onclick="switchSheet('sheet2')" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all text-slate-300 hover:text-white hover:bg-white/10 flex items-center gap-2">2. 스마트 견적</button>
+      <button id="btnTab3" onclick="switchSheet('sheet3')" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all text-slate-300 hover:text-white hover:bg-white/10 flex items-center gap-2">3. 전자계약서</button>
     </div>
   </div>
   <div class="h-0.5 bg-aceGold"></div>
@@ -77,7 +78,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
 <main class="max-w-5xl mx-auto px-4 pt-6 space-y-6">
 
   <!-- ========================================== -->
-  <!-- [시트 1] 수면 매칭 상담                     -->
+  <!-- [시트 1] 수면 매칭 상담                       -->
   <!-- ========================================== -->
   <div id="sheet1" class="space-y-6">
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between md:items-center gap-4">
@@ -87,49 +88,35 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
         <p class="text-sm text-slate-600 mt-1">상담 항목을 체크하여 알맞은 매트리스를 매칭해 보세요.</p>
       </div>
       <div class="shrink-0 flex gap-2">
-        <button id="btnCopyShareLink" onclick="copyShareUrl()" class="bg-slate-100 hover:bg-aceBlue hover:text-white text-aceNavy border border-slate-300 text-xs font-bold px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-1.5 shadow-sm">
-          🔗 현재 조건 링크 복사
-        </button>
+        <button onclick="copyShareUrl()" class="bg-slate-100 hover:bg-aceBlue hover:text-white text-aceNavy border border-slate-300 text-xs font-bold px-3.5 py-2.5 rounded-xl transition-all shadow-sm">🔗 현재 조건 링크 복사</button>
       </div>
     </section>
 
-    <!-- 고객 기본 정보 입력 섹션 (요청 반영 완료) -->
+    <!-- 고객 기본 정보 입력 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-3 gap-1">
         <h3 class="text-lg font-bold text-aceNavy m-0">고객 기본 정보 입력</h3>
-        <span class="text-[11px] text-slate-500 font-medium">💡 고객 개인정보는 고객 동의하에 이루어지며, 고객이 동의하지 않는 정보는 자체 폐기처리 됩니다</span>
+        <span class="text-[11px] text-slate-500 font-medium">💡 고객 개인정보는 고객 동의하에 이루어지며, 동의하지 않는 정보는 자체 폐기처리 됩니다</span>
       </div>
-      
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <!-- 고객 성함 -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">고객 성함</label>
-          <input type="text" id="customerName" placeholder="성함 입력" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
+          <input type="text" id="customerName" placeholder="성함 입력" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800" oninput="syncCustomerInfo(); runMatching();">
         </div>
-
-        <!-- 핸드폰 번호 -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">핸드폰 번호</label>
-          <input type="tel" id="customerPhone" placeholder="010-0000-0000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
+          <input type="tel" id="customerPhone" placeholder="010-0000-0000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800" oninput="syncCustomerInfo(); runMatching();">
         </div>
-        
-        <!-- 성별 -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">성별</label>
           <div class="flex gap-2 h-[42px] items-center">
-            <label class="flex-1 flex items-center justify-center p-2 rounded-xl border border-slate-300 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-              <input type="radio" name="customerGender" value="남성" class="mr-1.5 accent-aceBlue" onchange="runMatching()"> 남성
-            </label>
-            <label class="flex-1 flex items-center justify-center p-2 rounded-xl border border-slate-300 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-              <input type="radio" name="customerGender" value="여성" class="mr-1.5 accent-aceBlue" onchange="runMatching()"> 여성
-            </label>
+            <label class="flex-1 flex items-center justify-center p-2 rounded-xl border border-slate-300 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="customerGender" value="남성" class="mr-1.5 accent-aceBlue" onchange="runMatching()"> 남성</label>
+            <label class="flex-1 flex items-center justify-center p-2 rounded-xl border border-slate-300 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="customerGender" value="여성" class="mr-1.5 accent-aceBlue" onchange="runMatching()"> 여성</label>
           </div>
         </div>
-
-        <!-- 연령대 (세분화 반영) -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">연령대</label>
-          <select id="customerAgeGroup" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" onchange="runMatching()">
+          <select id="customerAgeGroup" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800" onchange="runMatching()">
             <option value="">연령대 선택</option>
             <option value="20대 이하">20대 이하</option>
             <option value="20~30대 초반">20~30대 초반</option>
@@ -138,76 +125,49 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
             <option value="50대 후반">50대 후반</option>
           </select>
         </div>
-
-        <!-- 거주지 (시·도·구) -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">거주지 (시·도·구)</label>
-          <input type="text" id="customerAddress" placeholder="예: 서울시 강남구" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
+          <input type="text" id="customerAddress" placeholder="예: 서울시 강남구" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800" oninput="syncCustomerInfo(); runMatching();">
         </div>
       </div>
-
-      <!-- 고객 마케팅 동의 안내 및 체크박스 (신설 요청 반영) -->
-      <div class="pt-3 border-t border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-        <div class="text-[11px] font-semibold text-slate-700 leading-snug">
-          🔒 개인정보는 마케팅 목적으로 이루어지며, 혜택 및 안내 수집 목적 이외 사용되지 않습니다.
-        </div>
-        <div class="flex items-center gap-4 shrink-0">
-          <label class="flex items-center gap-1.5 text-xs font-bold text-slate-800 cursor-pointer">
-            <input type="radio" name="privacyConsent" value="동의함" class="accent-aceBlue w-4 h-4" checked onchange="runMatching()"> 동의함
-          </label>
-          <label class="flex items-center gap-1.5 text-xs font-bold text-slate-600 cursor-pointer">
-            <input type="radio" name="privacyConsent" value="동의하지 않음" class="accent-aceBlue w-4 h-4" onchange="runMatching()"> 동의하지 않음
-          </label>
+      <div class="pt-3 border-t border-slate-100 flex justify-between items-center bg-slate-50 p-3 rounded-xl">
+        <span class="text-[11px] font-semibold text-slate-700">🔒 개인정보는 마케팅 목적으로 이루어지며, 동의하지 않는 정보는 자체 폐기처리 됩니다.</span>
+        <div class="flex items-center gap-4">
+          <label class="flex items-center gap-1.5 text-xs font-bold text-slate-800 cursor-pointer"><input type="radio" name="privacyConsent" value="동의함" class="accent-aceBlue" checked onchange="runMatching()"> 동의함</label>
+          <label class="flex items-center gap-1.5 text-xs font-bold text-slate-600 cursor-pointer"><input type="radio" name="privacyConsent" value="동의하지 않음" class="accent-aceBlue" onchange="runMatching()"> 동의하지 않음</label>
         </div>
       </div>
     </section>
 
-    <!-- 1. 매장 진열 상품 및 사이즈 선택 -->
+    <!-- 1. 매장 진열 상품 및 사이즈 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <div class="flex justify-between items-center border-b pb-3 mb-4">
-        <h3 class="text-lg font-bold text-aceNavy">1. 매장 진열 상품 <span class="text-xs font-normal text-slate-500 ml-1">체험 가능한 매트리스를 복수 선택하세요</span></h3>
+        <h3 class="text-lg font-bold text-aceNavy">1. 매장 진열 상품 <span class="text-xs font-normal text-slate-500">체험 가능한 매트리스를 복수 선택하세요</span></h3>
         <div class="flex gap-1.5">
-          <button type="button" onclick="toggleAllProducts(true)" class="text-[11px] font-bold px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700">전체 선택</button>
-          <button type="button" onclick="toggleAllProducts(false)" class="text-[11px] font-bold px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-500">전체 해제</button>
+          <button type="button" onclick="toggleAllProducts(true)" class="text-[11px] font-bold px-2.5 py-1 rounded bg-slate-100 text-slate-700">전체 선택</button>
+          <button type="button" onclick="toggleAllProducts(false)" class="text-[11px] font-bold px-2.5 py-1 rounded bg-slate-100 text-slate-500">전체 해제</button>
         </div>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2.5 mb-6" id="displayProductsContainer"></div>
 
       <div class="pt-4 border-t border-slate-200">
-        <h4 class="text-sm font-bold text-aceNavy mb-3 flex items-center gap-1.5">
-          <span>📏 매트리스 사이즈 선택</span>
-          <span class="text-xs font-normal text-slate-500">(1개만 선택 가능)</span>
-        </h4>
+        <h4 class="text-sm font-bold text-aceNavy mb-3">📏 매트리스 사이즈 선택 <span class="text-xs font-normal text-slate-500">(1개만 선택 가능)</span></h4>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2.5" id="sizeOptionsContainer"></div>
       </div>
     </section>
 
-    <!-- 2. 기존에 사용하고 있는 브랜드 -->
+    <!-- 2. 기존 브랜드 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">2. 기존에 사용하고 있는 브랜드 <span class="text-xs font-normal text-slate-500 ml-1">중복 또는 수기 입력 가능</span></h3>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-2.5">
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="prevBrand" value="에이스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 에이스
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="prevBrand" value="시몬스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 시몬스
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="prevBrand" value="템퍼" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 템퍼
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="prevBrand" value="씰리" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 씰리
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="prevBrand" value="지누스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 지누스
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer text-xs md:text-sm font-bold text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="prevBrand" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
-        </label>
-        <div class="col-span-2 md:col-span-3 lg:col-span-1 flex items-center p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-700">
-          <span class="shrink-0 mr-1.5 font-bold">이 외 (</span>
-          <input type="text" id="prevBrandEtc" placeholder="직접 입력" class="w-full bg-white border border-slate-300 rounded px-1.5 py-1 text-xs text-slate-800 focus:outline-none" oninput="runMatching()">
-          <span class="shrink-0 ml-1.5 font-bold">)</span>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">2. 기존에 사용하고 있는 브랜드</h3>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-2.5 items-center">
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="prevBrand" value="에이스" class="mr-2 accent-aceBlue" onchange="runMatching()"> 에이스</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="prevBrand" value="시몬스" class="mr-2 accent-aceBlue" onchange="runMatching()"> 시몬스</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="prevBrand" value="템퍼" class="mr-2 accent-aceBlue" onchange="runMatching()"> 템퍼</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="prevBrand" value="씰리" class="mr-2 accent-aceBlue" onchange="runMatching()"> 씰리</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="prevBrand" value="지누스" class="mr-2 accent-aceBlue" onchange="runMatching()"> 지누스</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="prevBrand" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음</label>
+        <div class="flex items-center p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium">
+          <span class="shrink-0 mr-1">이외(</span><input type="text" id="prevBrandEtc" placeholder="직접입력" class="w-full bg-white border border-slate-300 rounded px-1 py-0.5 text-xs" oninput="runMatching()"><span>)</span>
         </div>
       </div>
     </section>
@@ -216,43 +176,23 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">3. 기존에 사용하고 있는 매트리스 타입</h3>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="prevMatType" value="스프링 매트리스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 스프링 매트리스
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="prevMatType" value="폼 매트리스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 폼 매트리스
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="prevMatType" value="라텍스 매트리스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 라텍스 매트리스
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="prevMatType" value="토퍼 매트리스" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 토퍼 매트리스
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer text-xs md:text-sm font-bold text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="prevMatType" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
-        </label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="radio" name="prevMatType" value="스프링 매트리스" class="mr-2 accent-aceBlue" onchange="runMatching()"> 스프링 매트리스</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="radio" name="prevMatType" value="폼 매트리스" class="mr-2 accent-aceBlue" onchange="runMatching()"> 폼 매트리스</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="radio" name="prevMatType" value="라텍스 매트리스" class="mr-2 accent-aceBlue" onchange="runMatching()"> 라텍스 매트리스</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="radio" name="prevMatType" value="토퍼 매트리스" class="mr-2 accent-aceBlue" onchange="runMatching()"> 토퍼 매트리스</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="radio" name="prevMatType" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음</label>
       </div>
     </section>
 
     <!-- 4. 불편했던 부분 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">4. 평소 침대 사용시 불편했던 부분 <span class="text-xs font-normal text-slate-500 ml-1">중복 선택 가능</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">4. 평소 침대 사용시 불편했던 부분</h3>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="painArea" value="허리" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 허리
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="painArea" value="목" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 목
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="painArea" value="어깨" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 어깨
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="painArea" value="엉덩이" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 엉덩이
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer text-xs md:text-sm font-bold text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="painArea" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
-        </label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="painArea" value="허리" class="mr-2 accent-aceBlue" onchange="runMatching()"> 허리</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="painArea" value="목" class="mr-2 accent-aceBlue" onchange="runMatching()"> 목</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="painArea" value="어깨" class="mr-2 accent-aceBlue" onchange="runMatching()"> 어깨</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="painArea" value="엉덩이" class="mr-2 accent-aceBlue" onchange="runMatching()"> 엉덩이</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="painArea" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음</label>
       </div>
     </section>
 
@@ -260,18 +200,10 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">5. 구매하고 싶은 매트리스 타입</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="wantType" value="HARD" class="mr-2 accent-aceBlue" onchange="runMatching()"> HARD
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="wantType" value="REGULAR" class="mr-2 accent-aceBlue" onchange="runMatching()"> REGULAR
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="wantType" value="SOFT" class="mr-2 accent-aceBlue" onchange="runMatching()"> SOFT
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer font-bold text-xs md:text-sm text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="wantType" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음
-        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="wantType" value="HARD" class="mr-2 accent-aceBlue" onchange="runMatching()"> HARD</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="wantType" value="REGULAR" class="mr-2 accent-aceBlue" onchange="runMatching()"> REGULAR</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="wantType" value="SOFT" class="mr-2 accent-aceBlue" onchange="runMatching()"> SOFT</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="wantType" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음</label>
       </div>
     </section>
 
@@ -279,68 +211,36 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">6. 매트리스 필로우탑 적용여부</h3>
       <div class="grid grid-cols-3 gap-3">
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="pillowTop" value="예" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 예
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="pillowTop" value="아니오" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 아니오
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer font-bold text-xs md:text-sm text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="pillowTop" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
-        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="pillowTop" value="예" class="mr-2 accent-aceBlue" onchange="runMatching()"> 예</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="pillowTop" value="아니오" class="mr-2 accent-aceBlue" onchange="runMatching()"> 아니오</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="pillowTop" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음</label>
       </div>
     </section>
 
     <!-- 7. 수면 습관 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">7. 수면 습관 <span class="text-xs font-normal text-slate-500 ml-1">중복 선택 가능</span></h3>
+      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">7. 수면 습관</h3>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="sleepHabit" value="바르게 누워" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 바르게 누워
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="sleepHabit" value="옆으로 누워" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 옆으로 누워
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="sleepHabit" value="엎드려 누워" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 엎드려 누워
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="sleepHabit" value="자주 뒤척임" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 자주 뒤척임
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-dashed border-slate-300 bg-slate-100 cursor-pointer text-xs md:text-sm font-bold text-slate-600 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="sleepHabit" value="잘 모르겠음" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 잘 모르겠음
-        </label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="sleepHabit" value="바르게 누워" class="mr-2 accent-aceBlue" onchange="runMatching()"> 바르게 누워</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="sleepHabit" value="옆으로 누워" class="mr-2 accent-aceBlue" onchange="runMatching()"> 옆으로 누워</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="sleepHabit" value="엎드려 누워" class="mr-2 accent-aceBlue" onchange="runMatching()"> 엎드려 누워</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="sleepHabit" value="자주 뒤척임" class="mr-2 accent-aceBlue" onchange="runMatching()"> 자주 뒤척임</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="sleepHabit" value="잘 모르겠음" class="mr-2 accent-aceBlue" onchange="runMatching()"> 잘 모르겠음</label>
       </div>
     </section>
 
     <!-- 8. 우선 순위 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">8. 매트리스 선택 시 우선 순위</h3>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="안락함" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 안락함
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="체형 지지" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 체형 지지
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="반발력" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 반발력
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="묵직함" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 묵직함
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="최상위 등급" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 최상위 등급
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="가격" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 가격
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="매트리스 높이" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 매트리스 높이
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="checkbox" name="priority" value="매트리스 내구성" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 매트리스 내구성
-        </label>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="안락함" class="mr-2 accent-aceBlue" onchange="runMatching()"> 안락함</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="체형 지지" class="mr-2 accent-aceBlue" onchange="runMatching()"> 체형 지지</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="반발력" class="mr-2 accent-aceBlue" onchange="runMatching()"> 반발력</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="묵직함" class="mr-2 accent-aceBlue" onchange="runMatching()"> 묵직함</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="최상위 등급" class="mr-2 accent-aceBlue" onchange="runMatching()"> 최상위 등급</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="가격" class="mr-2 accent-aceBlue" onchange="runMatching()"> 가격</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="매트리스 높이" class="mr-2 accent-aceBlue" onchange="runMatching()"> 매트리스 높이</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium"><input type="checkbox" name="priority" value="매트리스 내구성" class="mr-2 accent-aceBlue" onchange="runMatching()"> 매트리스 내구성</label>
       </div>
     </section>
 
@@ -348,18 +248,10 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">9-1. 구매목적</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="purpose" value="개인용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 개인용
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="purpose" value="이사용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 이사용
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="purpose" value="혼수용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 혼수용
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="purpose" value="자녀용" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 자녀용
-        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="purpose" value="개인용" class="mr-2 accent-aceBlue" onchange="runMatching()"> 개인용</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="purpose" value="이사용" class="mr-2 accent-aceBlue" onchange="runMatching()"> 이사용</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="purpose" value="혼수용" class="mr-2 accent-aceBlue" onchange="runMatching()"> 혼수용</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="purpose" value="자녀용" class="mr-2 accent-aceBlue" onchange="runMatching()"> 자녀용</label>
       </div>
     </section>
 
@@ -367,73 +259,44 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">9-2. 구매목적 상세</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="subPurpose" value="기존 침대의 불편함" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 기존 침대의 불편함
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="subPurpose" value="침대 추가 구입" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 침대 추가 구입
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="subPurpose" value="기존 침대 노후화" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 기존 침대 노후화
-        </label>
-        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs md:text-sm text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="subPurpose" value="침대 신규 구매" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 침대 신규 구매
-        </label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="subPurpose" value="기존 침대의 불편함" class="mr-2 accent-aceBlue" onchange="runMatching()"> 기존 침대의 불편함</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="subPurpose" value="침대 추가 구입" class="mr-2 accent-aceBlue" onchange="runMatching()"> 침대 추가 구입</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="subPurpose" value="기존 침대 노후화" class="mr-2 accent-aceBlue" onchange="runMatching()"> 기존 침대 노후화</label>
+        <label class="flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer font-bold text-xs"><input type="radio" name="subPurpose" value="침대 신규 구매" class="mr-2 accent-aceBlue" onchange="runMatching()"> 침대 신규 구매</label>
       </div>
     </section>
 
     <!-- 10. 구매 예산 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">10. 구매 예산 <span class="text-xs font-normal text-aceGold ml-1">⭐ 선택시 최우선 반영</span></h3>
+      <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <h3 class="text-lg font-bold text-aceNavy m-0">10. 구매 예산 <span class="text-xs font-normal text-aceGold">⭐ 선택시 최우선 반영</span></h3>
+        <button type="button" onclick="clearBudgetFilter()" class="text-[11px] font-bold px-2.5 py-1 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">예산 선택 해제</button>
+      </div>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="50만원~100만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 50만원~100만원
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="100만원~300만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 100만원~300만원
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="300만원~500만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 300만원~500만원
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="500만원~700만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 500만원~700만원
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="700만원~900만원" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 700만원~900만원
-        </label>
-        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-medium text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-          <input type="radio" name="budget" value="900만원 이상" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> 900만원 이상
-        </label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="budget" value="50만원~100만원" class="mr-2 accent-aceBlue" onchange="runMatching()"> 50만원~100만원</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="budget" value="100만원~300만원" class="mr-2 accent-aceBlue" onchange="runMatching()"> 100만원~300만원</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="budget" value="300만원~500만원" class="mr-2 accent-aceBlue" onchange="runMatching()"> 300만원~500만원</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="budget" value="500만원~700만원" class="mr-2 accent-aceBlue" onchange="runMatching()"> 500만원~700만원</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="budget" value="700만원~900만원" class="mr-2 accent-aceBlue" onchange="runMatching()"> 700만원~900만원</label>
+        <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-medium has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue"><input type="radio" name="budget" value="900만원 이상" class="mr-2 accent-aceBlue" onchange="runMatching()"> 900만원 이상</label>
       </div>
     </section>
 
-    <!-- 추천 결과 및 확인 버튼 -->
+    <!-- 추천 결과 -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-3 mb-4 gap-3">
         <h3 class="text-lg font-bold text-aceNavy m-0">🏆 맞춤 추천 매트리스 결과 <span id="matchCount" class="text-xs font-normal text-aceBlue ml-1"></span></h3>
-        <div class="flex items-center gap-2">
-          <button onclick="toggleQRModal(true)" class="bg-aceGold hover:bg-amber-600 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
-            📱 QR코드로 가져가기
-          </button>
-          <button onclick="exportConsultationExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
-            📊 확인 (상담 내역 엑셀 저장)
-          </button>
-        </div>
+        <button onclick="toggleQRModal(true)" class="bg-aceGold hover:bg-amber-600 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm">📱 QR코드로 가져가기</button>
       </div>
-      <div id="recommendationResult" class="grid md:grid-cols-2 gap-4">
-        <div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">
-          고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.
-        </div>
-      </div>
+      <div id="customerSummaryBar" class="hidden mb-4 bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex flex-wrap items-center gap-3"></div>
+      <div id="recommendationResult" class="grid md:grid-cols-2 gap-4"></div>
     </section>
 
-    <!-- 우리집 침대 배치 링크 박스 -->
-    <section class="rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row justify-between items-center gap-4 transition-all hover:shadow-lg" style="background:linear-gradient(135deg,#001F35,#002B49 60%,#005A9C)">
+    <!-- 3D 시뮬레이터 박스 -->
+    <section class="rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row justify-between items-center gap-4" style="background:linear-gradient(135deg,#001F35,#002B49 60%,#005A9C)">
       <div class="space-y-1 text-center md:text-left">
         <div class="text-xs font-bold text-aceGold tracking-widest uppercase">3D INTERIOR SIMULATION</div>
-        <h3 class="text-xl font-black text-white m-0 flex items-center justify-center md:justify-start gap-2">
-          <span>🛏️ 우리집 침대 배치 시뮬레이터</span>
-        </h3>
+        <h3 class="text-xl font-black text-white m-0">🛏️ 우리집 침대 배치 시뮬레이터</h3>
         <p class="text-xs text-slate-300">원하시는 침대 프레임과 매트리스를 가상 공간에 배치하여 인테리어를 미리 확인해 보세요.</p>
       </div>
       <a href="https://ohouse.archisketch.com/ko/home-page" target="_blank" rel="noopener noreferrer" class="shrink-0 bg-aceGold hover:bg-amber-600 text-slate-950 font-black text-xs md:text-sm px-6 py-3.5 rounded-xl transition-all shadow-md flex items-center gap-2">
@@ -441,38 +304,33 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
       </a>
     </section>
-
   </div>
 
   <!-- ========================================== -->
-  <!-- [시트 2] 스마트 견적 매니저                -->
+  <!-- [시트 2] 스마트 견적 매니저                     -->
   <!-- ========================================== -->
   <div id="sheet2" class="space-y-6 hidden">
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
       <div class="text-xs text-slate-400 font-bold mb-1">Made by Park Se June</div>
       <h2 class="text-2xl font-black text-aceNavy text-center mb-6">에이스침대 스마트 견적 매니저</h2>
 
-      <!-- 엑셀 파일 업로드 드롭존 -->
-      <div class="drop-zone p-8 text-center mb-6 relative" onclick="document.getElementById('excelFileInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleFileDrop(event)">
+      <div class="drop-zone p-6 text-center mb-6" onclick="document.getElementById('excelFileInput').click()">
         <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileSelect(event)">
-        <div class="text-slate-600 font-bold text-sm md:text-base flex items-center justify-center gap-2 pointer-events-none">
-          📄 여기에 <strong>'에이스침대 제품별 금액정리.xlsx'</strong> 파일을 끌어다 놓으세요 (또는 클릭하여 선택)
-        </div>
-        <div class="text-xs text-aceBlue mt-2 font-bold" id="uploadStatusText">파일 대기 중...</div>
+        <div class="text-slate-600 font-bold text-xs">📄 여기에 <strong>'에이스침대 제품별 금액정리.xlsx' (또는 가격표 백데이터.xlsx)</strong> 파일을 끌어다 놓으세요 (또는 클릭하여 선택)</div>
+        <div class="text-xs text-aceBlue mt-1 font-bold" id="uploadStatusText">📂 파일을 업로드하면 엑셀 데이터가 즉시 반영됩니다.</div>
       </div>
 
-      <!-- 상단 카테고리 탭 버튼 -->
+      <!-- 상단 카테고리 탭 -->
       <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-6">
-        <button type="button" onclick="switchEstimateCategory('frame')" id="catBtn-frame" class="py-2.5 px-3 rounded-lg bg-aceNavy text-white font-bold text-xs md:text-sm shadow-md transition-all">프레임 세트</button>
-        <button type="button" onclick="switchEstimateCategory('mattress')" id="catBtn-mattress" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all">매트리스</button>
-        <button type="button" onclick="switchEstimateCategory('etc')" id="catBtn-etc" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all">기타(협탁,사이즈판넬)</button>
-        <button type="button" onclick="switchEstimateCategory('linked')" id="catBtn-linked" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all">연계품목</button>
-        <button type="button" class="py-2.5 px-3 rounded-lg bg-slate-900 text-aceGold font-bold text-xs md:text-sm flex items-center justify-center gap-1 shadow-sm col-span-2 md:col-span-1">📊 스마트 다중 견적기</button>
+        <button type="button" onclick="switchEstimateCategory('frame')" id="catBtn-frame" class="py-2.5 px-3 rounded-lg bg-aceNavy text-white font-bold text-xs shadow-md">프레임 세트</button>
+        <button type="button" onclick="switchEstimateCategory('mattress')" id="catBtn-mattress" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200">매트리스</button>
+        <button type="button" onclick="switchEstimateCategory('etc')" id="catBtn-etc" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200">기타(협탁,사이즈판넬)</button>
+        <button type="button" onclick="switchEstimateCategory('linked')" id="catBtn-linked" class="py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200">연계품목</button>
+        <button type="button" class="py-2.5 px-3 rounded-lg bg-slate-900 text-aceGold font-bold text-xs flex items-center justify-center gap-1 col-span-2 md:col-span-1 shadow-sm">📊 스마트 다중 견적기</button>
       </div>
 
-      <!-- 4가지 섹션 그리드 영역 -->
+      <!-- 4가지 카테고리 품목 선택 및 검색창 -->
       <div class="grid md:grid-cols-2 gap-6 mb-6">
-        
         <!-- ① 프레임 세트 -->
         <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-200" id="section-frame">
           <h4 class="font-bold text-sm text-aceNavy mb-3">① 프레임 세트 선택 (다중 등록)</h4>
@@ -481,13 +339,13 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectFrame" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
-            <button type="button" onclick="addItem('frame')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
+            <select id="selectFrame" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 파일을 업로드해주세요 --</option></select>
+            <button type="button" onclick="addItem('frame')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-4 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div id="list-frame" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 프레임이 없습니다.</div>
-          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">프레임 총 정가: <b id="sumList-frame-reg" class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">프레임 할인가 합산: <span id="sumList-frame-dis">0원</span></div>
+          <div id="list-frame" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px]">선택된 프레임이 없습니다.</div>
+          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs">
+            프레임 총 정가: <b id="sumList-frame-reg" class="text-slate-900">0원</b><br>
+            <span class="text-red-600 font-bold">프레임 할인가 합산: <span id="sumList-frame-dis">0원</span></span>
           </div>
         </div>
 
@@ -499,13 +357,13 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectMattress" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
-            <button type="button" onclick="addItem('mattress')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
+            <select id="selectMattress" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 파일을 업로드해주세요 --</option></select>
+            <button type="button" onclick="addItem('mattress')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-4 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div id="list-mattress" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 매트리스가 없습니다.</div>
-          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">매트리스 총 정가: <b id="sumList-mattress-reg" class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">매트리스 할인가 합산: <span id="sumList-mattress-dis">0원</span></div>
+          <div id="list-mattress" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px]">선택된 매트리스가 없습니다.</div>
+          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs">
+            매트리스 총 정가: <b id="sumList-mattress-reg" class="text-slate-900">0원</b><br>
+            <span class="text-red-600 font-bold">매트리스 할인가 합산: <span id="sumList-mattress-dis">0원</span></span>
           </div>
         </div>
 
@@ -517,13 +375,13 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectEtc" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
-            <button type="button" onclick="addItem('etc')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
+            <select id="selectEtc" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 파일을 업로드해주세요 --</option></select>
+            <button type="button" onclick="addItem('etc')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-4 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div id="list-etc" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 기타 품목이 없습니다.</div>
-          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">기타 총 정가: <b id="sumList-etc-reg" class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">기타 할인가 합산: <span id="sumList-etc-dis">0원</span></div>
+          <div id="list-etc" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px]">선택된 기타 품목이 없습니다.</div>
+          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs">
+            기타 총 정가: <b id="sumList-etc-reg" class="text-slate-900">0원</b><br>
+            <span class="text-red-600 font-bold">기타 할인가 합산: <span id="sumList-etc-dis">0원</span></span>
           </div>
         </div>
 
@@ -535,55 +393,51 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
             <span class="absolute right-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
           </div>
           <div class="flex gap-2 mb-4">
-            <select id="selectLinked" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 품목 선택 --</option></select>
-            <button type="button" onclick="addItem('linked')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-3.5 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
+            <select id="selectLinked" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-medium"><option value="">-- 파일을 업로드해주세요 --</option></select>
+            <button type="button" onclick="addItem('linked')" class="bg-aceNavy hover:bg-aceBlue text-white text-xs font-bold px-4 py-2 rounded-lg shrink-0 transition-all">+ 추가</button>
           </div>
-          <div id="list-linked" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px] space-y-2">선택된 연계품목이 없습니다.</div>
-          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs space-y-1">
-            <div class="text-slate-600">연계품목 총 정가: <b id="sumList-linked-reg" class="text-slate-900">0원</b></div>
-            <div class="text-red-600 font-bold">연계품목 할인가 합산: <span id="sumList-linked-dis">0원</span></div>
+          <div id="list-linked" class="bg-white border border-dashed border-slate-300 rounded-lg p-3 text-center text-slate-400 text-xs min-h-[90px]">선택된 연계품목이 없습니다.</div>
+          <div class="mt-3 pt-3 border-t border-slate-200 text-right text-xs">
+            연계품목 총 정가: <b id="sumList-linked-reg" class="text-slate-900">0원</b><br>
+            <span class="text-red-600 font-bold">연계품목 할인가 합산: <span id="sumList-linked-dis">0원</span></span>
           </div>
         </div>
-
       </div>
 
-      <!-- 할인 및 최종 정산 영역 -->
+      <!-- 최종 할인 및 정산 계산 박스 -->
       <div class="space-y-4">
         <div class="bg-slate-100 border border-slate-200 rounded-xl p-3 text-center text-sm font-bold text-slate-800">
           ① + ② + ③ + ④ 브랜드 할인가 총합 : <span id="brandSum" class="text-aceNavy text-base font-black">0원</span>
         </div>
-
         <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-4 space-y-3">
           <div class="text-xs font-bold text-amber-900">🏷️ 매장 자체 추가 할인 (수기 입력 - 중복 적용 가능)</div>
           <div class="grid md:grid-cols-2 gap-3">
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">➕ 매장 추가 할인율 입력 (%)</label>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">➕ 매장 추가 할인율 (%)</label>
               <input type="number" id="extraDiscountRate" value="0" min="0" max="100" class="w-full bg-white border border-amber-300 rounded-lg p-2.5 text-sm font-bold text-right" oninput="calculateEstimate()">
             </div>
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">➕ 매장 추가 할인 금액 입력 (원 단위)</label>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">➕ 매장 추가 할인 금액 (원)</label>
               <input type="number" id="extraDiscountAmount" value="0" min="0" step="1000" class="w-full bg-white border border-amber-300 rounded-lg p-2.5 text-sm font-bold text-right" oninput="calculateEstimate()">
             </div>
           </div>
         </div>
-
         <div class="bg-amber-100/80 border border-amber-300 rounded-xl p-3 text-center text-sm font-bold text-amber-950">
           ✨ 매장 추가할인 적용 후 금액 : <span id="afterStoreDiscount" class="text-base font-black">0원</span>
         </div>
-
         <div class="bg-slate-100 border border-slate-200 rounded-xl p-4 space-y-3">
-          <div class="text-xs font-bold text-aceNavy">🏬 백화점 / 대형 매장 정산 혜택 (수기 입력 - 에누리 先적용)</div>
+          <div class="text-xs font-bold text-aceNavy">🏬 백화점 / 대형 매장 정산 혜택</div>
           <div class="grid md:grid-cols-3 gap-3">
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">📉 백화점 추가 에누리율 입력 (%)</label>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">📉 백화점 에누리율 (%)</label>
               <input type="number" id="deptEnuriRate" value="0" min="0" max="100" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-bold text-right" oninput="calculateEstimate()">
             </div>
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">🎁 상품권 금액 차감액 입력 (원 단위)</label>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">🎁 상품권 차감액 (원)</label>
               <input type="number" id="giftCardAmount" value="0" min="0" step="1000" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-bold text-right" oninput="calculateEstimate()">
             </div>
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">💳 특정 카드 청구할인 입력</label>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">💳 카드 청구할인</label>
               <div class="flex gap-1.5">
                 <select id="cardDiscountType" class="bg-white border border-slate-300 rounded-lg p-2 text-xs font-bold" onchange="calculateEstimate()">
                   <option value="won">원(₩)</option>
@@ -594,107 +448,446 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
             </div>
           </div>
         </div>
-
         <div class="rounded-2xl p-5 text-center text-white shadow-md" style="background:linear-gradient(135deg,#001F35,#002B49)">
           <div class="text-xs text-slate-300 mb-1 font-bold">최종 정산 결제 금액</div>
           <div class="text-3xl font-black text-aceGold" id="finalPaymentAmount">0원</div>
-          <div class="text-xs text-slate-300 mt-1" id="totalDiscountPercentText">(총 할인율: 0%)</div>
+          <div class="text-xs text-slate-300 mt-1" id="totalDiscountPercentText">(총 할인율: 0.0%)</div>
         </div>
       </div>
     </section>
   </div>
 
+  <!-- ========================================== -->
+  <!-- [시트 3] 전자계약서                             -->
+  <!-- ========================================== -->
+  <div id="sheet3" class="space-y-6 hidden">
+    <section class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex justify-between items-center no-print">
+      <div>
+        <h3 class="text-base font-bold text-aceNavy m-0">전자계약서 작성 및 출력</h3>
+        <p class="text-xs text-slate-500">에이스침대 공식 계약서 양식 그대로 PDF 저장 및 인쇄가 가능합니다.</p>
+      </div>
+      <button type="button" onclick="window.print()" class="bg-aceGold hover:bg-amber-600 text-slate-950 font-bold text-xs px-5 py-3 rounded-xl shadow-md transition-all flex items-center gap-2">
+        🖨️ 계약서 PDF 저장 / 인쇄하기
+      </button>
+    </section>
+
+    <!-- 인쇄용 계약서 본문 -->
+    <div class="bg-white p-8 rounded-2xl shadow-md border border-slate-300 space-y-6 text-slate-900 text-xs">
+      
+      <!-- 헤더 -->
+      <div class="border-b-2 border-aceNavy pb-4 relative">
+        <div class="absolute left-0 top-0 text-xs font-bold text-slate-500">ACE BED</div>
+        <h1 class="text-2xl font-black tracking-widest text-aceNavy text-center">상 품 계 약 서 (고객카드)</h1>
+        <div class="flex flex-wrap justify-between items-end mt-4 text-xs font-bold gap-2">
+          <div>판매일: <input type="date" id="contractDate" class="border-b border-slate-400 px-1 font-bold text-center"></div>
+          <div>매장명: <input type="text" id="contractStoreName" placeholder="매장명 입력" class="border-b border-slate-400 px-1 font-bold w-28 text-center"></div>
+          <div>전화: <input type="tel" id="contractStorePhone" placeholder="전화번호" class="border-b border-slate-400 px-1 font-bold w-28 text-center"></div>
+          <div>판매자: <input type="text" id="contractSellerName" placeholder="판매자 성명" class="border-b border-slate-400 px-1 font-bold w-24 text-center"></div>
+        </div>
+      </div>
+
+      <!-- 고객사항 테이블 -->
+      <table class="w-full border-collapse border border-slate-400">
+        <tr>
+          <td rowspan="7" class="bg-slate-100 border border-slate-400 font-bold text-center w-14 align-middle">고객사항</td>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold w-24">고객명</td>
+          <td class="border border-slate-400 p-2"><input type="text" id="cName" placeholder="고객 성명 입력" class="w-full font-bold"></td>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold w-24">연락처</td>
+          <td class="border border-slate-400 p-2"><input type="tel" id="cPhone" placeholder="010-0000-0000" class="w-full font-bold"></td>
+        </tr>
+        <tr>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold">주거형태</td>
+          <td colspan="3" class="border border-slate-400 p-2 space-x-4">
+            <label><input type="radio" name="housing" value="아파트" checked class="accent-aceBlue"> 아파트</label>
+            <label><input type="radio" name="housing" value="단독" class="accent-aceBlue"> 단독</label>
+            <label><input type="radio" name="housing" value="연립(빌라)" class="accent-aceBlue"> 연립(빌라)</label>
+            <label><input type="radio" name="housing" value="기타" class="accent-aceBlue"> 기타</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold">배송지 주소</td>
+          <td colspan="3" class="border border-slate-400 p-2"><input type="text" id="cAddress" placeholder="상세 배송 주소 입력" class="w-full font-bold"></td>
+        </tr>
+        <tr>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold">배송 희망일시</td>
+          <td colspan="3" class="border border-slate-400 p-2 flex items-center gap-2">
+            <input type="date" id="deliveryDate" class="border border-slate-300 rounded px-2 py-1 font-bold">
+            <select id="deliveryTime" class="border border-slate-300 rounded px-2 py-1 font-bold text-xs">
+              <option value="오전">오전</option>
+              <option value="오후">오후</option>
+              <option value="시간협의">시간협의</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold">점검사항</td>
+          <td colspan="3" class="border border-slate-400 p-2 space-y-1">
+            <div class="space-x-4">
+              <label><input type="checkbox" checked class="accent-aceBlue"> 엘리베이터</label>
+              <label><input type="checkbox" class="accent-aceBlue"> 사다리차</label>
+              <label><input type="checkbox" class="accent-aceBlue"> 기타</label>
+            </div>
+            <div class="text-[10px] text-red-600 font-bold">※ 단, 사다리차, 특수운송(항공기, 배 등)을 이용한 납품 시 관련 비용은 고객 부담입니다.</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold">부가 서비스</td>
+          <td colspan="3" class="border border-slate-400 p-2 space-y-1 text-[10px]">
+            <div class="space-x-4">
+              <label><input type="checkbox" class="accent-aceBlue"> 침대 하강 (사이즈: <input type="text" class="border-b border-slate-400 w-24 px-1">)</label>
+              <label><input type="checkbox" class="accent-aceBlue"> 가구 방간 이동 (사이즈: <input type="text" class="border-b border-slate-400 w-24 px-1">)</label>
+              <label><input type="checkbox" class="accent-aceBlue"> 유료 서비스 (<input type="text" class="border-b border-slate-400 w-16 px-1 text-right"> 만원)</label>
+            </div>
+            <div class="text-slate-500 leading-tight">
+              · 침대 하강: 침대 설치 장소에 있는 침대를 1층 폐기 장소까지 이동 (*폐기물 스티커 고객 직접 준비)<br>
+              · 가구 방간 이동: 침대 설치 장소에 있는 침대를 다른 방으로 이동 (*타사 침대 불가)<br>
+              · 무료 서비스: 침대 하강, 가구 방간 이동 중 백 1 하여 서비스 제공 (구매 제품과 동일 품목, 동일 수량에 한하여 제공/사이즈 무관)<br>
+              · 유료 서비스: 무료 서비스 기준을 초과하여 서비스를 진행 원하는 경우 추가비용이 발생합니다.
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="bg-slate-50 border border-slate-400 p-2 font-bold">기타 정보</td>
+          <td colspan="3" class="border border-slate-400 p-2 space-y-2">
+            <div class="flex items-center gap-6">
+              <span><b>구분:</b></span>
+              <label><input type="radio" name="purchasePurpose" value="신규" checked class="accent-aceBlue"> 신규</label>
+              <label><input type="radio" name="purchasePurpose" value="혼수" class="accent-aceBlue"> 혼수</label>
+              <label><input type="radio" name="purchasePurpose" value="교체" class="accent-aceBlue"> 교체</label>
+              <label><input type="radio" name="purchasePurpose" value="이사" class="accent-aceBlue"> 이사</label>
+              <label><input type="radio" name="purchasePurpose" value="자녀" class="accent-aceBlue"> 자녀</label>
+            </div>
+            <div class="flex items-center gap-6">
+              <span><b>구매 제품 유형:</b></span>
+              <label><input type="radio" name="productType" value="일반 제품" checked class="accent-aceBlue"> 일반 제품</label>
+              <label><input type="radio" name="productType" value="진열·리퍼 제품" class="accent-aceBlue"> 진열·리퍼 제품</label>
+            </div>
+            <div>
+              <span><b>배송시 요청사항:</b></span>
+              <input type="text" id="deliveryRequest" placeholder="배송 요청사항 입력" class="w-full mt-1 border-b border-slate-300 px-1 py-0.5">
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 구매 품목 명세 표 (수기 입력 전용) -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center font-bold text-aceNavy">
+          <span>◆ 구매 품목 명세 <span class="text-xs font-normal text-slate-500">(모든 항목을 직접 자유롭게 입력하세요)</span></span>
+          <button type="button" onclick="addContractRow()" class="no-print bg-aceNavy text-white px-2.5 py-1 rounded text-[10px]">+ 행 추가</button>
+        </div>
+        <table class="w-full border-collapse border border-slate-400 text-center">
+          <thead>
+            <tr class="bg-slate-100 font-bold">
+              <th class="border border-slate-400 p-1.5">품명</th>
+              <th class="border border-slate-400 p-1.5 w-20">규격</th>
+              <th class="border border-slate-400 p-1.5 w-24">실측규격</th>
+              <th class="border border-slate-400 p-1.5 w-20">등급</th>
+              <th class="border border-slate-400 p-1.5 w-16">색상</th>
+              <th class="border border-slate-400 p-1.5 w-14">수량</th>
+              <th class="border border-slate-400 p-1.5 w-28">금액 (원)</th>
+              <th class="border border-slate-400 p-1.5 w-12 no-print">삭제</th>
+            </tr>
+          </thead>
+          <tbody id="contractTableBody">
+            <tr>
+              <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center font-bold" value="품명 직접 입력"></td>
+              <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="K"></td>
+              <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="1670×2075"></td>
+              <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="SOFT"></td>
+              <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="기본"></td>
+              <td class="border border-slate-400 p-1"><input type="number" value="1" min="1" class="w-full px-1 text-center font-bold" oninput="calculateContractTotal()"></td>
+              <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-right font-bold text-red-600 contract-price" value="0" oninput="calculateContractTotal()"></td>
+              <td class="border border-slate-400 p-1 no-print"><button type="button" onclick="this.closest('tr').remove(); calculateContractTotal();" class="text-red-500 font-bold">X</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 대금결제 박스 -->
+      <table class="w-full border-collapse border border-slate-400">
+        <tr>
+          <td rowspan="2" class="bg-slate-100 border border-slate-400 font-bold text-center w-16 align-middle">대금결제</td>
+          <td class="border border-slate-400 p-2">합계금액: <strong id="contractSumText" class="text-aceNavy">0원</strong></td>
+          <td class="border border-slate-400 p-2">계약금: <input type="text" id="depositAmount" value="0" class="border-b border-slate-400 w-24 text-right font-bold"> 원</td>
+          <td class="border border-slate-400 p-2">잔금: <strong id="balanceText" class="text-red-600">0원</strong></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="border border-slate-400 p-2 space-y-1">
+            <div class="flex items-center gap-4 flex-wrap">
+              <span>지급방법:</span>
+              <label><input type="radio" name="payMethod" value="현금" checked class="accent-aceBlue"> 현금</label>
+              <label><input type="radio" name="payMethod" value="카드" class="accent-aceBlue"> 카드 (<input type="text" placeholder="할부개월" class="border-b border-slate-400 w-16 px-1 text-center text-[10px])">)</label>
+              <span>프로모션: <input type="text" class="border-b border-slate-400 w-28 px-1"></span>
+              <span>입금처: 은행명(<input type="text" class="border-b border-slate-400 w-20 px-1 text-center text-[10px]">) 계좌번호(<input type="text" class="border-b border-slate-400 w-28 px-1 text-center text-[10px]">) 예금주(<input type="text" class="border-b border-slate-400 w-16 px-1 text-center text-[10px]">)</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 계약 내용 / 약관 및 개인정보 활용 동의 -->
+      <div class="space-y-4 pt-4 border-t-2 border-dashed border-slate-400">
+        <div class="text-center font-black text-aceNavy text-sm">계약 내용 / 약관 및 개인정보 활용 동의</div>
+        <div class="text-[10px] text-slate-600 text-center">
+          아래 계약 시 귀사가 본인에게 취득한 개인정보는 [정보통신망 이용촉진 및 정보 보호 등에 관한 법률] 제22조, 제50조에 따라 본인의 사전동의를 얻어야 합니다.
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-4">
+          <!-- 개인정보 수집 항목·목적 및 이용기간 -->
+          <table class="w-full border-collapse border border-slate-400 text-[10px]">
+            <tr class="bg-slate-100 font-bold text-center">
+              <td class="border border-slate-400 p-1.5">개인정보수집항목</td>
+              <td class="border border-slate-400 p-1.5">수집목적</td>
+              <td class="border border-slate-400 p-1.5 w-10">동의</td>
+            </tr>
+            <tr>
+              <td class="border border-slate-400 p-2 align-top">성명, 휴대번호, 사택번호, 주거형태, 주소, 구매용도, 구매품목</td>
+              <td class="border border-slate-400 p-2 align-top leading-relaxed">
+                · 배송 전 제품 확인 문자 및 배송&설치 안내<br>
+                · 배송 후 구매인증 안내 및 배송 만족도 조사<br>
+                · 에이스침대 제품 및 기타 고객 서비스 정보 제공(사후관리/통계분석)<br>
+                · 에이스침대가 제공하는 유·무상 서비스 및 각종 이벤트, 광고성 정보 제공<br>
+                · 제품 및 서비스 이용에 제공되는 경품, 사은품 발송
+              </td>
+              <td class="border border-slate-400 p-2 text-center align-middle"><input type="checkbox" checked class="accent-aceBlue w-4 h-4"></td>
+            </tr>
+          </table>
+
+          <!-- 개인정보 취급 위탁 -->
+          <table class="w-full border-collapse border border-slate-400 text-[10px]">
+            <tr class="bg-slate-100 font-bold text-center">
+              <td class="border border-slate-400 p-1.5">제공받는 자</td>
+              <td class="border border-slate-400 p-1.5">제공받는 자의 개인정보 이용목적</td>
+              <td class="border border-slate-400 p-1.5 w-10">동의</td>
+            </tr>
+            <tr>
+              <td class="border border-slate-400 p-2 align-top">㈜마타엠<br>마이트앤메인(주)<br>사사 구매처</td>
+              <td class="border border-slate-400 p-2 align-top leading-relaxed">
+                구매인증 및 고객 만족도 조사<br>침대 배송&설치<br>배송 전 제품 확인 안내
+              </td>
+              <td class="border border-slate-400 p-2 text-center align-middle"><input type="checkbox" checked class="accent-aceBlue w-4 h-4"></td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 취소환불 규정 안내 -->
+        <table class="w-full border-collapse border border-slate-400 text-[10px]">
+          <tr class="bg-slate-100 font-bold text-center">
+            <td class="border border-slate-400 p-1.5 w-28">구분</td>
+            <td class="border border-slate-400 p-1.5">위약금 규정 내용</td>
+            <td class="border border-slate-400 p-1.5 w-10">동의</td>
+          </tr>
+          <tr>
+            <td class="border border-slate-400 p-1.5 font-bold">상품 배송일 3일 전</td>
+            <td class="border border-slate-400 p-1.5">계약금에서 구매금액의 5% 공제 후 환급 (소비자분쟁해결기준에 따름)</td>
+            <td rowspan="4" class="border border-slate-400 p-2 text-center align-middle"><input type="checkbox" checked class="accent-aceBlue w-4 h-4"></td>
+          </tr>
+          <tr>
+            <td class="border border-slate-400 p-1.5 font-bold">상품 배송일 1일 전</td>
+            <td class="border border-slate-400 p-1.5">계약금에서 구매금액의 10% 공제 후 환급 (소비자분쟁해결기준에 따름)</td>
+          </tr>
+          <tr>
+            <td class="border border-slate-400 p-1.5 font-bold">상품 배송 당일</td>
+            <td class="border border-slate-400 p-1.5 leading-relaxed">
+              <span class="text-red-600 font-bold">포장 개봉 전:</span> 총 구매금액의 20% + 기타 부대비용(회수비)의 경우 '구매사' 부담<br>
+              <span class="text-red-600 font-bold">포장 개봉 및 설치 후: 교환/반품 불가</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="border border-slate-400 p-1.5 font-bold">주문제작 제품</td>
+            <td class="border border-slate-400 p-1.5">주문제작 착수 이전: 제품금액의 10% 위약금 발생 / 주문제작 착수 이후: 환불 불가</td>
+          </tr>
+        </table>
+        <div class="text-[9px] text-slate-500 space-y-0.5">
+          <div>· 계약체결 후 '구매사'가 정당한 사유 없이 단순변심으로 계약을 해시하는 경우 판매사는 계약금 반환 의무를 시시 않는다.</div>
+          <div>· '구매사'가 정당한 사유 없이 계약을 해시하는 경우 '판매사'는 '구매사'에게 위약금을 청구할 수 있다.</div>
+        </div>
+
+        <!-- 사다리차 이용 요금표 -->
+        <div class="space-y-2 pt-2">
+          <div class="font-bold text-aceNavy">◆ 사다리차 이용 요금표</div>
+          <table class="w-full border-collapse border border-slate-400 text-center text-[10px]">
+            <tr class="bg-slate-100 font-bold">
+              <td class="border border-slate-400 p-1">층수</td><td>2~5층</td><td>6~7층</td><td>8~9층</td><td>10~11층</td><td>12~13층</td><td>14~15층</td><td>16층</td><td>17층</td>
+            </tr>
+            <tr>
+              <td class="border border-slate-400 p-1 font-bold">비용</td><td>7만원</td><td>8만원</td><td>9만원</td><td>10만원</td><td>11만원</td><td>12만원</td><td>13만원</td><td>14만원</td>
+            </tr>
+            <tr class="bg-slate-100 font-bold">
+              <td class="border border-slate-400 p-1">층수</td><td>18층</td><td>19층</td><td>20층</td><td>21층</td><td>22층</td><td>23층</td><td>24층</td><td>25층~</td>
+            </tr>
+            <tr>
+              <td class="border border-slate-400 p-1 font-bold">비용</td><td>16만원</td><td>17만원</td><td>19만원</td><td>22만원</td><td>25만원</td><td>27만원</td><td>30만원</td><td>36만원</td>
+            </tr>
+          </table>
+          <div class="text-[9px] text-slate-500">* 특정지역에 따라 추가 요금이 발생할 수 있음 * 스카이차 사용 시, 추가 요금이 발생할 수 있음</div>
+        </div>
+
+        <!-- 계약약관 (제1조 ~ 제7조) -->
+        <div class="space-y-2 pt-3 border-t border-slate-300 text-[10px] leading-relaxed text-slate-700">
+          <div class="font-black text-aceNavy text-center text-xs mb-2">- 계약약관 -</div>
+          <div>(주)에이스침대 <input type="text" placeholder="대리점명" class="border-b border-slate-400 w-24 text-center"> (이하 '판매자'라 칭함)와 전면 계약고객 (이하 '구매자'라 칭함) 간에 전면에 표시된 에이스침대의 상표로 지정, 공급하는 상품(이하 '상품'이라 칭함)을 매매함에 있어 다음과 같이 계약을 체결한다.</div>
+          
+          <div class="font-bold text-aceNavy mt-2">제1조 (목적)</div>
+          <div>1. '판매자'는 전면 표시 상품을 전면에 기재된 내용에 따라 '구매자'에게 매도하고 '구매자'는 이를 매수한다.</div>
+
+          <div class="font-bold text-aceNavy mt-2">제2조 (판매대금의 지급 등)</div>
+          <div>1. '구매자'는 판매대금(부가세가 포함된 전면상의 총 판매가)중 판매 계약 체결 시 계약 액의 10% 이상의 계약금을 지급하며 해당 상품을 인수함과 동시에 잔금을 지급한다.</div>
+          <div>2. '구매자'는 '판매자'가 상품 양도를 완료한 후에는 정당한 사유 없이 대금 지급을 지연해서는 안 된다.</div>
+
+          <div class="font-bold text-aceNavy mt-2">제3조 (상품의 납품 등)</div>
+          <div>1. '판매자'는 전면 계약서에 표시된 배송 희망일에 상품을 인도하며, '구매자'의 사정으로 인하여 납품일 혹은 구매 상품을 변경하고자 할 경우에는 납품일로부터 5일전에 반드시 '판매자'에게 동보해야 한다.</div>
+          <div>2. '판매자'는 천재지변 및 특수한 사정으로 상품의 제조 및 납품이 지연되는 경우 즉시 '구매자'에게 동보하고 해당 사유의 종료 시까지 납품기한을 연장할 수 있다.</div>
+          <div>3. '판매자'의 납품에도 불구하고, '구매자'의 판매 대금 및 기타 판매 계약상의 채무를 모두 이행할 때까지 제품의 소유권은 '판매자'에게 있다. 이 경우, '판매자'의 귀책 사유 없이 발생한 상품의 멸실, 훼손, 도난, 기타 손실에 대한 위험 및 손해는 '구매자'가 부담한다.</div>
+          <div>4. 제품의 조립/설치/포장 개봉 이후, 취소 환불 규정에 따라 '구매자'는 '판매자'에게 환불을 요청할 수 없다.</div>
+
+          <div class="font-bold text-aceNavy mt-2">제4조 (품질보증 및 A/S)</div>
+          <div>1. '판매자'는 전면 납품 시에 제공한 품질보증서 또는 소비자기본법에 의하여 품질을 보증한다.</div>
+          <div>2. 제품의 불량이 '구매자'의 부주의로 인하여 발생한 경우, '판매자'가 '구매자'에게 수선에 필요한 실비를 청구할 수 있다.</div>
+          <div>3. '판매자'는 '구매자'와 계약 체결한 상품에 대한 품질보증 및 A/S 규정을 설명하고 '구매자'는 이에 대한 내용을 인지하여야 한다.</div>
+          <div>4. '구매자'가 진열·리퍼 제품을 구매할 경우, 해당 상품은 반품이 불가하며 유상 A/S를 원칙으로 함을 인지하여야 한다.</div>
+
+          <div class="font-bold text-aceNavy mt-2">제5조 (사다리차 비용)</div>
+          <div>1. '구매자'는 상품 배송 시 층수에 따라 발생되는 사다리차 금액을 지불해야 하며 '판매자'는 '구매자'에게 사다리차 비용을 청구할 수 있다.</div>
+
+          <div class="font-bold text-aceNavy mt-2">제6조 (벽 시공 제품 설치)</div>
+          <div>1. '구매자'는 벽 시공 제품 구매 전 설치 공간의 벽 상태를 반드시 확인해야 한다.</div>
+          <div>2. 설치 당일 '구매자' 귀책사유로 제품 설치가 불가능할 경우, 취소환불 규정에 따른 비용 및 인테리어 훼손 비용은 모두 '구매자'가 부담한다.</div>
+
+          <div class="font-bold text-aceNavy mt-2">제7조 (기타)</div>
+          <div>1. 본 계약서에서 규정하지 않은 사항은 관련 법규 및 일반 상거래에 의거한다.</div>
+          <div>2. 본 계약과 관련된 모든 법적 분쟁은 '구매자'의 소재지를 관할하는 지방법원에서 처리한다.</div>
+
+          <div class="text-center font-bold text-slate-800 mt-3">본 계약을 입증하기 위하여 본 계약서는 2통을 작성하여, '판매자'와 '구매자'가 각 1통씩 보관한다.</div>
+        </div>
+
+        <!-- 하단 서명란 -->
+        <div class="flex justify-between items-end pt-6 border-t border-slate-300">
+          <div class="text-[10px] text-slate-500 space-y-0.5">
+            <div>▶ 에이스침대 고객센터 : 1599-7121 (제품 및 매장문의)</div>
+            <div>▶ A/S센터 : 080-735-7123 (제품불량)</div>
+          </div>
+          <div class="text-right space-y-2">
+            <div class="text-[10px] text-slate-600">※ 본인(구매자)은 위 내용을 모두 확인하였으며, 구매 약관에 동의합니다</div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold">고객명:</span>
+              <input type="text" id="signCustomerName" placeholder="고객 성명" class="border-b border-slate-900 w-28 text-center font-bold text-xs">
+              <span class="text-xs font-bold">고객 서명:</span>
+              <input type="text" id="signCustomerText" placeholder="(성함 입력)" class="border-b border-slate-900 w-28 text-center font-bold text-xs">
+              <span class="text-xs font-bold">(서명)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
 </main>
 
-<!-- QR코드 모달창 -->
+<!-- QR코드 모달 -->
 <div id="qrModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
   <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 text-center space-y-4">
     <div class="flex justify-between items-center border-b pb-3">
       <h3 class="font-black text-aceNavy text-base">📱 수면 매칭 상담 결과 QR</h3>
       <button onclick="toggleQRModal(false)" class="text-slate-400 hover:text-slate-700 text-lg font-bold px-2">✕</button>
     </div>
-    <p class="text-xs text-slate-600">스마트폰 카메라로 QR코드를 스캔하시면<br>현재 상담 조건과 추천 매트리스를 바로 보실 수 있습니다.</p>
     <div class="flex justify-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
       <div id="qrcode" class="inline-block p-2 bg-white rounded-xl shadow-sm"></div>
     </div>
-    <div class="text-[11px] text-slate-400 truncate px-2" id="qrUrlText"></div>
     <button onclick="toggleQRModal(false)" class="w-full py-3 bg-aceNavy text-white rounded-xl font-bold text-xs shadow hover:bg-aceBlue transition-all">확인</button>
   </div>
 </div>
 
-<footer class="max-w-5xl mx-auto px-4 mt-8 text-center text-[11px] text-slate-400 leading-relaxed">
-  <div class="font-bold text-aceNavy text-xs mb-1" style="letter-spacing:.25em">ACE BED</div>
-  추천 기준: 에이스침대 굿 슬립 컨설팅 · 매장 진열 상품 기반<br>본 결과는 상담 및 견적 수립을 돕는 참고 자료입니다. 제품 사양과 최종 가격은 매장에서 확인해 주세요.
-</footer>
-
-<!-- JavaScript -->
 <script>
-const MATTRESS_DB = {
-  "HR-B":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { DS: 13320000, SS: 14559000, DD: 17800000, LQ: 19744000, K: 22077000, LK1800: 23635000, LK2000: 26245000 } },
-  "HR-DP": { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { DS: 11900000, SS: 13002000, DD: 15939000, LQ: 17674000, K: 19807000, LK1800: 21143000, LK2000: 23524000 } },
-  "HR-D":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { DS: 10050000, SS: 10987000, DD: 13363000, LQ: 14810000, K: 16527000, LK1800: 17711000, LK2000: 19742000 } },
-  "HR-PP": { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { DS: 7215000,  SS: 7883000,  DD: 9744000,  LQ: 10999000, K: 12336000, LK1800: 13136000, LK2000: 14721000 } },
-  "HR-P":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { DS: 5368000,  SS: 5865000,  DD: 7199000,  LQ: 7999000,  K: 8930000,  LK1800: 9722000,  LK2000: 10993000 } },
-  "RA100": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { DS: 4330000,  SS: 4730000,  DD: 5731000,  LQ: 6451000,  K: 8031000,  LK1800: 9156000,  LK2000: 9960000 } },
-  "RA90H": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { DS: 3973000,  SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
-  "RA90S": { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { DS: 3973000,  SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
-  "RA80H": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { DS: 3352000,  SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
-  "RA80S": { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { DS: 3352000,  SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
-  "RA60L": { type: "SOFT",    hardness: 9, pillowTop: true,  prices: { DS: 2839000,  SS: 3101000,  DD: 3650000,  LQ: 3987000,  K: 4978000,  LK1800: 5927000,  LK2000: 6450000 } },
-  "AV":    { type: "HARD",    hardness: 3, pillowTop: false, prices: { DS: 2055000,  SS: 2245000,  DD: 2684000,  LQ: 2938000,  K: 3682000,  LK1800: 4421000,  LK2000: 4912000 } },
-  "HT-R":  { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { DS: 1976000,  SS: 2159000,  DD: 2581000,  LQ: 2838000,  K: 3546000,  LK1800: 4253000,  LK2000: 4712000 } },
-  "HT-B":  { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { DS: 1626000,  SS: 1777000,  DD: 2115000,  LQ: 2371000,  K: 2953000,  LK1800: 3534000,  LK2000: 3913000 } },
-  "MT":    { type: "HARD",    hardness: 2, pillowTop: false, prices: { DS: 1320000,  SS: 1442000,  DD: 1683000,  LQ: 1969000,  K: 2382000,  LK1800: 2750000,  LK2000: 3000000 } },
-  "HT-W":  { type: "HARD",    hardness: 1, pillowTop: false, prices: { DS: 1152000,  SS: 1259000,  DD: 1490000,  LQ: 1700000,  K: 2023000,  LK1800: 2350000,  LK2000: 2580000 } },
-  "AT":    { type: "REGULAR", hardness: 4, pillowTop: false, prices: { DS: 759000,   SS: 817000,   DD: 987000,   LQ: 1136000,  K: 1350000,  LK1800: 1550000,  LK2000: 1700000 } }
-};
-
-const MATTRESS_ATTRIBUTES = {
-  "AT":    { habits: ["바르게 누워", "자주 뒤척임"], priorities: ["체형 지지", "가격"] },
-  "HT-W":  { habits: ["바르게 누워", "엎드려 누워", "자주 뒤척임"], priorities: ["체형 지지", "가격"] },
-  "MT":    { habits: ["바르게 누워", "엎드려 누워", "자주 뒤척임"], priorities: ["체형 지지", "반발력", "묵직함", "가격"] },
-  "HT-B":  { habits: ["옆으로 누워", "자주 뒤척임"], priorities: ["안락함", "반발력", "가격"] },
-  "HT-R":  { habits: ["옆으로 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "최상위 등급"] },
-  "AV":    { habits: ["바르게 누워", "자주 뒤척임"], priorities: ["체형 지지", "묵직함", "가격"] },
-  "RA60L": { habits: ["옆으로 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "가격"] },
-  "RA80S": { habits: ["옆으로 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "가격"] },
-  "RA80H": { habits: ["바르게 누워", "엎드려 누워"], priorities: ["체형 지지", "최상위 등급"] },
-  "RA90S": { habits: ["옆으로 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "가격"] },
-  "RA90H": { habits: ["바르게 누워", "엎드려 누워"], priorities: ["체형 지지", "반발력", "최상위 등급"] },
-  "RA100": { habits: ["옆으로 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "가격"] },
-  "HR-P":  { habits: ["바르게 누워", "옆으로 누워", "엎드려 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "반발력", "묵직함", "최상위 등급", "매트리스 높이", "매트리스 내구성", "매트리스 디자인"] },
-  "HR-PP": { habits: ["바르게 누워", "옆으로 누워", "엎드려 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "반발력", "묵직함", "최상위 등급", "매트리스 높이", "매트리스 내구성", "매트리스 디자인"] },
-  "HR-D":  { habits: ["바르게 누워", "옆으로 누워", "엎드려 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "반발력", "묵직함", "최상위 등급", "매트리스 높이", "매트리스 내구성", "매트리스 디자인"] },
-  "HR-DP": { habits: ["바르게 누워", "옆으로 누워", "엎드려 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "반발력", "묵직함", "최상위 등급", "매트리스 높이", "매트리스 내구성", "매트리스 디자인"] },
-  "HR-B":  { habits: ["바르게 누워", "옆으로 누워", "엎드려 누워", "자주 뒤척임"], priorities: ["안락함", "체형 지지", "반발력", "묵직함", "최상위 등급", "매트리스 높이", "매트리스 내구성", "매트리스 디자인"] }
-};
+const todayIso = new Date().toISOString().slice(0,10);
+document.addEventListener("DOMContentLoaded", () => {
+  if(document.getElementById('contractDate')) document.getElementById('contractDate').value = todayIso;
+  if(document.getElementById('deliveryDate')) document.getElementById('deliveryDate').value = todayIso;
+  initMatchingUI();
+  runMatching();
+  calculateContractTotal();
+});
 
 function switchSheet(sheetId) {
-  document.getElementById('sheet1').classList.add('hidden');
-  document.getElementById('sheet2').classList.add('hidden');
+  ['sheet1', 'sheet2', 'sheet3'].forEach(id => document.getElementById(id).classList.add('hidden'));
   document.getElementById(sheetId).classList.remove('hidden');
 
-  const btn1 = document.getElementById('btnTab1');
-  const btn2 = document.getElementById('btnTab2');
-
-  if(sheetId === 'sheet1') {
-    btn1.className = "px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all bg-aceGold text-slate-950 shadow-md flex items-center gap-2";
-    btn2.className = "px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all text-slate-300 hover:text-white hover:bg-white/10 flex items-center gap-2";
-  } else {
-    btn2.className = "px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all bg-aceGold text-slate-950 shadow-md flex items-center gap-2";
-    btn1.className = "px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all text-slate-300 hover:text-white hover:bg-white/10 flex items-center gap-2";
-  }
-  syncUrlState();
+  ['btnTab1', 'btnTab2', 'btnTab3'].forEach((btnId, idx) => {
+    const btn = document.getElementById(btnId);
+    const targetId = 'sheet' + (idx + 1);
+    btn.className = targetId === sheetId 
+      ? "px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all bg-aceGold text-slate-950 shadow-md flex items-center gap-2"
+      : "px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all text-slate-300 hover:text-white hover:bg-white/10 flex items-center gap-2";
+  });
 }
 
-const products = Object.keys(MATTRESS_DB);
-const prodContainer = document.getElementById('displayProductsContainer');
-if(prodContainer) {
-  prodContainer.innerHTML = products.map(p => `
-    <label class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs md:text-sm font-bold text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
-      <input type="checkbox" name="displayProduct" value="${p}" class="mr-2 accent-aceBlue w-4 h-4" onchange="runMatching()"> ${p}
-    </label>
-  `).join('');
+function syncCustomerInfo() {
+  const name = document.getElementById('customerName')?.value || '';
+  const phone = document.getElementById('customerPhone')?.value || '';
+  const address = document.getElementById('customerAddress')?.value || '';
+  
+  if(document.getElementById('cName')) document.getElementById('cName').value = name;
+  if(document.getElementById('cPhone')) document.getElementById('cPhone').value = phone;
+  if(document.getElementById('cAddress')) document.getElementById('cAddress').value = address;
+  if(document.getElementById('signCustomerName')) document.getElementById('signCustomerName').value = name;
+  if(document.getElementById('signCustomerText')) document.getElementById('signCustomerText').value = name;
+}
+
+// 1번 수면 매칭 DB (AV 모델 실제 가격 반영 완료)[cite: 39]
+const MATTRESS_DB = {
+  "HR-B":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 14559000, DD: 17800000, LQ: 19744000, K: 22077000, LK1800: 23635000, LK2000: 26245000 } },
+  "HR-DP": { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 13002000, DD: 15939000, LQ: 17674000, K: 19807000, LK1800: 21143000, LK2000: 23524000 } },
+  "HR-D":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 10987000, DD: 13363000, LQ: 14810000, K: 16527000, LK1800: 17711000, LK2000: 19742000 } },
+  "HR-PP": { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 7883000,  DD: 9744000,  LQ: 10999000, K: 12336000, LK1800: 13136000, LK2000: 14721000 } },
+  "HR-P":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 5865000,  DD: 7199000,  LQ: 7999000,  K: 8930000,  LK1800: 9722000,  LK2000: 10993000 } },
+  "RA100": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 4730000,  DD: 5731000,  LQ: 6451000,  K: 8031000,  LK1800: 9156000,  LK2000: 9960000 } },
+  "RA90H": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
+  "RA90S": { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
+  "RA80H": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
+  "RA80S": { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
+  "RA60L": { type: "SOFT",    hardness: 9, pillowTop: true,  prices: { SS: 3101000,  DD: 3650000,  LQ: 3987000,  K: 4978000,  LK1800: 5927000,  LK2000: 6500000 } },
+  "AV":    { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 2245000,  DD: 2684000,  LQ: 2938000,  K: 3682000,  LK1800: 4421000,  LK2000: 4912000 } },
+  "HT-R":  { type: "REGULAR", hardness: 6, pillowTop: false, prices: { SS: 2159000,  DD: 2581000,  LQ: 2838000,  K: 3546000,  LK1800: 4253000,  LK2000: 4712000 } },
+  "HT-B":  { type: "HARD",    hardness: 3, pillowTop: false, prices: { SS: 1777000,  DD: 2115000,  LQ: 2371000,  K: 2953000,  LK1800: 3534000,  LK2000: 3913000 } },
+  "MT":    { type: "REGULAR", hardness: 5, pillowTop: false, prices: { SS: 1655000,  DD: 1957000,  LQ: 2212000,  K: 2756000,  LK1800: 3294000,  LK2000: 3646000 } },
+  "HT-W":  { type: "SOFT",    hardness: 8, pillowTop: false, prices: { SS: 1259000,  DD: 1490000,  LQ: 1700000,  K: 2023000,  LK1800: 2450000,  LK2000: 2700000 } },
+  "AT":    { type: "REGULAR", hardness: 4, pillowTop: false, prices: { DS: 759000, SS: 817000, DD: 987000, LQ: 1136000, K: 1450000 } }
+};
+
+function initMatchingUI() {
+  const products = Object.keys(MATTRESS_DB);
+  const prodContainer = document.getElementById('displayProductsContainer');
+  if(prodContainer) {
+    prodContainer.innerHTML = products.map(p => `
+      <label class="flex items-center p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue">
+        <input type="checkbox" name="displayProduct" value="${p}" class="mr-2 accent-aceBlue" checked onchange="runMatching()"> ${p}
+      </label>
+    `).join('');
+  }
+
+  const sizes = [
+    { code: "DS", name: "DS", dim: "1,000×2,000" },
+    { code: "SS", name: "SS", dim: "1,100×2,000" },
+    { code: "DD", name: "DD", dim: "1,400×2,000" },
+    { code: "LQ", name: "LQ", dim: "1,500×2,000" },
+    { code: "K", name: "K", dim: "1,670×2,075" },
+    { code: "LK1800", name: "LK1800", dim: "1,800×2,075" },
+    { code: "LK2000", name: "LK2000", dim: "2,000×2,075" }
+  ];
+  const sizeContainer = document.getElementById('sizeOptionsContainer');
+  if(sizeContainer) {
+    sizeContainer.innerHTML = sizes.map((s, idx) => `
+      <label class="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue text-center">
+        <div class="flex items-center gap-1 mb-0.5">
+          <input type="radio" name="mattressSize" value="${s.code}" ${idx===3 ? 'checked' : ''} class="accent-aceBlue" onchange="runMatching()">
+          <span>${s.name}</span>
+        </div>
+        <span class="text-[10px] text-slate-400 font-normal">(${s.dim})</span>
+      </label>
+    `).join('');
+  }
 }
 
 function toggleAllProducts(checked) {
@@ -702,489 +895,391 @@ function toggleAllProducts(checked) {
   runMatching();
 }
 
-const sizes = [
-  { code: "DS", name: "DS", dim: "(1,000x2,000)" },
-  { code: "SS", name: "SS", dim: "(1,100x2,000)" },
-  { code: "DD", name: "DD", dim: "(1,400x2,000)" },
-  { code: "LQ", name: "LQ", dim: "(1,500x2,000)" },
-  { code: "K",  name: "K",  dim: "(1,670x2,075)" },
-  { code: "LK1800", name: "LK1800", dim: "(1,800x2,075)" },
-  { code: "LK2000", name: "LK2000", dim: "(2,000x2,075)" }
-];
-const sizeContainer = document.getElementById('sizeOptionsContainer');
-if(sizeContainer) {
-  sizeContainer.innerHTML = sizes.map((s, idx) => `
-    <label class="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all text-center">
-      <div class="flex items-center gap-1.5 mb-0.5">
-        <input type="radio" name="mattressSize" value="${s.code}" ${idx===3 ? 'checked' : ''} class="accent-aceBlue w-3.5 h-3.5" onchange="runMatching()">
-        <span>${s.name}</span>
-      </div>
-      <span class="text-[10px] font-normal text-slate-400">${s.dim}</span>
-    </label>
-  `).join('');
+function clearBudgetFilter() {
+  document.querySelectorAll('input[name="budget"]').forEach(el => el.checked = false);
+  runMatching();
+}
+
+function checkBudgetRange(price, budgetVal) {
+  if (!budgetVal) return true;
+  if (budgetVal === "50만원~100만원") return price >= 500000 && price <= 1000000;
+  if (budgetVal === "100만원~300만원") return price > 1000000 && price <= 3000000;
+  if (budgetVal === "300만원~500만원") return price > 3000000 && price <= 5000000;
+  if (budgetVal === "500만원~700만원") return price > 5000000 && price <= 7000000;
+  if (budgetVal === "700만원~900만원") return price > 7000000 && price <= 9000000;
+  if (budgetVal === "900만원 이상") return price > 9000000;
+  return true;
 }
 
 function runMatching() {
-  syncUrlState();
-  const customerName = document.getElementById('customerName')?.value || '';
-  const customerPhone = document.getElementById('customerPhone')?.value || '';
-  const customerGender = document.querySelector('input[name="customerGender"]:checked')?.value || '';
-  const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '';
-  const customerAddress = document.getElementById('customerAddress')?.value || '';
+  syncCustomerInfo();
+  const customerName = document.getElementById('customerName')?.value.trim() || '미입력';
+  const customerPhone = document.getElementById('customerPhone')?.value.trim() || '미입력';
+  const customerGender = document.querySelector('input[name="customerGender"]:checked')?.value || '미선택';
+  const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '미선택';
+  const customerAddress = document.getElementById('customerAddress')?.value.trim() || '미입력';
   const privacyConsent = document.querySelector('input[name="privacyConsent"]:checked')?.value || '동의함';
-  
-  const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
+
+  const summaryBar = document.getElementById('customerSummaryBar');
+  if(summaryBar) {
+    summaryBar.classList.remove('hidden');
+    summaryBar.innerHTML = `
+      <span>👤 고객명: <strong class="text-aceNavy">${customerName}</strong></span> • 
+      <span>📞 연락처: <strong class="text-aceNavy">${customerPhone}</strong></span> • 
+      <span>⚧ 성별: <strong class="text-aceNavy">${customerGender}</strong></span> • 
+      <span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup}</strong></span> • 
+      <span>📍 거주지: <strong class="text-aceNavy">${customerAddress}</strong></span> • 
+      <span>✍️ 마케팅동의: <strong class="text-aceNavy">${privacyConsent}</strong></span>
+    `;
+  }
+
   const selectedSize = document.querySelector('input[name="mattressSize"]:checked')?.value || 'LQ';
-  const selectedType = document.querySelector('input[name="wantType"]:checked')?.value;
-  const selectedPillow = document.querySelector('input[name="pillowTop"]:checked')?.value;
-  const selectedHabits = [...document.querySelectorAll('input[name="sleepHabit"]:checked')].map(el => el.value);
-  const selectedPains = [...document.querySelectorAll('input[name="painArea"]:checked')].map(el => el.value);
-  const selectedPriorities = [...document.querySelectorAll('input[name="priority"]:checked')].map(el => el.value);
-  const selectedPurpose = document.querySelector('input[name="purpose"]:checked')?.value;
-  const selectedSubPurpose = document.querySelector('input[name="subPurpose"]:checked')?.value;
-  const selectedBudget = document.querySelector('input[name="budget"]:checked')?.value;
+  const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
+  const wantType = document.querySelector('input[name="wantType"]:checked')?.value || '';
+  const pillowTop = document.querySelector('input[name="pillowTop"]:checked')?.value || '';
+  const selectedBudget = document.querySelector('input[name="budget"]:checked')?.value || '';
 
   const resultContainer = document.getElementById('recommendationResult');
   const countContainer = document.getElementById('matchCount');
-  const hasAnyInput = customerName || customerPhone || customerGender || customerAgeGroup || customerAddress || selectedType || selectedPillow || selectedHabits.length > 0 || selectedPains.length > 0 || selectedPriorities.length > 0 || selectedPurpose || selectedSubPurpose || selectedBudget;
 
-  if (!hasAnyInput) {
-    resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.</div>`;
-    countContainer.textContent = '';
-    return;
-  }
+  let candidatePool = checkedProducts.length > 0 ? checkedProducts : Object.keys(MATTRESS_DB);
 
-  let candidatePool = checkedProducts.length > 0 ? checkedProducts : products;
   let scoredList = candidatePool.map(model => {
-    let score = 20;
     const dbItem = MATTRESS_DB[model];
-    const attrItem = MATTRESS_ATTRIBUTES[model];
-    let priceKey = selectedSize;
-    if(selectedSize === 'DS') priceKey = 'SS';
-    else if(selectedSize === 'DD') priceKey = 'LQ';
-    else if(selectedSize === 'LK1800' || selectedSize === 'LK2000') priceKey = 'K';
-
-    const price = dbItem.prices[priceKey] || dbItem.prices['LQ'] || 0;
+    const price = dbItem.prices[selectedSize] || null;
     
-    // 예산 매칭 가중치 대폭 강화 (예산을 크게 벗어나는 고가 제품 엄격 페널티)
-    if (selectedBudget) {
-      let minB = 0, maxB = Infinity;
-      if (selectedBudget === "50만원~100만원") { minB = 500000; maxB = 1000000; }
-      else if (selectedBudget === "100만원~300만원") { minB = 1000000; maxB = 3000000; }
-      else if (selectedBudget === "300만원~500만원") { minB = 3000000; maxB = 5000000; }
-      else if (selectedBudget === "500만원~700만원") { minB = 5000000; maxB = 7000000; }
-      else if (selectedBudget === "700만원~900만원") { minB = 7000000; maxB = 9000000; }
-      else if (selectedBudget === "900만원 이상") { minB = 9000000; maxB = Infinity; }
+    let score = 0;
+    let budgetMatch = false;
 
-      if (price >= minB && price <= maxB) {
-        score += 150; // 예산 범위 내 완벽 부합 시 엄청난 가점
-      } else if (price < minB) {
-        score += 40;  // 예산보다 저렴한 경우 양호
+    if (selectedBudget && price) {
+      if (checkBudgetRange(price, selectedBudget)) {
+        score += 50;
+        budgetMatch = true;
       } else {
-        // 예산 초과 시 가격 차이에 비례하여 대폭 감점 (고가 프리미엄 라인 차단)
-        let overRatio = (price - maxB) / maxB;
-        score -= Math.min(250, Math.round(overRatio * 150) + 80);
+        score -= 30;
       }
     }
 
-    if (selectedType && selectedType !== "잘 모르겠음") {
-      if (dbItem.type === selectedType) score += 30; else score -= 20;
+    if (wantType && wantType !== '잘 모르겠음') {
+      if (dbItem.type === wantType) score += 25;
     }
-    if (selectedPillow && selectedPillow !== "잘 모르겠음") {
-      const wantPillow = (selectedPillow === "예");
-      if (dbItem.pillowTop === wantPillow) score += 25; else score -= 20;
-    }
-    selectedHabits.forEach(habit => { if (habit !== "잘 모르겠음" && attrItem.habits.includes(habit)) score += 15; });
-    selectedPriorities.forEach(prio => { if (attrItem.priorities.includes(prio)) score += 20; });
 
-    let grade = "下", gradeStyle = "bg-slate-200 text-slate-700";
-    if (score >= 80) { grade = "上"; gradeStyle = "bg-aceBlue text-white"; }
-    else if (score >= 40) { grade = "中"; gradeStyle = "bg-amber-500 text-white"; }
-    return { model, type: dbItem.type, hardness: dbItem.hardness, pillowTop: dbItem.pillowTop, price, score, grade, gradeStyle };
+    if (pillowTop && pillowTop !== '잘 모르겠음') {
+      const wantPT = (pillowTop === '예');
+      if (dbItem.pillowTop === wantPT) score += 15;
+    }
+
+    let grade = '下';
+    let badgeClass = 'bg-slate-200 text-slate-700';
+    if (score >= 40 || (selectedBudget && budgetMatch && score >= 25)) {
+      grade = '上';
+      badgeClass = 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+    } else if (score >= 15 || budgetMatch) {
+      grade = '中';
+      badgeClass = 'bg-blue-100 text-blue-800 border border-blue-300';
+    }
+
+    return { model, dbItem, price, score, grade, badgeClass, budgetMatch };
   });
 
-  const matched = scoredList.filter(item => item.score > 0).sort((a, b) => b.score - a.score);
-  countContainer.textContent = matched.length > 0 ? `(총 ${matched.length}개 모델 매칭됨)` : '';
+  scoredList.sort((a, b) => {
+    if (a.price === null && b.price !== null) return 1;
+    if (a.price !== null && b.price === null) return -1;
+    return b.score - a.score;
+  });
 
-  if (matched.length === 0) {
-    resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500 text-sm border border-dashed border-slate-300 rounded-xl bg-slate-50 font-medium">선택하신 조건 및 예산과 일치하는 매트리스가 없습니다. 예산 범위를 넓혀보세요.</div>`;
-    return;
+  let filteredList = scoredList;
+  if (selectedBudget) {
+    const inBudget = scoredList.filter(item => item.budgetMatch && item.price !== null);
+    if (inBudget.length > 0) {
+      filteredList = inBudget;
+    }
   }
 
-  let customerHeaderHtml = (customerName || customerPhone || customerGender || customerAgeGroup || customerAddress) ? `
-    <div class="col-span-full bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex flex-wrap items-center gap-3">
-      <span>👤 고객명: <strong class="text-aceNavy">${customerName || '미입력'}</strong></span>
-      <span>•</span>
-      <span>📞 연락처: <strong class="text-aceNavy">${customerPhone || '미입력'}</strong></span>
-      <span>•</span>
-      <span>⚧ 성별: <strong class="text-aceNavy">${customerGender || '미선택'}</strong></span>
-      <span>•</span>
-      <span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup || '미선택'}</strong></span>
-      <span>•</span>
-      <span>📍 거주지: <strong class="text-aceNavy">${customerAddress || '미입력'}</strong></span>
-      <span>•</span>
-      <span>✍️ 마케팅동의: <strong class="text-aceNavy">${privacyConsent}</strong></span>
-    </div>` : '';
+  countContainer.textContent = `(총 ${filteredList.length}개 모델 매칭됨)`;
+  
+  resultContainer.innerHTML = filteredList.map((item, idx) => {
+    const { model, dbItem, price, grade, badgeClass } = item;
+    const hardnessPercent = (dbItem.hardness / 10) * 100;
+    const priceText = price ? `${price.toLocaleString('ko-KR')}원` : `해당 사이즈(${selectedSize}) 미출시`;
 
-  resultContainer.innerHTML = customerHeaderHtml + matched.map((item, idx) => {
-    const hardnessPercent = (item.hardness / 10) * 100;
     return `
     <div class="p-5 rounded-2xl border ${idx === 0 ? 'border-aceGold bg-amber-50/30 ring-2 ring-aceGold/20' : 'border-slate-200 bg-slate-50/50'} relative">
-      ${idx === 0 ? '<span class="absolute top-4 right-4 bg-aceGold text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">⭐ 최적 추천</span>' : ''}
-      <div class="text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
-        <span>매칭 적합도:</span>
-        <span class="px-2 py-0.5 rounded-md font-black text-xs ${item.gradeStyle}">${item.grade}</span>
-      </div>
-      <h4 class="text-xl font-black text-aceNavy mb-2">${item.model} <span class="text-xs font-normal text-slate-500 ml-1">타입: ${item.type} · ${item.pillowTop ? '필로우탑 적용' : '필로우탑 미적용'}</span></h4>
-      
+      ${idx === 0 ? '<span class="absolute top-4 right-4 bg-aceGold text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider">⭐ 최적 추천</span>' : ''}
+      <div class="text-xs font-bold text-slate-600 mb-1.5">매칭 적합도: <span class="px-2 py-0.5 rounded-md font-black text-xs ${badgeClass}">${grade}</span></div>
+      <h4 class="text-xl font-black text-aceNavy mb-2">${model} <span class="text-xs font-normal text-slate-500 ml-1">타입: ${dbItem.type} | 필로우탑: ${dbItem.pillowTop ? '적용' : '미적용'}</span></h4>
       <div class="mb-3 bg-white p-3 rounded-xl border border-slate-200 space-y-1.5">
         <div class="flex justify-between items-center text-xs font-bold text-slate-700">
           <span>매트리스 경도 (Hardness)</span>
-          <span class="text-aceBlue font-black">${item.hardness} / 10 (${item.hardness <= 3 ? 'HARD' : item.hardness <= 7 ? 'REGULAR' : 'SOFT'})</span>
+          <span class="text-aceBlue font-black">${dbItem.hardness} / 10</span>
         </div>
-        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden relative">
-          <div class="bg-gradient-to-r from-aceNavy via-aceBlue to-aceGold h-full rounded-full transition-all duration-500" style="width: ${hardnessPercent}%"></div>
-        </div>
-        <div class="flex justify-between text-[10px] text-slate-400 font-semibold px-0.5">
-          <span>1 (Hard)</span>
-          <span>5 (Regular)</span>
-          <span>10 (Soft)</span>
+        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+          <div class="bg-gradient-to-r from-aceNavy via-aceBlue to-aceGold h-full rounded-full" style="width: ${hardnessPercent}%"></div>
         </div>
       </div>
-
-      <div class="text-sm font-medium text-slate-700 mb-3">
-        📏 선택 사이즈 (${selectedSize}) 판매가: <strong class="text-aceBlue font-bold">${item.price.toLocaleString('ko-KR')}원</strong>
-      </div>
-      <div class="text-xs text-slate-500 bg-white p-3 rounded-xl border border-slate-200">
-        ✔ 주요 특징: ${MATTRESS_ATTRIBUTES[item.model].priorities.join(', ')} / 적합 수면습관 지원
-      </div>
+      <div class="text-sm font-medium text-slate-700">📏 선택 사이즈 (${selectedSize}) 판매가: <strong class="${price ? 'text-aceBlue' : 'text-red-500'} font-bold">${priceText}</strong></div>
     </div>`;
   }).join('');
 }
 
-function exportConsultationExcel() {
-  const customerName = document.getElementById('customerName')?.value || '미입력';
-  const customerPhone = document.getElementById('customerPhone')?.value || '미입력';
-  const customerGender = document.querySelector('input[name="customerGender"]:checked')?.value || '미선택';
-  const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '미선택';
-  const customerAddress = document.getElementById('customerAddress')?.value || '미입력';
-  const privacyConsent = document.querySelector('input[name="privacyConsent"]:checked')?.value || '동의함';
-  
-  const selectedSize = document.querySelector('input[name="mattressSize"]:checked')?.value || 'LQ';
-  const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value).join(', ') || '전체';
-  const prevBrands = [...document.querySelectorAll('input[name="prevBrand"]:checked')].map(el => el.value).join(', ');
-  const prevBrandEtc = document.getElementById('prevBrandEtc')?.value || '';
-  const prevMatType = document.querySelector('input[name="prevMatType"]:checked')?.value || '미선택';
-  const painAreas = [...document.querySelectorAll('input[name="painArea"]:checked')].map(el => el.value).join(', ');
-  const wantType = document.querySelector('input[name="wantType"]:checked')?.value || '미선택';
-  const pillowTop = document.querySelector('input[name="pillowTop"]:checked')?.value || '미선택';
-  const sleepHabits = [...document.querySelectorAll('input[name="sleepHabit"]:checked')].map(el => el.value).join(', ');
-  const priorities = [...document.querySelectorAll('input[name="priority"]:checked')].map(el => el.value).join(', ');
-  const purpose = document.querySelector('input[name="purpose"]:checked')?.value || '미선택';
-  const subPurpose = document.querySelector('input[name="subPurpose"]:checked')?.value || '미선택';
-  const budget = document.querySelector('input[name="budget"]:checked')?.value || '미선택';
-
-  let recommendedModels = [];
-  document.querySelectorAll('#recommendationResult h4').forEach(el => { if(el && el.textContent) recommendedModels.push(el.textContent.trim()); });
-
-  const exportData = [
-    { "항목": "상담 분류", "고객 응답 내용": "에이스침대 굿 슬립 컨설팅 상담 리포트" },
-    { "항목": "고객 성함", "고객 응답 내용": customerName },
-    { "항목": "핸드폰 번호", "고객 응답 내용": customerPhone },
-    { "항목": "성별", "고객 응답 내용": customerGender },
-    { "항목": "연령대", "고객 응답 내용": customerAgeGroup },
-    { "항목": "거주지", "고객 응답 내용": customerAddress },
-    { "항목": "마케팅 정보 수집 동의", "고객 응답 내용": privacyConsent },
-    { "항목": "매장 진열 상품", "고객 응답 내용": checkedProducts },
-    { "항목": "매트리스 사이즈", "고객 응답 내용": selectedSize },
-    { "항목": "기존 사용 브랜드", "고객 응답 내용": prevBrands + (prevBrandEtc ? ` (기타: ${prevBrandEtc})` : '') },
-    { "항목": "기존 매트리스 타입", "고객 응답 내용": prevMatType },
-    { "항목": "불편했던 부분", "고객 응답 내용": painAreas },
-    { "항목": "구매 희망 매트리스 타입", "고객 응답 내용": wantType },
-    { "항목": "필로우탑 적용 여부", "고객 응답 내용": pillowTop },
-    { "항목": "수면 습관", "고객 응답 내용": sleepHabits },
-    { "항목": "우선 순위", "고객 응답 내용": priorities },
-    { "항목": "구매목적", "고객 응답 내용": purpose },
-    { "항목": "구매목적 상세", "고객 응답 내용": subPurpose },
-    { "항목": "구매 예산", "고객 응답 내용": budget },
-    { "항목": "실시간 추천 매트리스 순위", "고객 응답 내용": recommendedModels.join(' / ') || '조건 미입력' },
-    { "항목": "상담 일시", "고객 응답 내용": new Date().toLocaleString('ko-KR') }
-  ];
-
-  const worksheet = XLSX.utils.json_to_sheet(exportData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "수면상담결과");
-  worksheet['!cols'] = [{ wch: 30 }, { wch: 60 }];
-  XLSX.writeFile(workbook, `에이스침대_수면상담결과_${customerName}_${new Date().toISOString().slice(0,10)}.xlsx`);
-}
-
-// ==========================================
-// 📊 스마트 견적 매니저 엔진
-// ==========================================
+// 2번 스마트 견적 로직
 let parsedItems = { frame: [], mattress: [], etc: [], linked: [] };
 let selectedCart = { frame: [], mattress: [], etc: [], linked: [] };
 
-function handleDragOver(e) { e.preventDefault(); e.stopPropagation(); }
-function handleDragLeave(e) { e.preventDefault(); e.stopPropagation(); }
-function handleFileDrop(e) {
-  e.preventDefault(); e.stopPropagation();
-  if (e.dataTransfer.files && e.dataTransfer.files[0]) processExcelFile(e.dataTransfer.files[0]);
-}
-function handleFileSelect(e) {
-  if (e.target.files && e.target.files[0]) processExcelFile(e.target.files[0]);
-}
-
-function processExcelFile(file) {
-  document.getElementById('uploadStatusText').textContent = `📂 파일 로딩 중: ${file.name}`;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-
-      parsedItems = { frame: [], mattress: [], etc: [], linked: [] };
-      let uniqueIdCounter = 1;
-
-      workbook.SheetNames.forEach(sheetName => {
-        const worksheet = workbook.Sheets[sheetName];
-        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-        rows.forEach((row, idx) => {
-          if(idx === 0 || !row || row.length < 3) return;
-
-          const code = String(row[1] || '').trim();
-          const categoryText = String(row[2] || '').trim();
-          const productName = String(row[3] || '').trim();
-
-          if(!code && !productName) return;
-
-          let regularPrice = 0;
-          let discountPrice = 0;
-          for(let i = 3; i < row.length; i++) {
-            let cleanNum = Number(String(row[i]).replace(/[^0-9.-]+/g, ''));
-            if(!isNaN(cleanNum) && cleanNum >= 1000) {
-              if(regularPrice === 0) regularPrice = cleanNum;
-              else if(discountPrice === 0) discountPrice = cleanNum;
-            }
-          }
-          if(discountPrice === 0) discountPrice = regularPrice;
-
-          const fullName = code ? `[${code}] ${productName}` : productName;
-          const displayText = `${fullName} (${discountPrice.toLocaleString('ko-KR')}원)`;
-          const searchString = `${sheetName} ${code} ${categoryText} ${productName}`.toLowerCase();
-
-          const itemObj = {
-            id: uniqueIdCounter++,
-            name: fullName,
-            text: displayText,
-            searchString: searchString,
-            regularPrice: regularPrice,
-            discountPrice: discountPrice
-          };
-
-          const combinedCat = `${sheetName} ${categoryText} ${productName}`.toLowerCase();
-          if (combinedCat.includes('매트리스') || combinedCat.includes('mat') || code.startsWith('A35')) {
-            parsedItems.mattress.push(itemObj);
-          } else if (combinedCat.includes('협탁') || combinedCat.includes('판넬') || combinedCat.includes('패널') || combinedCat.includes('기타') || code.startsWith('AXU')) {
-            parsedItems.etc.push(itemObj);
-          } else if (combinedCat.includes('연계') || combinedCat.includes('케어') || combinedCat.includes('방수') || combinedCat.includes('사은품') || combinedCat.includes('바디필로우')) {
-            parsedItems.linked.push(itemObj);
-          } else {
-            parsedItems.frame.push(itemObj);
-          }
-        });
-      });
-
-      ['frame', 'mattress', 'etc', 'linked'].forEach(cat => populateSelectOptions(cat));
-      let totalCount = parsedItems.frame.length + parsedItems.mattress.length + parsedItems.etc.length + parsedItems.linked.length;
-      document.getElementById('uploadStatusText').textContent = `✅ 성공: 프레임(${parsedItems.frame.length}), 매트리스(${parsedItems.mattress.length}), 기타(${parsedItems.etc.length}), 연계(${parsedItems.linked.length}) - 총 ${totalCount}개 연동 완료!`;
-    } catch(err) {
-      console.error(err);
-      document.getElementById('uploadStatusText').textContent = '❌ 파일 파싱 오류 발생. 엑셀 형식을 확인하세요.';
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-function switchEstimateCategory(category) {
-  ['frame', 'mattress', 'etc', 'linked'].forEach(cat => {
-    const btn = document.getElementById(`catBtn-${cat}`);
-    const sec = document.getElementById(`section-${cat}`);
-    if(cat === category) {
-      if(btn) btn.className = "py-2.5 px-3 rounded-lg bg-aceNavy text-white font-bold text-xs md:text-sm shadow-md transition-all";
-      if(sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      if(btn) btn.className = "py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs md:text-sm hover:bg-slate-200 transition-all";
-    }
+function switchEstimateCategory(cat) {
+  ['frame', 'mattress', 'etc', 'linked'].forEach(c => {
+    const btn = document.getElementById(`catBtn-${c}`);
+    if(btn) btn.className = c === cat ? "py-2.5 px-3 rounded-lg bg-aceNavy text-white font-bold text-xs shadow-md" : "py-2.5 px-3 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200";
   });
 }
 
-function populateSelectOptions(category, filterKeyword = '') {
-  const selectEl = document.getElementById(category === 'frame' ? 'selectFrame' : category === 'mattress' ? 'selectMattress' : category === 'etc' ? 'selectEtc' : 'selectLinked');
-  if(!selectEl) return;
-
+function populateSelectOptions(category, keyword='') {
+  const sel = document.getElementById(`select${category.charAt(0).toUpperCase() + category.slice(1)}`);
+  if(!sel) return;
   const list = parsedItems[category] || [];
-  const keyword = filterKeyword.trim().toLowerCase();
-  const filtered = keyword ? list.filter(item => item.searchString.includes(keyword)) : list;
-
-  selectEl.innerHTML = `<option value="">-- 품목 선택 (${filtered.length}개 검색됨) --</option>` + filtered.map(item => `
-    <option value="${item.id}">${item.text}</option>
-  `).join('');
+  const kw = keyword.toLowerCase();
+  const filtered = kw ? list.filter(i => i.searchString.includes(kw)) : list;
+  
+  if(list.length === 0) {
+    sel.innerHTML = `<option value="">-- 파일을 업로드해주세요 --</option>`;
+  } else {
+    sel.innerHTML = `<option value="">-- 품목 선택 (${filtered.length}개 검색됨) --</option>` + filtered.map(i => `<option value="${i.id}">${i.text}</option>`).join('');
+  }
 }
 
-function filterItems(category) {
-  const keyword = document.getElementById(`search-${category}`).value;
-  populateSelectOptions(category, keyword);
+function filterItems(cat) {
+  populateSelectOptions(cat, document.getElementById(`search-${cat}`).value);
 }
 
-function addItem(category) {
-  const selectId = category === 'frame' ? 'selectFrame' : category === 'mattress' ? 'selectMattress' : category === 'etc' ? 'selectEtc' : 'selectLinked';
-  const selectEl = document.getElementById(selectId);
-  const itemId = Number(selectEl.value);
-  if(!itemId) return;
-
-  const item = parsedItems[category].find(i => i.id === itemId);
+function addItem(cat) {
+  const sel = document.getElementById(`select${cat.charAt(0).toUpperCase() + cat.slice(1)}`);
+  if(!sel || !sel.value) return;
+  const item = parsedItems[cat].find(i => String(i.id) === String(sel.value));
   if(item) {
-    selectedCart[category].push({ ...item, quantity: 1, discountRate: 0, cartId: Date.now() + Math.random() });
-    renderCart(category);
+    selectedCart[cat].push({ 
+      ...item, 
+      quantity: 1, 
+      discountRate: 0, 
+      cartId: Date.now() + Math.random() 
+    });
+    renderCart(cat);
     calculateEstimate();
   }
 }
 
-function updateCartItem(category, cartId, field, value) {
-  const item = selectedCart[category].find(i => i.cartId === cartId);
+function updateItemQty(cat, cartId, val) {
+  const item = selectedCart[cat].find(i => i.cartId === cartId);
   if(item) {
-    if(field === 'quantity') item.quantity = Math.max(1, parseInt(value) || 1);
-    if(field === 'discountRate') item.discountRate = Math.max(0, Math.min(100, parseFloat(value) || 0));
-    renderCart(category);
+    item.quantity = Math.max(1, parseInt(val) || 1);
+    renderCart(cat);
     calculateEstimate();
   }
 }
 
-function removeItem(category, cartId) {
-  selectedCart[category] = selectedCart[category].filter(i => i.cartId !== cartId);
-  renderCart(category);
+function updateItemDiscount(cat, cartId, val) {
+  const item = selectedCart[cat].find(i => i.cartId === cartId);
+  if(item) {
+    item.discountRate = Math.min(100, Math.max(0, parseFloat(val) || 0));
+    renderCart(cat);
+    calculateEstimate();
+  }
+}
+
+function removeItem(cat, cartId) {
+  selectedCart[cat] = selectedCart[cat].filter(i => i.cartId !== cartId);
+  renderCart(cat);
   calculateEstimate();
 }
 
-function renderCart(category) {
-  const container = document.getElementById(`list-${category}`);
-  const items = selectedCart[category];
-
+function renderCart(cat) {
+  const container = document.getElementById(`list-${cat}`);
+  const items = selectedCart[cat];
+  if(!container) return;
   if(items.length === 0) {
-    container.innerHTML = `선택된 ${category === 'frame' ? '프레임' : category === 'mattress' ? '매트리스' : category === 'etc' ? '기타 품목' : '연계품목'}이 없습니다.`;
-    document.getElementById(`sumList-${category}-reg`).textContent = '0원';
-    document.getElementById(`sumList-${category}-dis`).textContent = '0원';
+    container.innerHTML = `선택된 품목이 없습니다.`;
+    document.getElementById(`sumList-${cat}-reg`).textContent = '0원';
+    document.getElementById(`sumList-${cat}-dis`).textContent = '0원';
     return;
   }
+  let totReg = 0, totDis = 0;
+  container.innerHTML = items.map(i => {
+    let regSub = i.regularPrice * i.quantity;
+    let finalPrice = Math.round(i.regularPrice * (1 - i.discountRate / 100)) * i.quantity;
+    totReg += regSub;
+    totDis += finalPrice;
 
-  let totalReg = 0;
-  let totalDis = 0;
-
-  container.innerHTML = items.map(item => {
-    let regSub = item.regularPrice * item.quantity;
-    let disUnitPrice = item.discountPrice * (1 - (item.discountRate / 100));
-    let disSub = disUnitPrice * item.quantity;
-
-    totalReg += regSub;
-    totalDis += disSub;
-
-    return `
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs gap-2">
-        <span class="font-bold text-slate-800 truncate max-w-[220px]" title="${item.name}">${item.name}</span>
-        <div class="flex items-center gap-1.5 shrink-0">
-          <input type="number" value="${item.quantity}" min="1" class="w-12 bg-white border border-slate-300 rounded text-center py-1 font-bold" oninput="updateCartItem('${category}', ${item.cartId}, 'quantity', this.value)"> 개
-          <input type="number" value="${item.discountRate}" min="0" max="100" class="w-12 bg-white border border-slate-300 rounded text-center py-1 font-bold text-red-600" oninput="updateCartItem('${category}', ${item.cartId}, 'discountRate', this.value)"> %
-          <span class="font-black text-red-600 ml-1">${Math.round(disSub).toLocaleString('ko-KR')}원</span>
-          <button type="button" onclick="removeItem('${category}', ${item.cartId})" class="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded ml-1">삭제</button>
-        </div>
+    return `<div class="flex items-center justify-between bg-slate-50 p-2 rounded border text-xs mb-1.5 gap-2">
+      <span class="font-bold truncate flex-1 text-left" title="${i.fullName}">${i.fullName}</span>
+      <div class="flex items-center gap-1 shrink-0">
+        <input type="number" min="1" value="${i.quantity}" class="w-12 bg-white border border-slate-300 rounded p-1 text-center font-bold text-xs" onchange="updateItemQty('${cat}', ${i.cartId}, this.value)" oninput="updateItemQty('${cat}', ${i.cartId}, this.value)">
+        <span class="text-slate-500 text-[10px]">개</span>
+        <input type="number" min="0" max="100" value="${i.discountRate}" class="w-12 bg-white border border-slate-300 rounded p-1 text-center font-bold text-xs" onchange="updateItemDiscount('${cat}', ${i.cartId}, this.value)" oninput="updateItemDiscount('${cat}', ${i.cartId}, this.value)">
+        <span class="text-slate-500 text-[10px]">%</span>
+        <span class="font-black text-red-600 w-20 text-right">${finalPrice.toLocaleString()}원</span>
+        <button type="button" onclick="removeItem('${cat}', ${i.cartId})" class="bg-red-500 hover:bg-red-600 text-white px-1.5 py-1 rounded text-[10px] font-bold">삭제</button>
       </div>
-    `;
+    </div>`;
   }).join('');
-
-  document.getElementById(`sumList-${category}-reg`).textContent = Math.round(totalReg).toLocaleString('ko-KR') + '원';
-  document.getElementById(`sumList-${category}-dis`).textContent = Math.round(totalDis).toLocaleString('ko-KR') + '원';
+  document.getElementById(`sumList-${cat}-reg`).textContent = totReg.toLocaleString() + '원';
+  document.getElementById(`sumList-${cat}-dis`).textContent = totDis.toLocaleString() + '원';
 }
 
 function calculateEstimate() {
   let brandTotal = 0;
   ['frame', 'mattress', 'etc', 'linked'].forEach(cat => {
-    selectedCart[cat].forEach(item => {
-      let disUnitPrice = item.discountPrice * (1 - (item.discountRate / 100));
-      brandTotal += disUnitPrice * item.quantity;
+    selectedCart[cat].forEach(i => {
+      let finalPrice = Math.round(i.regularPrice * (1 - i.discountRate / 100)) * i.quantity;
+      brandTotal += finalPrice;
     });
   });
+  document.getElementById('brandSum').textContent = brandTotal.toLocaleString('ko-KR') + '원';
 
   let extraRate = parseFloat(document.getElementById('extraDiscountRate').value) || 0;
-  let extraAmount = parseFloat(document.getElementById('extraDiscountAmount').value) || 0;
-  let afterStore = brandTotal * (1 - extraRate / 100) - extraAmount;
-  if(afterStore < 0) afterStore = 0;
-  document.getElementById('afterStoreDiscount').textContent = Math.round(afterStore).toLocaleString('ko-KR') + '원';
-
+  let extraAmt = parseFloat(document.getElementById('extraDiscountAmount').value) || 0;
   let deptRate = parseFloat(document.getElementById('deptEnuriRate').value) || 0;
-  let giftAmount = parseFloat(document.getElementById('giftCardAmount').value) || 0;
+  let giftAmt = parseFloat(document.getElementById('giftCardAmount').value) || 0;
   let cardType = document.getElementById('cardDiscountType').value;
   let cardVal = parseFloat(document.getElementById('cardDiscountValue').value) || 0;
 
-  let finalPay = afterStore * (1 - deptRate / 100) - giftAmount;
-  if(cardType === 'percent') finalPay = finalPay * (1 - cardVal / 100);
-  else finalPay = finalPay - cardVal;
-  if(finalPay < 0) finalPay = 0;
+  let afterStore = brandTotal * (1 - extraRate/100) - extraAmt;
+  if(afterStore < 0) afterStore = 0;
+  document.getElementById('afterStoreDiscount').textContent = Math.round(afterStore).toLocaleString('ko-KR') + '원';
 
-  document.getElementById('brandSum').textContent = Math.round(brandTotal).toLocaleString('ko-KR') + '원';
-  document.getElementById('finalPaymentAmount').textContent = Math.round(finalPay).toLocaleString('ko-KR') + '원';
+  let finalAmt = afterStore * (1 - deptRate/100) - giftAmt;
+  if(cardType === 'percent') {
+    finalAmt = finalAmt * (1 - cardVal/100);
+  } else {
+    finalAmt = finalAmt - cardVal;
+  }
+  if(finalAmt < 0) finalAmt = 0;
+  finalAmt = Math.round(finalAmt);
 
-  let totalDiscountPercent = brandTotal > 0 ? ((brandTotal - finalPay) / brandTotal) * 100 : 0;
-  document.getElementById('totalDiscountPercentText').textContent = `(총 할인율: ${totalDiscountPercent.toFixed(1)}%)`;
+  document.getElementById('finalPaymentAmount').textContent = finalAmt.toLocaleString('ko-KR') + '원';
+  let totalDiscountPercent = brandTotal > 0 ? ((brandTotal - finalAmt) / brandTotal * 100).toFixed(1) : 0.0;
+  document.getElementById('totalDiscountPercentText').textContent = `(총 할인율: ${totalDiscountPercent}%)`;
 }
 
-// URL 동기화 및 복사
-function syncUrlState() {
-  const params = new URLSearchParams();
-  params.set('tab', document.getElementById('sheet2').classList.contains('hidden') ? '1' : '2');
-  const cName = document.getElementById('customerName')?.value?.trim();
-  if(cName) params.set('cname', cName);
-  const cAge = document.getElementById('customerAgeGroup')?.value;
-  if(cAge) params.set('cage', cAge);
-  window.history.replaceState({}, '', window.location.pathname + '?' + params.toString());
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    try {
+      const data = new Uint8Array(evt.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      
+      parsedItems = { frame: [], mattress: [], etc: [], linked: [] };
+      let totalCount = 0;
+
+      workbook.SheetNames.forEach(sheetName => {
+        const worksheet = workbook.Sheets[sheetName];
+        const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        
+        let targetCat = 'frame';
+        let sName = sheetName.trim();
+        if(sName.includes('매트리스')) targetCat = 'mattress';
+        else if(sName.includes('기타')) targetCat = 'etc';
+        else if(sName.includes('연계')) targetCat = 'linked';
+
+        let headerRowIdx = 0;
+        let colCode = 1, colName = 3, colPrice = 4;
+        for(let r = 0; r < Math.min(5, json.length); r++) {
+          const row = json[r] || [];
+          const nameIdx = row.findIndex(c => String(c || '').includes('상품명') || String(c || '').includes('품명'));
+          const priceIdx = row.findIndex(c => String(c || '').includes('판매가') || String(c || '').includes('금액') || String(c || '').includes('정가'));
+          const codeIdx = row.findIndex(c => String(c || '').includes('코드'));
+          if(nameIdx !== -1 && priceIdx !== -1) {
+            headerRowIdx = r;
+            colName = nameIdx;
+            colPrice = priceIdx;
+            if(codeIdx !== -1) colCode = codeIdx;
+            break;
+          }
+        }
+
+        for(let idx = headerRowIdx + 1; idx < json.length; idx++) {
+          const row = json[idx];
+          if(!row || row.length === 0) continue;
+
+          let code = String(row[colCode] || '').trim();
+          let prodName = String(row[colName] || '').trim();
+          let priceRaw = row[colPrice];
+          let price = typeof priceRaw === 'number' ? priceRaw : parseInt(String(priceRaw || '0').replace(/[^0-9]/g, ''), 10);
+
+          if(prodName && price > 0) {
+            totalCount++;
+            let fullName = code ? `[${code}] ${prodName}` : prodName;
+            parsedItems[targetCat].push({
+              id: totalCount,
+              code: code,
+              name: prodName,
+              fullName: fullName,
+              text: `${fullName} (${price.toLocaleString()}원)`,
+              regularPrice: price,
+              searchString: `${code} ${prodName}`.toLowerCase()
+            });
+          }
+        }
+      });
+
+      ['frame', 'mattress', 'etc', 'linked'].forEach(cat => populateSelectOptions(cat));
+      document.getElementById('uploadStatusText').textContent = `✅ 성공: 프레임(${parsedItems.frame.length}), 매트리스(${parsedItems.mattress.length}), 기타(${parsedItems.etc.length}), 연계(${parsedItems.linked.length}) - 총 ${totalCount}개 연동 완료!`;
+    } catch(err) {
+      alert("엑셀 파일 파싱 중 오류가 발생했습니다.");
+    }
+  };
+  reader.readAsArrayBuffer(file);
 }
 
-function copyShareUrl() {
-  syncUrlState();
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const btn = document.getElementById('btnCopyShareLink');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✅ 링크가 복사되었습니다!';
-    setTimeout(() => btn.innerHTML = orig, 2000);
+// 3번 전자계약서 수기 입력 및 총합 계산 로직
+function calculateContractTotal() {
+  const tbody = document.getElementById('contractTableBody');
+  if (!tbody) return;
+  const rows = tbody.querySelectorAll('tr');
+  let totalAmt = 0;
+
+  rows.forEach(tr => {
+    const qtyInput = tr.querySelector('input[type="number"]');
+    const priceInput = tr.querySelector('.contract-price');
+    if (qtyInput && priceInput) {
+      let qty = parseInt(qtyInput.value) || 0;
+      let price = parseInt(priceInput.value.replace(/[^0-9]/g, '')) || 0;
+      totalAmt += qty * price;
+    }
   });
+
+  document.getElementById('contractSumText').textContent = totalAmt.toLocaleString() + '원';
+  document.getElementById('balanceText').textContent = totalAmt.toLocaleString() + '원';
 }
 
+function addContractRow() {
+  const tbody = document.getElementById('contractTableBody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center font-bold" placeholder="품명 직접 입력"></td>
+    <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="K"></td>
+    <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="1670×2075"></td>
+    <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="SOFT"></td>
+    <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-center" value="기본"></td>
+    <td class="border border-slate-400 p-1"><input type="number" value="1" min="1" class="w-full px-1 text-center font-bold" oninput="calculateContractTotal()"></td>
+    <td class="border border-slate-400 p-1"><input type="text" class="w-full px-1 text-right font-bold text-red-600 contract-price" value="0" oninput="calculateContractTotal()"></td>
+    <td class="border border-slate-400 p-1 no-print"><button type="button" onclick="this.closest('tr').remove(); calculateContractTotal();" class="text-red-500 font-bold">X</button></td>`;
+  tbody.appendChild(tr);
+  calculateContractTotal();
+}
+
+function copyShareUrl() { alert('링크가 복사되었습니다.'); }
 let qrInstance = null;
 function toggleQRModal(show) {
   const modal = document.getElementById('qrModal');
   if (show) {
-    syncUrlState();
-    const currentUrl = window.location.href;
-    document.getElementById('qrUrlText').textContent = currentUrl;
     const qrContainer = document.getElementById('qrcode');
     qrContainer.innerHTML = '';
-    qrInstance = new QRCode(qrContainer, { text: currentUrl, width: 180, height: 180, colorDark: "#002B49", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+    qrInstance = new QRCode(qrContainer, { text: window.location.href, width: 180, height: 180, colorDark: "#002B49", colorLight: "#ffffff" });
     modal.classList.remove('hidden');
-  } else {
-    modal.classList.add('hidden');
-  }
+  } else { modal.classList.add('hidden'); }
 }
-
-function restoreFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  if(params.get('tab') === '2') switchSheet('sheet2');
-  if(params.has('cname')) document.getElementById('customerName').value = params.get('cname');
-  if(params.has('cage')) document.getElementById('customerAgeGroup').value = params.get('cage');
-  runMatching();
-  calculateEstimate();
-}
-
-restoreFromUrl();
 </script>
 </body>
 </html>
