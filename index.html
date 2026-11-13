@@ -93,23 +93,50 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
     </section>
 
-    <!-- 고객 기본 정보 입력 섹션 -->
+    <!-- 고객 기본 정보 입력 섹션 (개선 반영) -->
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-      <h3 class="text-lg font-bold text-aceNavy border-b pb-3 mb-4">고객 기본 정보 입력</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-3 mb-4 gap-1">
+        <h3 class="text-lg font-bold text-aceNavy m-0">고객 기본 정보 입력</h3>
+        <span class="text-[11px] text-slate-500 font-medium">💡 고객 개인정보는 고객 동의하에 이루어지며, 고객이 동의하지 않는 정보는 자체 폐기처리 됩니다</span>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 고객 성함 -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">고객 성함</label>
           <input type="text" id="customerName" placeholder="성함을 입력하세요" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
         </div>
+        
+        <!-- 성별 -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">성별</label>
+          <div class="flex gap-2 h-[42px] items-center">
+            <label class="flex-1 flex items-center justify-center p-2 rounded-xl border border-slate-300 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+              <input type="radio" name="customerGender" value="남성" class="mr-1.5 accent-aceBlue" onchange="runMatching()"> 남성
+            </label>
+            <label class="flex-1 flex items-center justify-center p-2 rounded-xl border border-slate-300 bg-slate-50 cursor-pointer text-xs font-bold text-slate-700 hover:bg-blue-50 has-[:checked]:bg-blue-50 has-[:checked]:border-aceBlue has-[:checked]:text-aceBlue transition-all">
+              <input type="radio" name="customerGender" value="여성" class="mr-1.5 accent-aceBlue" onchange="runMatching()"> 여성
+            </label>
+          </div>
+        </div>
+
+        <!-- 연령대 (세분화 요청 반영) -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">연령대</label>
           <select id="customerAgeGroup" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" onchange="runMatching()">
             <option value="">연령대 선택</option>
             <option value="20대 이하">20대 이하</option>
-            <option value="20대 후반~30대 초반">20대 후반~30대 초반</option>
-            <option value="30대 중후반~40대">30대 중후반~40대</option>
-            <option value="50대 이상">50대 이상</option>
+            <option value="20~30대 초반">20~30대 초반</option>
+            <option value="30대 중반 ~ 40대 초반">30대 중반 ~ 40대 초반</option>
+            <option value="40대 중반~50대 초반">40대 중반~50대 초반</option>
+            <option value="50대 후반">50대 후반</option>
           </select>
+        </div>
+
+        <!-- 거주지 (시, 도, 구 수기 입력) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">거주지 (시·도·구)</label>
+          <input type="text" id="customerAddress" placeholder="예: 서울시 강남구" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:bg-white transition-all" oninput="runMatching()">
         </div>
       </div>
     </section>
@@ -378,6 +405,22 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
         </div>
       </div>
     </section>
+
+    <!-- 우리집 침대 배치 링크 박스 (신설 요청 반영) -->
+    <section class="rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row justify-between items-center gap-4 transition-all hover:shadow-lg" style="background:linear-gradient(135deg,#001F35,#002B49 60%,#005A9C)">
+      <div class="space-y-1 text-center md:text-left">
+        <div class="text-xs font-bold text-aceGold tracking-widest uppercase">3D INTERIOR SIMULATION</div>
+        <h3 class="text-xl font-black text-white m-0 flex items-center justify-center md:justify-start gap-2">
+          <span>🛏️ 우리집 침대 배치 시뮬레이터</span>
+        </h3>
+        <p class="text-xs text-slate-300">원하시는 침대 프레임과 매트리스를 가상 공간에 배치하여 인테리어를 미리 확인해 보세요.</p>
+      </div>
+      <a href="https://ohouse.archisketch.com/ko/home-page" target="_blank" rel="noopener noreferrer" class="shrink-0 bg-aceGold hover:bg-amber-600 text-slate-950 font-black text-xs md:text-sm px-6 py-3.5 rounded-xl transition-all shadow-md flex items-center gap-2">
+        <span>배치하러 가기</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </a>
+    </section>
+
   </div>
 
   <!-- ========================================== -->
@@ -663,7 +706,10 @@ if(sizeContainer) {
 function runMatching() {
   syncUrlState();
   const customerName = document.getElementById('customerName')?.value || '';
+  const customerGender = document.querySelector('input[name="customerGender"]:checked')?.value || '';
   const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '';
+  const customerAddress = document.getElementById('customerAddress')?.value || '';
+  
   const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value);
   const selectedSize = document.querySelector('input[name="mattressSize"]:checked')?.value || 'LQ';
   const selectedType = document.querySelector('input[name="wantType"]:checked')?.value;
@@ -677,7 +723,7 @@ function runMatching() {
 
   const resultContainer = document.getElementById('recommendationResult');
   const countContainer = document.getElementById('matchCount');
-  const hasAnyInput = customerName || customerAgeGroup || selectedType || selectedPillow || selectedHabits.length > 0 || selectedPains.length > 0 || selectedPriorities.length > 0 || selectedPurpose || selectedSubPurpose || selectedBudget;
+  const hasAnyInput = customerName || customerGender || customerAgeGroup || customerAddress || selectedType || selectedPillow || selectedHabits.length > 0 || selectedPains.length > 0 || selectedPriorities.length > 0 || selectedPurpose || selectedSubPurpose || selectedBudget;
 
   if (!hasAnyInput) {
     resultContainer.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400 text-sm border border-dashed border-slate-200 rounded-xl bg-slate-50">고객 정보 및 상담 항목을 선택하시면 최적의 매트리스가 실시간으로 추천됩니다.</div>`;
@@ -730,7 +776,16 @@ function runMatching() {
     return;
   }
 
-  let customerHeaderHtml = (customerName || customerAgeGroup) ? `<div class="col-span-full bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-3"><span>👤 고객명: <strong class="text-aceNavy">${customerName || '미입력'}</strong></span><span>•</span><span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup || '미선택'}</strong></span></div>` : '';
+  let customerHeaderHtml = (customerName || customerGender || customerAgeGroup || customerAddress) ? `
+    <div class="col-span-full bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex flex-wrap items-center gap-3">
+      <span>👤 고객명: <strong class="text-aceNavy">${customerName || '미입력'}</strong></span>
+      <span>•</span>
+      <span>⚧ 성별: <strong class="text-aceNavy">${customerGender || '미선택'}</strong></span>
+      <span>•</span>
+      <span>📅 연령대: <strong class="text-aceNavy">${customerAgeGroup || '미선택'}</strong></span>
+      <span>•</span>
+      <span>📍 거주지: <strong class="text-aceNavy">${customerAddress || '미입력'}</strong></span>
+    </div>` : '';
 
   resultContainer.innerHTML = customerHeaderHtml + matched.map((item, idx) => {
     const hardnessPercent = (item.hardness / 10) * 100;
@@ -770,7 +825,10 @@ function runMatching() {
 
 function exportConsultationExcel() {
   const customerName = document.getElementById('customerName')?.value || '미입력';
+  const customerGender = document.querySelector('input[name="customerGender"]:checked')?.value || '미선택';
   const customerAgeGroup = document.getElementById('customerAgeGroup')?.value || '미선택';
+  const customerAddress = document.getElementById('customerAddress')?.value || '미입력';
+  
   const selectedSize = document.querySelector('input[name="mattressSize"]:checked')?.value || 'LQ';
   const checkedProducts = [...document.querySelectorAll('input[name="displayProduct"]:checked')].map(el => el.value).join(', ') || '전체';
   const prevBrands = [...document.querySelectorAll('input[name="prevBrand"]:checked')].map(el => el.value).join(', ');
@@ -791,7 +849,9 @@ function exportConsultationExcel() {
   const exportData = [
     { "항목": "상담 분류", "고객 응답 내용": "에이스침대 굿 슬립 컨설팅 상담 리포트" },
     { "항목": "고객 성함", "고객 응답 내용": customerName },
+    { "항목": "성별", "고객 응답 내용": customerGender },
     { "항목": "연령대", "고객 응답 내용": customerAgeGroup },
+    { "항목": "거주지", "고객 응답 내용": customerAddress },
     { "항목": "매장 진열 상품", "고객 응답 내용": checkedProducts },
     { "항목": "매트리스 사이즈", "고객 응답 내용": selectedSize },
     { "항목": "기존 사용 브랜드", "고객 응답 내용": prevBrands + (prevBrandEtc ? ` (기타: ${prevBrandEtc})` : '') },
@@ -816,7 +876,7 @@ function exportConsultationExcel() {
 }
 
 // ==========================================
-// 📊 스마트 견적 매니저 (전체 시트 탐색 & 풀네임 조합 & 정확한 카테고리 분류)
+// 📊 스마트 견적 매니저 엔진
 // ==========================================
 let parsedItems = { frame: [], mattress: [], etc: [], linked: [] };
 let selectedCart = { frame: [], mattress: [], etc: [], linked: [] };
@@ -842,7 +902,6 @@ function processExcelFile(file) {
       parsedItems = { frame: [], mattress: [], etc: [], linked: [] };
       let uniqueIdCounter = 1;
 
-      // 엑셀 내 모든 시트를 순회하면서 데이터 파싱
       workbook.SheetNames.forEach(sheetName => {
         const worksheet = workbook.Sheets[sheetName];
         const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
@@ -850,14 +909,12 @@ function processExcelFile(file) {
         rows.forEach((row, idx) => {
           if(idx === 0 || !row || row.length < 3) return;
 
-          // 열 구조 파악: 0열(순번), 1열(코드), 2열(구분/카테고리), 3열(제품명), 이후(정가/할인가)
           const code = String(row[1] || '').trim();
           const categoryText = String(row[2] || '').trim();
           const productName = String(row[3] || '').trim();
 
           if(!code && !productName) return;
 
-          // 금액 파싱 (숫자형 데이터 추출)
           let regularPrice = 0;
           let discountPrice = 0;
           for(let i = 3; i < row.length; i++) {
@@ -869,7 +926,6 @@ function processExcelFile(file) {
           }
           if(discountPrice === 0) discountPrice = regularPrice;
 
-          // 풀네임 구성: [코드] 제품명
           const fullName = code ? `[${code}] ${productName}` : productName;
           const displayText = `${fullName} (${discountPrice.toLocaleString('ko-KR')}원)`;
           const searchString = `${sheetName} ${code} ${categoryText} ${productName}`.toLowerCase();
@@ -883,7 +939,6 @@ function processExcelFile(file) {
             discountPrice: discountPrice
           };
 
-          // 시트명 또는 품목구분(categoryText) 기준 정확한 분류
           const combinedCat = `${sheetName} ${categoryText} ${productName}`.toLowerCase();
           if (combinedCat.includes('매트리스') || combinedCat.includes('mat') || code.startsWith('A35')) {
             parsedItems.mattress.push(itemObj);
