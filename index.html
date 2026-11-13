@@ -307,7 +307,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
       </a>
     </section>
-  </div>
+  </div> <!-- // sheet1 닫힘 태그 -->
 
   <!-- ========================================== -->
   <!-- [시트 2] 스마트 견적 매니저                     -->
@@ -458,7 +458,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
         </div>
       </div>
     </section>
-  </div>
+  </div> <!-- // sheet2 닫힘 태그 -->
 
   <!-- ========================================== -->
   <!-- [시트 3] 전자계약서                             -->
@@ -785,7 +785,7 @@ select:focus, button:focus-visible, input[type="text"]:focus, input[type="number
       </div>
 
     </div>
-  </div>
+  </div> <!-- // sheet3 닫힘 태그 -->
 
 </main>
 
@@ -838,25 +838,25 @@ function syncCustomerInfo() {
   if(document.getElementById('signCustomerText')) document.getElementById('signCustomerText').value = name;
 }
 
-// 1번 수면 매칭 DB (AV 모델 실제 가격 반영 완료)[cite: 39]
+// 1번 수면 매칭 DB (첫 번째 이미지 표 기준 경도값 정밀 반영 완료)
 const MATTRESS_DB = {
-  "HR-B":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 14559000, DD: 17800000, LQ: 19744000, K: 22077000, LK1800: 23635000, LK2000: 26245000 } },
-  "HR-DP": { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 13002000, DD: 15939000, LQ: 17674000, K: 19807000, LK1800: 21143000, LK2000: 23524000 } },
-  "HR-D":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 10987000, DD: 13363000, LQ: 14810000, K: 16527000, LK1800: 17711000, LK2000: 19742000 } },
-  "HR-PP": { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 7883000,  DD: 9744000,  LQ: 10999000, K: 12336000, LK1800: 13136000, LK2000: 14721000 } },
-  "HR-P":  { type: "REGULAR", hardness: 6, pillowTop: true,  prices: { SS: 5865000,  DD: 7199000,  LQ: 7999000,  K: 8930000,  LK1800: 9722000,  LK2000: 10993000 } },
-  "RA100": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 4730000,  DD: 5731000,  LQ: 6451000,  K: 8031000,  LK1800: 9156000,  LK2000: 9960000 } },
-  "RA90H": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
-  "RA90S": { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
-  "RA80H": { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
-  "RA80S": { type: "SOFT",    hardness: 8, pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
-  "RA60L": { type: "SOFT",    hardness: 9, pillowTop: true,  prices: { SS: 3101000,  DD: 3650000,  LQ: 3987000,  K: 4978000,  LK1800: 5927000,  LK2000: 6500000 } },
-  "AV":    { type: "REGULAR", hardness: 5, pillowTop: true,  prices: { SS: 2245000,  DD: 2684000,  LQ: 2938000,  K: 3682000,  LK1800: 4421000,  LK2000: 4912000 } },
-  "HT-R":  { type: "REGULAR", hardness: 6, pillowTop: false, prices: { SS: 2159000,  DD: 2581000,  LQ: 2838000,  K: 3546000,  LK1800: 4253000,  LK2000: 4712000 } },
-  "HT-B":  { type: "HARD",    hardness: 3, pillowTop: false, prices: { SS: 1777000,  DD: 2115000,  LQ: 2371000,  K: 2953000,  LK1800: 3534000,  LK2000: 3913000 } },
-  "MT":    { type: "REGULAR", hardness: 5, pillowTop: false, prices: { SS: 1655000,  DD: 1957000,  LQ: 2212000,  K: 2756000,  LK1800: 3294000,  LK2000: 3646000 } },
-  "HT-W":  { type: "SOFT",    hardness: 8, pillowTop: false, prices: { SS: 1259000,  DD: 1490000,  LQ: 1700000,  K: 2023000,  LK1800: 2450000,  LK2000: 2700000 } },
-  "AT":    { type: "REGULAR", hardness: 4, pillowTop: false, prices: { DS: 759000, SS: 817000, DD: 987000, LQ: 1136000, K: 1450000 } }
+  "HR-B":  { type: "SOFT",    hardness: 10, pillowTop: true,  prices: { SS: 14559000, DD: 17800000, LQ: 19744000, K: 22077000, LK1800: 23635000, LK2000: 26245000 } },
+  "HR-DP": { type: "SOFT",    hardness: 10, pillowTop: true,  prices: { SS: 13002000, DD: 15939000, LQ: 17674000, K: 19807000, LK1800: 21143000, LK2000: 23524000 } },
+  "HR-D":  { type: "SOFT",    hardness: 9,  pillowTop: true,  prices: { SS: 10987000, DD: 13363000, LQ: 14810000, K: 16527000, LK1800: 17711000, LK2000: 19742000 } },
+  "HR-PP": { type: "SOFT",    hardness: 6,  pillowTop: true,  prices: { SS: 7883000,  DD: 9744000,  LQ: 10999000, K: 12336000, LK1800: 13136000, LK2000: 14721000 } },
+  "HR-P":  { type: "SOFT",    hardness: 7,  pillowTop: true,  prices: { SS: 5865000,  DD: 7199000,  LQ: 7999000,  K: 8930000,  LK1800: 9722000,  LK2000: 10993000 } },
+  "RA100": { type: "REGULAR", hardness: 6,  pillowTop: true,  prices: { SS: 4730000,  DD: 5731000,  LQ: 6451000,  K: 8031000,  LK1800: 9156000,  LK2000: 9960000 } },
+  "RA90H": { type: "REGULAR", hardness: 5,  pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
+  "RA90S": { type: "SOFT",    hardness: 5,  pillowTop: true,  prices: { SS: 4341000,  DD: 5209000,  LQ: 5902000,  K: 7367000,  LK1800: 8514000,  LK2000: 9259000 } },
+  "RA80H": { type: "REGULAR", hardness: 4,  pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
+  "RA80S": { type: "SOFT",    hardness: 4,  pillowTop: true,  prices: { SS: 3662000,  DD: 4384000,  LQ: 4981000,  K: 6216000,  LK1800: 7365000,  LK2000: 8157000 } },
+  "RA60L": { type: "SOFT",    hardness: 10, pillowTop: true,  prices: { SS: 3101000,  DD: 3650000,  LQ: 3987000,  K: 4978000,  LK1800: 5927000,  LK2000: 6500000 } },
+  "AV":    { type: "HARD",    hardness: 4,  pillowTop: false, prices: { SS: 2245000,  DD: 2684000,  LQ: 2938000,  K: 3682000,  LK1800: 4421000,  LK2000: 4912000 } },
+  "HT-R":  { type: "SOFT",    hardness: 8,  pillowTop: true,  prices: { SS: 2159000,  DD: 2581000,  LQ: 2838000,  K: 3546000,  LK1800: 4253000,  LK2000: 4712000 } },
+  "HT-B":  { type: "SOFT",    hardness: 7,  pillowTop: true,  prices: { SS: 1777000,  DD: 2115000,  LQ: 2371000,  K: 2953000,  LK1800: 3534000,  LK2000: 3913000 } },
+  "MT":    { type: "HARD",    hardness: 3,  pillowTop: false, prices: { SS: 1655000,  DD: 1957000,  LQ: 2212000,  K: 2756000,  LK1800: 3294000,  LK2000: 3646000 } },
+  "HT-W":  { type: "HARD",    hardness: 2,  pillowTop: false, prices: { SS: 1259000,  DD: 1490000,  LQ: 1700000,  K: 2023000,  LK1800: 2450000,  LK2000: 2700000 } },
+  "AT":    { type: "HARD",    hardness: 4,  pillowTop: false, prices: { DS: 759000, SS: 817000, DD: 987000, LQ: 1136000, K: 1450000 } }
 };
 
 function initMatchingUI() {
@@ -958,10 +958,10 @@ function runMatching() {
 
     if (selectedBudget && price) {
       if (checkBudgetRange(price, selectedBudget)) {
-        score += 50;
+        score += 200; 
         budgetMatch = true;
       } else {
-        score -= 30;
+        score -= 200; 
       }
     }
 
@@ -990,21 +990,17 @@ function runMatching() {
   scoredList.sort((a, b) => {
     if (a.price === null && b.price !== null) return 1;
     if (a.price !== null && b.price === null) return -1;
+    if (selectedBudget) {
+      if (a.budgetMatch && !b.budgetMatch) return -1;
+      if (!a.budgetMatch && b.budgetMatch) return 1;
+    }
     return b.score - a.score;
   });
 
-  let filteredList = scoredList;
-  if (selectedBudget) {
-    const inBudget = scoredList.filter(item => item.budgetMatch && item.price !== null);
-    if (inBudget.length > 0) {
-      filteredList = inBudget;
-    }
-  }
-
-  lastMatchedResults = filteredList;
-  countContainer.textContent = `(총 ${filteredList.length}개 모델 매칭됨)`;
+  lastMatchedResults = scoredList;
+  countContainer.textContent = `(총 ${scoredList.length}개 모델 매칭됨)`;
   
-  resultContainer.innerHTML = filteredList.map((item, idx) => {
+  resultContainer.innerHTML = scoredList.map((item, idx) => {
     const { model, dbItem, price, grade, badgeClass } = item;
     const hardnessPercent = (dbItem.hardness / 10) * 100;
     const priceText = price ? `${price.toLocaleString('ko-KR')}원` : `해당 사이즈(${selectedSize}) 미출시`;
